@@ -23,6 +23,10 @@
 		///  the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
+			gamePanel = new GamePanel();
+			overlayPanel = new OverlayPanel();
+			this.SuspendLayout();
+
 			this.components = new System.ComponentModel.Container();
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1350, 800);
@@ -33,8 +37,20 @@
 			else 
 				WindowState = FormWindowState.Normal;
 
+
+			this.gamePanel.Paint += new System.Windows.Forms.PaintEventHandler(this.OnGamePanel_Paint);
+			this.overlayPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.OnOverlayPanel_Paint);
+			this.Resize += new System.EventHandler(this.OnWindow_Resize);
+
+			this.Controls.Add(gamePanel);
+			this.Controls.Add(overlayPanel);
+
+			this.ResumeLayout(false);
 		}
 
 		#endregion
+
+		private GamePanel gamePanel;
+		private OverlayPanel overlayPanel;
 	}
 }
