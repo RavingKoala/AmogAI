@@ -3,7 +3,7 @@ public class Vector {
 	public double X { get; set; }
 	public double Y { get; set; }
 
-	public Vector() : this(0, 0) {}
+	public Vector() : this(0, 0) { }
 
 	public Vector(double x, double y) {
 		X = x;
