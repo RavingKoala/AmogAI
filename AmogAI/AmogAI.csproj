@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="FuzzyLogic\" />
     <Folder Include="StateBehaviour\" />
     <Folder Include="SteeringBehaviour\" />
   </ItemGroup>
