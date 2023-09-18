@@ -1,4 +1,4 @@
-﻿namespace AAIProject.Source.Engine.AI.Fuzzy
+﻿namespace AmogAI.FuzzyLogic
 {
     public class FuzzyRule
     {
