@@ -1,7 +1,5 @@
 ﻿namespace AmogAI.World.Entity;
 
-using System.Numerics;
-
 public class Person : IEntity {
 	public void InitialDraw(Graphics g) {
 	}
