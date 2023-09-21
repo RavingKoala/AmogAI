@@ -1,6 +1,7 @@
 namespace AmogAI.Tests;
 
 using NUnit.Framework;
+using System;
 using AmogAI.FuzzyLogic;
 
 [TestFixture]
@@ -70,11 +71,11 @@ public class FuzzyLogicTests {
         double undesirableDom = _undesirable.GetDOM();
         double veryDesirableDom = _veryDesirable.GetDOM();
 
-        Assert.AreEqual(60, (int)LastDesirabilityScore);
+        Assert.That((int)LastDesirabilityScore, Is.EqualTo(60));
 
-        Assert.AreEqual(0.20, System.Math.Round(desirableDom, 2));
-        Assert.AreEqual(0.33, System.Math.Round(undesirableDom, 2));
-        Assert.AreEqual(0.67, System.Math.Round(veryDesirableDom, 2));
+        Assert.That(Math.Round(desirableDom, 2), Is.EqualTo(0.20));
+        Assert.That(Math.Round(undesirableDom, 2), Is.EqualTo(0.33));
+        Assert.That(Math.Round(veryDesirableDom, 2), Is.EqualTo(0.67));
     }
 
     [Test]
@@ -96,11 +97,11 @@ public class FuzzyLogicTests {
         double undesirableDom = _undesirable.GetDOM();
         double veryDesirableDom = _veryDesirable.GetDOM();
 
-        Assert.AreEqual(0, (int)LastDesirabilityScore);
+        Assert.That((int)LastDesirabilityScore, Is.EqualTo(0));
 
-        Assert.AreEqual(0, System.Math.Round(desirableDom, 2));
-        Assert.AreEqual(0, System.Math.Round(undesirableDom, 2));
-        Assert.AreEqual(0, System.Math.Round(veryDesirableDom, 2));
+        Assert.That(Math.Round(desirableDom, 2), Is.EqualTo(0));
+        Assert.That(Math.Round(undesirableDom, 2), Is.EqualTo(0));
+        Assert.That(Math.Round(veryDesirableDom, 2), Is.EqualTo(0));
     }
 
     [Test]
@@ -124,11 +125,11 @@ public class FuzzyLogicTests {
         double undesirableDom = _undesirable.GetDOM();
         double veryDesirableDom = _veryDesirable.GetDOM();
 
-        Assert.AreEqual(62, (int)LastDesirabilityScore);
+        Assert.That((int)LastDesirabilityScore, Is.EqualTo(62));
 
-        Assert.AreEqual(0, System.Math.Round(desirableDom, 2));
-        Assert.AreEqual(0.33, System.Math.Round(undesirableDom, 2));
-        Assert.AreEqual(0.67, System.Math.Round(veryDesirableDom, 2));
+        Assert.That(Math.Round(desirableDom, 2), Is.EqualTo(0));
+        Assert.That(Math.Round(undesirableDom, 2), Is.EqualTo(0.33));
+        Assert.That(Math.Round(veryDesirableDom, 2), Is.EqualTo(0.67));
     }
 
     [Test]
@@ -150,10 +151,10 @@ public class FuzzyLogicTests {
         double undesirableDom = _undesirable.GetDOM();
         double veryDesirableDom = _veryDesirable.GetDOM();
 
-        Assert.AreEqual(12, (int)LastDesirabilityScore);
+        Assert.That((int)LastDesirabilityScore, Is.EqualTo(12));
 
-        Assert.AreEqual(0, System.Math.Round(desirableDom, 2));
-        Assert.AreEqual(0.33, System.Math.Round(undesirableDom, 2));
-        Assert.AreEqual(0, System.Math.Round(veryDesirableDom, 2));
+        Assert.That(Math.Round(desirableDom, 2), Is.EqualTo(0));
+        Assert.That(Math.Round(undesirableDom, 2), Is.EqualTo(0.33));
+        Assert.That(Math.Round(veryDesirableDom, 2), Is.EqualTo(0));
     }
 }
