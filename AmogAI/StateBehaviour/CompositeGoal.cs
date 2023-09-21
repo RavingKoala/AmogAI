@@ -1,5 +1,7 @@
 ﻿namespace AmogAI.StateBehaviour;
 
+using AmogAI.World.Entity;
+
 public abstract class CompositeGoal<T> : Goal<T> {
 	public Stack<Goal<T>> Subgoals;
 

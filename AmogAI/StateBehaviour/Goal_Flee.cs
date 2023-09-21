@@ -1,11 +1,12 @@
 ﻿using AmogAI.SteeringBehaviour;
+using AmogAI.World.Entity;
 
 namespace AmogAI.StateBehaviour;
 
-public class Goal_Flee : Goal<Mario> {
-	public Character Enemy { get; set; }
-	public Goal_Flee(Character enemy) {
-		if (enemy is Mario) {
+public class Goal_Flee : Goal<Person> {
+	public IEntity Enemy { get; set; }
+	public Goal_Flee(IEntity enemy) {
+		if (enemy is Person) {
 			throw new Exception("You can't flee from yourself!");
 		} else {
 			Enemy = enemy;
@@ -21,9 +22,7 @@ public class Goal_Flee : Goal<Mario> {
 	}
 
 	public override int Process() {
-		ISteeringBehaviour behaviour = new FleeBehaviour();
-
-		//behaviour.Calculate(Enemy);
+		// implement goal logic
 
 		return (int)State;
 	}

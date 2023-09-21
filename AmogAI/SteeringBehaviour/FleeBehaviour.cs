@@ -1,6 +1,8 @@
 ﻿namespace AmogAI.SteeringBehaviour;
 
-public class FleeBehaviour : ISteeringBehaviour {
+using AmogAI.World.Entity;
+
+public class FleeBehaviour {
 	/// <summary>
 	/// Method to move away from goal
 	/// </summary>
@@ -8,6 +10,6 @@ public class FleeBehaviour : ISteeringBehaviour {
 	/// <param name="goal">IEntity</param>
 	/// <returns>Vector</returns>
 	public Vector Calculate(IEntity self, IEntity goal) {
-		return (Calculator.NormalizeVector(self.Position - goal.Position) * self.max_speed) - self.velocity;
+		return ((self.Position - goal.Position).Normalize() * self.MaxSpeed) - self.Velocity;
 	}
 }

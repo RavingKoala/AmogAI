@@ -1,8 +1,12 @@
 ﻿namespace AmogAI.World.Entity;
 
-using System.Numerics;
+using AmogAI.SteeringBehaviour;
 
 public class Person : IEntity {
+	public Vector Position { get; set; }
+	public float MaxSpeed { get; set; }
+	public Vector Velocity { get; set; }
+
 	public void InitialDraw(Graphics g) {
 	}
 
