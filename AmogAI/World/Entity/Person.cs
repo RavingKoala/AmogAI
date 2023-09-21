@@ -1,6 +1,6 @@
 ﻿namespace AmogAI.World.Entity;
 
-internal class Person : IEntity {
+public class Person : IEntity {
     public void InitialDraw(Graphics g) {
     }
 
