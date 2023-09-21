@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace AmogAI.FuzzyLogic {
+namespace AmogAI.FuzzyLogic; 
 	public class FzOR : FuzzyTerm {
 		private readonly List<FuzzyTerm> _terms = new List<FuzzyTerm>();
 
@@ -62,4 +62,3 @@ namespace AmogAI.FuzzyLogic {
 			return new FzOR(this);
 		}
 	}
-}

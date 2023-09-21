@@ -1,4 +1,4 @@
-﻿namespace AmogAI.FuzzyLogic {
+﻿namespace AmogAI.FuzzyLogic; 
 	public abstract class FuzzySet {
 		protected double DOM;
 		protected double RepresentativeValue;
@@ -24,4 +24,3 @@
 			DOM = val;
 		}
 	}
-}

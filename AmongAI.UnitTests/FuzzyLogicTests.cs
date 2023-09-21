@@ -1,161 +1,159 @@
-using AmogAI.FuzzyLogic;
+namespace AmogAI.Tests;
+
 using NUnit.Framework;
-using System;
+using AmogAI.FuzzyLogic;
 
-namespace AmogAI.Tests
-{
-    public class FuzzyLogicTests
+[TestFixture]
+public class FuzzyLogicTests {
+    private FuzzyModule _fm;
+
+    private FzSet _targetClose;
+    private FzSet _targetMedium;
+    private FzSet _targetFar;
+
+    private FzSet _veryDesirable;
+    private FzSet _desirable;
+    private FzSet _undesirable;
+
+    private FzSet _ammoLoads;
+    private FzSet _ammoOkay;
+    private FzSet _ammoLow;
+
+    [SetUp]
+    public void Setup()
     {
-        private FuzzyModule _fm;
+        // Init FuzzyModule with the fuzzyvariables and fuzzyrules
+        _fm = new FuzzyModule();
+        FuzzyVariable distToTarget = _fm.CreateFLV("DistanceToTarget");
 
-        private FzSet _targetClose;
-        private FzSet _targetMedium;
-        private FzSet _targetFar;
+        _targetClose = distToTarget.AddLeftShoulderSet("Target_Close", 0, 25, 150);
+        _targetMedium = distToTarget.AddTriangularSet("Target_Medium", 25, 150, 300);
+        _targetFar = distToTarget.AddRightShoulderSet("Target_Far", 150, 300, 500);
 
-        private FzSet _veryDesirable;
-        private FzSet _desirable;
-        private FzSet _undesirable;
+        FuzzyVariable desirability = _fm.CreateFLV("Desirability");
 
-        private FzSet _ammoLoads;
-        private FzSet _ammoOkay;
-        private FzSet _ammoLow;
+        _veryDesirable = desirability.AddRightShoulderSet("VeryDesirable", 50, 75, 100);
+        _desirable = desirability.AddTriangularSet("Desirable", 25, 50, 75);
+        _undesirable = desirability.AddLeftShoulderSet("Undesirable", 0, 25, 50);
 
-        [SetUp]
-        public void Setup()
-        {
-            // Init FuzzyModule with the fuzzyvariables and fuzzyrules
-            _fm = new FuzzyModule();
-            FuzzyVariable distToTarget = _fm.CreateFLV("DistanceToTarget");
+        FuzzyVariable AmmoStatus = _fm.CreateFLV("AmmoStatus");
 
-            _targetClose = distToTarget.AddLeftShoulderSet("Target_Close", 0, 25, 150);
-            _targetMedium = distToTarget.AddTriangularSet("Target_Medium", 25, 150, 300);
-            _targetFar = distToTarget.AddRightShoulderSet("Target_Far", 150, 300, 500);
+        _ammoLoads = AmmoStatus.AddRightShoulderSet("Ammo_Loads", 15, 30, 100);
+        _ammoOkay = AmmoStatus.AddTriangularSet("Ammo_Okay", 0, 10, 30);
+        _ammoLow = AmmoStatus.AddTriangularSet("Ammo_Low", 0, 0, 10);
+    }
 
-            FuzzyVariable desirability = _fm.CreateFLV("Desirability");
+    [Test]
+    public void Desirability200Distance8AmmoWithAllRules()
+    {
+        _fm.AddRule(new FzAND(_targetClose, _ammoLoads), _undesirable);
+        _fm.AddRule(new FzAND(_targetClose, _ammoOkay), _undesirable);
+        _fm.AddRule(new FzAND(_targetClose, _ammoLow), _undesirable);
 
-            _veryDesirable = desirability.AddRightShoulderSet("VeryDesirable", 50, 75, 100);
-            _desirable = desirability.AddTriangularSet("Desirable", 25, 50, 75);
-            _undesirable = desirability.AddLeftShoulderSet("Undesirable", 0, 25, 50);
+        _fm.AddRule(new FzAND(_targetMedium, _ammoLoads), _veryDesirable);
+        _fm.AddRule(new FzAND(_targetMedium, _ammoOkay), _veryDesirable);
+        _fm.AddRule(new FzAND(_targetMedium, _ammoLow), _desirable);
 
-            FuzzyVariable AmmoStatus = _fm.CreateFLV("AmmoStatus");
+        _fm.AddRule(new FzAND(_targetFar, _ammoLoads), _desirable);
+        _fm.AddRule(new FzAND(_targetFar, _ammoOkay), _undesirable);
+        _fm.AddRule(new FzAND(_targetFar, _ammoLow), _undesirable);
 
-            _ammoLoads = AmmoStatus.AddRightShoulderSet("Ammo_Loads", 15, 30, 100);
-            _ammoOkay = AmmoStatus.AddTriangularSet("Ammo_Okay", 0, 10, 30);
-            _ammoLow = AmmoStatus.AddTriangularSet("Ammo_Low", 0, 0, 10);
-        }
+        double ammo = 8;
+        double distance = 200;
 
-        [Test]
-        public void Desirability200Distance8AmmoWithAllRules()
-        {
-            _fm.AddRule(new FzAND(_targetClose, _ammoLoads), _undesirable);
-            _fm.AddRule(new FzAND(_targetClose, _ammoOkay), _undesirable);
-            _fm.AddRule(new FzAND(_targetClose, _ammoLow), _undesirable);
+        _fm.Fuzzify("DistanceToTarget", distance);
+        _fm.Fuzzify("AmmoStatus", ammo);
 
-            _fm.AddRule(new FzAND(_targetMedium, _ammoLoads), _veryDesirable);
-            _fm.AddRule(new FzAND(_targetMedium, _ammoOkay), _veryDesirable);
-            _fm.AddRule(new FzAND(_targetMedium, _ammoLow), _desirable);
+        double LastDesirabilityScore = _fm.DeFuzzify("Desirability", FuzzyModule.DefuzzifyMethod.max_av);
 
-            _fm.AddRule(new FzAND(_targetFar, _ammoLoads), _desirable);
-            _fm.AddRule(new FzAND(_targetFar, _ammoOkay), _undesirable);
-            _fm.AddRule(new FzAND(_targetFar, _ammoLow), _undesirable);
+        double desirableDom = _desirable.GetDOM();
+        double undesirableDom = _undesirable.GetDOM();
+        double veryDesirableDom = _veryDesirable.GetDOM();
 
-            double ammo = 8;
-            double distance = 200;
+        Assert.AreEqual(60, (int)LastDesirabilityScore);
 
-            _fm.Fuzzify("DistanceToTarget", distance);
-            _fm.Fuzzify("AmmoStatus", ammo);
+        Assert.AreEqual(0.20, System.Math.Round(desirableDom, 2));
+        Assert.AreEqual(0.33, System.Math.Round(undesirableDom, 2));
+        Assert.AreEqual(0.67, System.Math.Round(veryDesirableDom, 2));
+    }
 
-            double LastDesirabilityScore = _fm.DeFuzzify("Desirability", FuzzyModule.DefuzzifyMethod.max_av);
+    [Test]
+    public void Desirability200Distance8AmmoWithAllTargetCloseRules()
+    {
+        _fm.AddRule(new FzAND(_targetClose, _ammoLoads), _undesirable);
+        _fm.AddRule(new FzAND(_targetClose, _ammoOkay), _undesirable);
+        _fm.AddRule(new FzAND(_targetClose, _ammoLow), _undesirable);
 
-            double desirableDom = _desirable.GetDOM();
-            double undesirableDom = _undesirable.GetDOM();
-            double veryDesirableDom = _veryDesirable.GetDOM();
+        double ammo = 8;
+        double distance = 200;
 
-            Assert.AreEqual(60, (int)LastDesirabilityScore);
+        _fm.Fuzzify("DistanceToTarget", distance);
+        _fm.Fuzzify("AmmoStatus", ammo);
 
-            Assert.AreEqual(0.20, System.Math.Round(desirableDom, 2));
-            Assert.AreEqual(0.33, System.Math.Round(undesirableDom, 2));
-            Assert.AreEqual(0.67, System.Math.Round(veryDesirableDom, 2));
-        }
+        double LastDesirabilityScore = _fm.DeFuzzify("Desirability", FuzzyModule.DefuzzifyMethod.max_av);
 
-        [Test]
-        public void Desirability200Distance8AmmoWithAllTargetCloseRules()
-        {
-            _fm.AddRule(new FzAND(_targetClose, _ammoLoads), _undesirable);
-            _fm.AddRule(new FzAND(_targetClose, _ammoOkay), _undesirable);
-            _fm.AddRule(new FzAND(_targetClose, _ammoLow), _undesirable);
+        double desirableDom = _desirable.GetDOM();
+        double undesirableDom = _undesirable.GetDOM();
+        double veryDesirableDom = _veryDesirable.GetDOM();
 
-            double ammo = 8;
-            double distance = 200;
+        Assert.AreEqual(0, (int)LastDesirabilityScore);
 
-            _fm.Fuzzify("DistanceToTarget", distance);
-            _fm.Fuzzify("AmmoStatus", ammo);
+        Assert.AreEqual(0, System.Math.Round(desirableDom, 2));
+        Assert.AreEqual(0, System.Math.Round(undesirableDom, 2));
+        Assert.AreEqual(0, System.Math.Round(veryDesirableDom, 2));
+    }
 
-            double LastDesirabilityScore = _fm.DeFuzzify("Desirability", FuzzyModule.DefuzzifyMethod.max_av);
+    [Test]
+    public void Desirability200Distance8AmmoWithAmmoOkayRules()
+    {
+        _fm.AddRule(new FzAND(_targetClose, _ammoOkay), _undesirable);
 
-            double desirableDom = _desirable.GetDOM();
-            double undesirableDom = _undesirable.GetDOM();
-            double veryDesirableDom = _veryDesirable.GetDOM();
+        _fm.AddRule(new FzAND(_targetMedium, _ammoOkay), _veryDesirable);
 
-            Assert.AreEqual(0, (int)LastDesirabilityScore);
+        _fm.AddRule(new FzAND(_targetFar, _ammoOkay), _undesirable);
 
-            Assert.AreEqual(0, System.Math.Round(desirableDom, 2));
-            Assert.AreEqual(0, System.Math.Round(undesirableDom, 2));
-            Assert.AreEqual(0, System.Math.Round(veryDesirableDom, 2));
-        }
+        double ammo = 8;
+        double distance = 200;
 
-        [Test]
-        public void Desirability200Distance8AmmoWithAmmoOkayRules()
-        {
-            _fm.AddRule(new FzAND(_targetClose, _ammoOkay), _undesirable);
+        _fm.Fuzzify("DistanceToTarget", distance);
+        _fm.Fuzzify("AmmoStatus", ammo);
 
-            _fm.AddRule(new FzAND(_targetMedium, _ammoOkay), _veryDesirable);
+        double LastDesirabilityScore = _fm.DeFuzzify("Desirability", FuzzyModule.DefuzzifyMethod.max_av);
 
-            _fm.AddRule(new FzAND(_targetFar, _ammoOkay), _undesirable);
+        double desirableDom = _desirable.GetDOM();
+        double undesirableDom = _undesirable.GetDOM();
+        double veryDesirableDom = _veryDesirable.GetDOM();
 
-            double ammo = 8;
-            double distance = 200;
+        Assert.AreEqual(62, (int)LastDesirabilityScore);
 
-            _fm.Fuzzify("DistanceToTarget", distance);
-            _fm.Fuzzify("AmmoStatus", ammo);
+        Assert.AreEqual(0, System.Math.Round(desirableDom, 2));
+        Assert.AreEqual(0.33, System.Math.Round(undesirableDom, 2));
+        Assert.AreEqual(0.67, System.Math.Round(veryDesirableDom, 2));
+    }
 
-            double LastDesirabilityScore = _fm.DeFuzzify("Desirability", FuzzyModule.DefuzzifyMethod.max_av);
+    [Test]
+    public void Desirability200Distance8AmmoWithTargetFarRules()
+    {
+        _fm.AddRule(new FzAND(_targetFar, _ammoLoads), _desirable);
+        _fm.AddRule(new FzAND(_targetFar, _ammoOkay), _undesirable);
+        _fm.AddRule(new FzAND(_targetFar, _ammoLow), _undesirable);
 
-            double desirableDom = _desirable.GetDOM();
-            double undesirableDom = _undesirable.GetDOM();
-            double veryDesirableDom = _veryDesirable.GetDOM();
+        double ammo = 8;
+        double distance = 200;
 
-            Assert.AreEqual(62, (int)LastDesirabilityScore);
+        _fm.Fuzzify("DistanceToTarget", distance);
+        _fm.Fuzzify("AmmoStatus", ammo);
 
-            Assert.AreEqual(0, System.Math.Round(desirableDom, 2));
-            Assert.AreEqual(0.33, System.Math.Round(undesirableDom, 2));
-            Assert.AreEqual(0.67, System.Math.Round(veryDesirableDom, 2));
-        }
+        double LastDesirabilityScore = _fm.DeFuzzify("Desirability", FuzzyModule.DefuzzifyMethod.max_av);
 
-        [Test]
-        public void Desirability200Distance8AmmoWithTargetFarRules()
-        {
-            _fm.AddRule(new FzAND(_targetFar, _ammoLoads), _desirable);
-            _fm.AddRule(new FzAND(_targetFar, _ammoOkay), _undesirable);
-            _fm.AddRule(new FzAND(_targetFar, _ammoLow), _undesirable);
+        double desirableDom = _desirable.GetDOM();
+        double undesirableDom = _undesirable.GetDOM();
+        double veryDesirableDom = _veryDesirable.GetDOM();
 
-            double ammo = 8;
-            double distance = 200;
+        Assert.AreEqual(12, (int)LastDesirabilityScore);
 
-            _fm.Fuzzify("DistanceToTarget", distance);
-            _fm.Fuzzify("AmmoStatus", ammo);
-
-            double LastDesirabilityScore = _fm.DeFuzzify("Desirability", FuzzyModule.DefuzzifyMethod.max_av);
-
-            double desirableDom = _desirable.GetDOM();
-            double undesirableDom = _undesirable.GetDOM();
-            double veryDesirableDom = _veryDesirable.GetDOM();
-
-            Assert.AreEqual(12, (int)LastDesirabilityScore);
-
-            Assert.AreEqual(0, System.Math.Round(desirableDom, 2));
-            Assert.AreEqual(0.33, System.Math.Round(undesirableDom, 2));
-            Assert.AreEqual(0, System.Math.Round(veryDesirableDom, 2));
-        }
+        Assert.AreEqual(0, System.Math.Round(desirableDom, 2));
+        Assert.AreEqual(0.33, System.Math.Round(undesirableDom, 2));
+        Assert.AreEqual(0, System.Math.Round(veryDesirableDom, 2));
     }
 }

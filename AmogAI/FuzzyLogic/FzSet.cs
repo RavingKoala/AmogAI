@@ -1,4 +1,4 @@
-﻿namespace AmogAI.FuzzyLogic {
+﻿namespace AmogAI.FuzzyLogic; 
 	/// <summary>
 	/// Proxy class for a fuzzy set.
 	/// </summary>
@@ -14,4 +14,3 @@
 
 		public override void ORwithDOM(double val) { Set.ORwithDOM(val); }
 	}
-}

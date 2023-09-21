@@ -1,4 +1,4 @@
-﻿namespace AmogAI.FuzzyLogic {
+﻿namespace AmogAI.FuzzyLogic; 
 	public class TriangleFuzzySet : FuzzySet {
 		private readonly double _peakPoint;
 		private readonly double _leftOffset;
@@ -34,4 +34,3 @@
 			return 0.0;
 		}
 	}
-}

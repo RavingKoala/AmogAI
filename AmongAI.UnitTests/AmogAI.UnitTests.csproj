@@ -21,4 +21,12 @@
     <ProjectReference Include="..\AmogAI\AmogAI.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EditorConfigFiles Remove="C:\Users\Trank\Desktop\AAI\AmogAI\AmongAI.UnitTests\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="C:\Users\Trank\Desktop\AAI\AmogAI\AmongAI.UnitTests\.editorconfig" />
+  </ItemGroup>
+
 </Project>

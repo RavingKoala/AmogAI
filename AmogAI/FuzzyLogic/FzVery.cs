@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace AmogAI.FuzzyLogic {
+namespace AmogAI.FuzzyLogic; 
 	public class FzVery : FuzzyTerm {
 		private readonly FuzzySet _set;
 
@@ -24,4 +24,3 @@ namespace AmogAI.FuzzyLogic {
 			_set.ORwithDOM(val * val);
 		}
 	}
-}

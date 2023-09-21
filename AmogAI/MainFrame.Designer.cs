@@ -1,66 +1,66 @@
 ﻿using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
-namespace AmogAI {
-	partial class MainFrame {
-		/// <summary>
-		///  Required designer variable.
-		/// </summary>
-		private System.ComponentModel.IContainer components = null;
+namespace AmogAI;
 
-		/// <summary>
-		///  Clean up any resources being used.
-		/// </summary>
-		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		protected override void Dispose(bool disposing) {
-			if (disposing && (components != null)) {
-				components.Dispose();
-			}
-			base.Dispose(disposing);
-		}
+partial class MainFrame {
+    /// <summary>
+    ///  Required designer variable.
+    /// </summary>
+    private System.ComponentModel.IContainer components = null;
 
-		#region Windows Form Designer generated code
+    /// <summary>
+    ///  Clean up any resources being used.
+    /// </summary>
+    /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+    protected override void Dispose(bool disposing) {
+        if (disposing && (components != null)) {
+            components.Dispose();
+        }
+        base.Dispose(disposing);
+    }
 
-		/// <summary>
-		///  Required method for Designer support - do not modify
-		///  the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent() {
-			this.SuspendLayout();
+    #region Windows Form Designer generated code
 
-			this.components = new System.ComponentModel.Container();
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(1350, 800);
-			this.Text = "AmogAI Game";
+    /// <summary>
+    ///  Required method for Designer support - do not modify
+    ///  the contents of this method with the code editor.
+    /// </summary>
+    private void InitializeComponent() {
+        this.SuspendLayout();
 
-			if (Properties.Settings.Default.isFullscreen)
-				WindowState = FormWindowState.Maximized;
-			else 
-				WindowState = FormWindowState.Normal;
+        this.components = new System.ComponentModel.Container();
+        this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+        this.ClientSize = new System.Drawing.Size(1350, 800);
+        this.Text = "AmogAI Game";
 
-
-			this.Resize += new System.EventHandler(this.OnWindow_Resize);
+        if (Properties.Settings.Default.isFullscreen)
+            WindowState = FormWindowState.Maximized;
+        else
+            WindowState = FormWindowState.Normal;
 
 
-			gamePanel = new GamePanel();
-			this.gamePanel.Paint += new System.Windows.Forms.PaintEventHandler(this.OnGamePanel_Paint);
-			gamePanel.Size = this.Size;
+        this.Resize += new System.EventHandler(this.OnWindow_Resize);
 
-			overlayPanel = new OverlayPanel();
-			this.overlayPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.OnOverlayPanel_Paint);
-			overlayPanel.Size = this.Size;
 
-			gamePanel.Invalidate();
-			overlayPanel.Invalidate();
-			 
-			this.Controls.Add(gamePanel);
-			this.Controls.Add(overlayPanel);
+        gamePanel = new GamePanel();
+        this.gamePanel.Paint += new System.Windows.Forms.PaintEventHandler(this.OnGamePanel_Paint);
+        gamePanel.Size = this.Size;
 
-			this.ResumeLayout(false);
-		}
+        overlayPanel = new OverlayPanel();
+        this.overlayPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.OnOverlayPanel_Paint);
+        overlayPanel.Size = this.Size;
 
-		#endregion
+        gamePanel.Invalidate();
+        overlayPanel.Invalidate();
 
-		private GamePanel gamePanel;
-		private OverlayPanel overlayPanel;
-	}
+        this.Controls.Add(gamePanel);
+        this.Controls.Add(overlayPanel);
+
+        this.ResumeLayout(false);
+    }
+
+    #endregion
+
+    private GamePanel gamePanel;
+    private OverlayPanel overlayPanel;
 }

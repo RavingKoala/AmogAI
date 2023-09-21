@@ -1,4 +1,4 @@
-﻿namespace AmogAI.FuzzyLogic {
+﻿namespace AmogAI.FuzzyLogic; 
 	public abstract class FuzzyTerm {
 		// Clone the fuzzyTerm
 		public abstract FuzzyTerm Clone();
@@ -9,4 +9,3 @@
 		// Update DOM of consequent when a rule fires
 		public abstract void ORwithDOM(double val);
 	}
-}

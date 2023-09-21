@@ -5,7 +5,7 @@ VisualStudioVersion = 17.7.34024.191
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AmogAI", "AmogAI\AmogAI.csproj", "{E8FA0EC8-3EEF-4E51-8AE8-CE102C4DC6EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AmogAI.UnitTests", "AmongAI.UnitTests\AmogAI.UnitTests.csproj", "{3086D614-95B5-494E-B7A4-FDC9BDC87508}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AmogAI.UnitTests", "AmongAI.UnitTests\AmogAI.UnitTests.csproj", "{3086D614-95B5-494E-B7A4-FDC9BDC87508}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -11,7 +11,6 @@
   <ItemGroup>
     <Folder Include="FuzzyLogic\" />
     <Folder Include="StateBehaviour\" />
-    <Folder Include="SteeringBehaviour\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,6 +26,14 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EditorConfigFiles Remove="C:\Users\Trank\Desktop\AAI\AmogAI\AmogAI\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="C:\Users\Trank\Desktop\AAI\AmogAI\AmogAI\.editorconfig" />
   </ItemGroup>
 
 </Project>

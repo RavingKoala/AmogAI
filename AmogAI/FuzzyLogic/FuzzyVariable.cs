@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace AmogAI.FuzzyLogic {
+namespace AmogAI.FuzzyLogic; 
 	public class FuzzyVariable {
 		private readonly Dictionary<string, FuzzySet> _memberSets;
 		private double _minRange = double.MaxValue;
@@ -102,4 +102,3 @@ namespace AmogAI.FuzzyLogic {
 			if (max > _maxRange) _maxRange = max;
 		}
 	}
-}

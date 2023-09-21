@@ -1,4 +1,4 @@
-﻿namespace AmogAI.FuzzyLogic {
+﻿namespace AmogAI.FuzzyLogic; 
 	public class LeftShoulderFuzzySet : FuzzySet {
 		private readonly double _peakPoint;
 		private readonly double _leftOffset;
@@ -32,4 +32,3 @@
 			}
 		}
 	}
-}

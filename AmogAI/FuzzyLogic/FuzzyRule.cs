@@ -1,22 +1,21 @@
-﻿namespace AmogAI.FuzzyLogic
+﻿namespace AmogAI.FuzzyLogic;
+
+public class FuzzyRule
 {
-    public class FuzzyRule
+    private FuzzyTerm _antecedent;
+
+    private FuzzyTerm _consequence;
+
+    public FuzzyRule(FuzzyTerm ant, FuzzyTerm con)
     {
-        private FuzzyTerm _antecedent;
+        _antecedent = ant;
+        _consequence = con;
+    }
 
-        private FuzzyTerm _consequence;
+    public void SetConfidencesOfConsequentToZero() { _consequence.ClearDOM(); }
 
-        public FuzzyRule(FuzzyTerm ant, FuzzyTerm con)
-        {
-            _antecedent = ant;
-            _consequence = con;
-        }
-
-        public void SetConfidencesOfConsequentToZero() { _consequence.ClearDOM(); }
-
-        public void Calculate()
-        {
-            _consequence.ORwithDOM(_antecedent.GetDOM());
-        }
+    public void Calculate()
+    {
+        _consequence.ORwithDOM(_antecedent.GetDOM());
     }
 }
