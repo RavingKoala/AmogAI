@@ -1,5 +1,7 @@
 ﻿namespace AmogAI.World.Entity;
 
+using System.Numerics;
+
 public class Person : IEntity {
 	public void InitialDraw(Graphics g) {
 	}
@@ -9,5 +11,14 @@ public class Person : IEntity {
 	}
 
 	public void Update(float delta) {
+		//var steeringForce = Vector2.Zero;
+		//steeringForce += Seek.Calculate(steeringForce, GlobalPosition, _player.GlobalPosition, MaxSpeed);
+		//steeringForce += ObstacleAvoidance.Calculate(steeringForce, _rayCastPivot, MaxSpeed);
+
+		//GetNode<RayCast2D>("Velocity").CastTo = steeringForce;
+
+		//Velocity += steeringForce;
+		//Velocity = Velocity.Truncate(MaxSpeed);
+		//Velocity = MoveAndSlide(Velocity);
 	}
 }
