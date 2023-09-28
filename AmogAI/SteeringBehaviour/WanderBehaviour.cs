@@ -1,13 +1,13 @@
-﻿namespace AmogAI.SteeringBehaviour;
+﻿//namespace AmogAI.SteeringBehaviour;
 
-using AmogAI.World.Entity;
+//using AmogAI.World.Entity;
 
-public class WanderBehaviour {
-	public static Vector Calculate(IEntity self, IEntity goal) {
-		Vector calculation = new Vector();
+//public class WanderBehaviour {
+//	public static Vector Calculate(MovingEntity self, MovingEntity goal) {
+//		Vector calculation = new Vector();
 
-		// put logic here
+//		// put logic here
 
-		return calculation;
-	}
-}
+//		return calculation;
+//	}
+//}
