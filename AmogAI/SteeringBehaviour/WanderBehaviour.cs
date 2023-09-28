@@ -2,7 +2,7 @@
 
 using AmogAI.World.Entity;
 
-public class ExploreBehaviour {
+public class WanderBehaviour {
 	public static Vector Calculate(IEntity self, IEntity goal) {
 		Vector calculation = new Vector();
 
