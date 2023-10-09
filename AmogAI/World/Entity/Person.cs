@@ -6,6 +6,8 @@ public class Person : IEntity {
 	public Vector Position { get; set; }
 	public float MaxSpeed { get; set; }
 	public Vector Velocity { get; set; }
+	public float Health { get; set; }
+	public int TasksLeft { get; set; }
 
 	public void InitialDraw(Graphics g) {
 	}

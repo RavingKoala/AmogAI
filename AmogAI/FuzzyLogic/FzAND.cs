@@ -25,7 +25,6 @@ public class FzAND : FuzzyTerm {
 		_terms.Add(ft2.Clone());
 		_terms.Add(ft3.Clone());
 		_terms.Add(ft4.Clone());
-
 	}
 
 	/// <summary>
