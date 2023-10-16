@@ -18,8 +18,8 @@ public class World {
 		Person p1 = new Person(new Vector(100, 100));
 		Person p2 = new Person(new Vector(150, 150));
 
-		p1.Target = p2;
 		p1.SteeringBehaviour.TurnOn(BehaviourType.Seek);
+		p1.Target = p2;
 
 		_movingEntities.Add(p1);
 		_movingEntities.Add(p2);

@@ -24,7 +24,7 @@ public class SteeringBehaviour {
 
         WeightSeek = 1;
     }
-
+    
     public void TurnOn(BehaviourType behaviour) {
         _behaviours[(int)behaviour] = true;
     }
