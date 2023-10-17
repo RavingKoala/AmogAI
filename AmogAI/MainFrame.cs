@@ -6,33 +6,32 @@ public partial class MainFrame : Form {
 
 	public World.World World;
 	public System.Timers.Timer GameTimer;
-	private DateTime LastSignalTime;
-	private bool showOverlay;
 	public static Vector WindowCenter = new Vector(0, 0);
-	public MainFrame() {
+	private bool _showOverlay;
+    private const float _timeDelta = 0.8f;
+    private readonly object _lock = new();
+    public MainFrame() {
 		InitializeComponent();
 
 		World = new World.World();
-		showOverlay = false;
+		_showOverlay = false;
 
 		MainFrame.WindowCenter = new Vector(this.Size.Width / 2, this.Size.Height / 2);
-		LastSignalTime = DateTime.Now;
 
 		GameTimer = new System.Timers.Timer();
 		GameTimer.Elapsed += Timer_Elapsed;
 		GameTimer.Interval = 1000 / Properties.Settings.Default.fps;
 		GameTimer.Enabled = true;
-
 	}
 
 	private void Timer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e) {
-		float timeDelta = (float)(e.SignalTime - LastSignalTime).TotalMilliseconds;
-		LastSignalTime = e.SignalTime;
+		lock (_lock) {
+            World.Update(_timeDelta);
 
-		World.Update(timeDelta);
-		gamePanel.Invalidate();
-		if (showOverlay)
-			overlayPanel.Invalidate();
+            gamePanel.Invalidate();
+            if (_showOverlay)
+                overlayPanel.Invalidate();
+        }
 	}
 
 	private void OnGamePanel_Paint(object sender, PaintEventArgs e) {

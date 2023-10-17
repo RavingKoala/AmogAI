@@ -97,6 +97,7 @@ public class Vector {
 		return vector2D.LengthSquared();
 	}
 
+	// Used for wrapping around the screen, probably not needed for this project but can stay here for now
 	public static void WrapAround(Vector pos, int maxX, int maxY) {
 		if (pos.X > maxX)
 			pos.X = 0.0f;

@@ -9,12 +9,14 @@ using System.Threading.Tasks;
 
 public enum BehaviourType {
     Seek = 0,
+    Pursuit = 1,
 }
 
 public class SteeringBehaviour {
     public MovingEntity Entity { get; set; }
     public Vector SteeringForce { get; set; }
     public float WeightSeek { get; set; } // 0
+    public float WeightPursuit { get; set; } // 1
     private bool[] _behaviours;
 
     public SteeringBehaviour(MovingEntity entity) {
@@ -23,6 +25,7 @@ public class SteeringBehaviour {
         _behaviours = new bool[6];
 
         WeightSeek = 1;
+        WeightPursuit = 1;
     }
     
     public void TurnOn(BehaviourType behaviour) {
@@ -42,27 +45,28 @@ public class SteeringBehaviour {
 
         if (On(BehaviourType.Seek))
             SteeringForce += Seek(Entity.Target.Position) * WeightSeek;
+        
+        if (On(BehaviourType.Pursuit))
+            SteeringForce += Pursuit(Entity.Target) * WeightPursuit;
 
         return SteeringForce.Truncate(Entity.MaxForce);
     }
 
-    public Vector Seek(Vector TargetPos) {
-        Vector target = TargetPos.Clone();
+    public Vector Seek(Vector targetPos) {
+        Vector target = targetPos.Clone();
 
         Vector desiredVelocity = (target - Entity.Position).Normalize() * Entity.MaxSpeed;
         return desiredVelocity - Entity.Velocity;
     }
 
-    //public Vector2D Pursuit(MovingEntity Target)
-    //{
-    //    Vector2D toEvader = Target.Pos.Clone() - Entity.Pos;
-    //    double RelativeHeading = Entity.Pos.Clone().Dot(Target.Heading);
+    public Vector Pursuit(MovingEntity target) {
+        Vector toEvader = target.Position.Clone() - Entity.Position;
+        float RelativeHeading = Entity.Position.Dot(target.Heading);
 
-    //    if (toEvader.Dot(Entity.Heading) > 0 && RelativeHeading < -0.95)
-    //        return Seek(Target.Pos);
+        if (toEvader.Dot(Entity.Heading) > 0 && RelativeHeading < -0.95)
+            return Seek(target.Position);
 
-    //    // target.velocity.length() is same as target's speed
-    //    double lookAheadTime = toEvader.Length() / Entity.MaxSpeed + Target.Velocity.Length();
-    //    return Seek(Target.Pos + Target.Velocity * lookAheadTime);
-    //}
+        float lookAheadTime = toEvader.Length() / (Entity.MaxSpeed + target.Velocity.Length());
+        return Seek(target.Position.Clone() + target.Velocity.Clone() * lookAheadTime);
+    }
 }

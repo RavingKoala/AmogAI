@@ -15,18 +15,19 @@ public class World {
 	}
 
     private void Populate() {
-		Person p1 = new Person(new Vector(100, 100));
-		Person p2 = new Person(new Vector(150, 150));
+		Person p1 = new Person(new Vector(50, 50));
+		Person p2 = new Person(new Vector(700, 800));
+		Person p3 = new Person(new Vector(700, 50));
 
-		p1.SteeringBehaviour.TurnOn(BehaviourType.Seek);
+		p1.SteeringBehaviour.TurnOn(BehaviourType.Pursuit);
 		p1.Target = p2;
+
+		p2.SteeringBehaviour.TurnOn(BehaviourType.Seek);
+		p2.Target = p3;
 
 		_movingEntities.Add(p1);
 		_movingEntities.Add(p2);
-
-        //foreach (Person p in _movingEntities) {
-        //    p.SteeringBehaviour.TurnOn(BehaviourType.Seek);
-        //}
+		_movingEntities.Add(p3);
     }
 
     public void Update(float timeDelta) {

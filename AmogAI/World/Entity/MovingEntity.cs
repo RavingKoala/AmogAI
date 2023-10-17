@@ -3,6 +3,7 @@
 using AmogAI.SteeringBehaviour;
 
 public abstract class MovingEntity : IEntity {
+    public World World { get; set; }
     public Vector Position { get; set; }
     public MovingEntity Target { get; set; }
     public Vector Velocity { get; set; }
@@ -12,23 +13,13 @@ public abstract class MovingEntity : IEntity {
     public float Mass { get; set; }
     public float MaxSpeed { get; set; }
     public float MaxForce { get; set; }
+    public float MaxTurnRate { get; set; }  
     public float Scale { get; set; }
 
-    public MovingEntity(Vector pos, MovingEntity target) {
-        Mass = 30;
-        MaxSpeed = 100;
-
-        Position = pos;
-        Target = target;
-        Velocity = new Vector();
-        Heading = new Vector();
-        Side = new Vector();
-        SteeringBehaviour = new SteeringBehaviour(this);
-    }
-
     public MovingEntity(Vector pos) {
-        Mass = 30;
-        MaxSpeed = 100;
+        Mass = 30f;
+        MaxSpeed = 20f;
+        MaxForce = 20f;
 
         Position = pos;
         Velocity = new Vector();
@@ -51,7 +42,7 @@ public abstract class MovingEntity : IEntity {
         Vector acceleration = steeringForce / Mass;
 
         // Convert the steering force into an acceleration 
-        Velocity += (acceleration * timeDelta);
+        Velocity += acceleration * timeDelta;
 
         // Update the vehicle's velocity
         Velocity.Truncate(MaxSpeed);
