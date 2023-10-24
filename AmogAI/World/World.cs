@@ -18,6 +18,7 @@ public class World {
 		Person p1 = new Person(new Vector(50, 50));
 		Person p2 = new Person(new Vector(700, 800));
 		Person p3 = new Person(new Vector(700, 50));
+		Person p4 = new Person(new Vector(350, 350));
 
 		p1.SteeringBehaviour.TurnOn(BehaviourType.Pursuit);
 		p1.Target = p2;
@@ -25,9 +26,12 @@ public class World {
 		p2.SteeringBehaviour.TurnOn(BehaviourType.Seek);
 		p2.Target = p3;
 
+		p4.SteeringBehaviour.TurnOn(BehaviourType.Wander);
+
 		_movingEntities.Add(p1);
 		_movingEntities.Add(p2);
 		_movingEntities.Add(p3);
+		_movingEntities.Add(p4);
     }
 
     public void Update(float timeDelta) {

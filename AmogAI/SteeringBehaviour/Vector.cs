@@ -97,6 +97,17 @@ public class Vector {
 		return vector2D.LengthSquared();
 	}
 
+	public static Vector PointToWorldSpace(Vector point, Vector heading, Vector side, Vector pos) {
+		Vector transPoint = point;
+
+		Matrix transformMatrix = new Matrix();
+		transformMatrix *= Matrix.RotateMatrix(heading, side);
+        transformMatrix *= Matrix.Translate(pos);
+		transformMatrix.TransformVector(transPoint);
+
+		return transPoint;
+	}
+
 	// Used for wrapping around the screen, probably not needed for this project but can stay here for now
 	public static void WrapAround(Vector pos, int maxX, int maxY) {
 		if (pos.X > maxX)

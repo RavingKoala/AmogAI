@@ -15,6 +15,7 @@ public abstract class MovingEntity : IEntity {
     public float MaxForce { get; set; }
     public float MaxTurnRate { get; set; }  
     public float Scale { get; set; }
+    public float TimeElapsed { get; set; }  
 
     public MovingEntity(Vector pos) {
         Mass = 30f;
@@ -37,6 +38,8 @@ public abstract class MovingEntity : IEntity {
     }
 
     public void Update(float timeDelta) {
+        TimeElapsed = timeDelta;
+
         // Calculate the steering force 
         Vector steeringForce = SteeringBehaviour.Calculate();
         Vector acceleration = steeringForce / Mass;
