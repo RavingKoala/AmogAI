@@ -26,11 +26,8 @@ public class SteeringBehaviour {
         Entity = entity;
         _behaviours = new bool[3];
 
-        float theta = ((float)new Random().NextDouble()) * (2 * (float)Math.PI);
-        WanderTarget = new Vector(WanderRadius * (float)Math.Cos(theta), WanderRadius * (float)Math.Sin(theta));
-
-        WanderRadius = 3f;
-        WanderDistance = 5f;
+        WanderRadius = 50f;
+        WanderDistance = 25f;
         WanderJitter = 1f;
 
         WeightSeek = 1;
@@ -61,7 +58,7 @@ public class SteeringBehaviour {
 
         if (On(BehaviourType.Wander))
             SteeringForce += Wander() * WeightWander;
-
+            
         return SteeringForce.Truncate(Entity.MaxForce);
     }
 
@@ -86,24 +83,36 @@ public class SteeringBehaviour {
     public Vector Wander() {
         float JitterThisTimeSlice = WanderJitter * Entity.TimeElapsed;
 
-        WanderTarget += new Vector((float)(new Random().NextDouble() * 2 - 1) * JitterThisTimeSlice,
-                                   (float)(new Random().NextDouble() * 2 - 1) * JitterThisTimeSlice);
+        Random r = new Random();
+
+        float theta = ((float)r.NextDouble()) * (2 * (float)Math.PI);
+        WanderTarget = new Vector(WanderRadius * (float)Math.Cos(theta), WanderRadius * (float)Math.Sin(theta));
+
+        WanderTarget += new Vector((float)(r.NextDouble() * 2 - 1) * JitterThisTimeSlice,
+                                   (float)(r.NextDouble() * 2 - 1) * JitterThisTimeSlice);
 
         WanderTarget.Normalize();
 
         WanderTarget *= WanderRadius;
 
         Vector targetLocal = WanderTarget.Clone() + new Vector(WanderDistance, 0);
+        //Vector targetWorld = Vector.PointToWorldSpace(targetLocal, Entity.Heading, Entity.Side, Entity.Position);
 
         //Vector targetWorld = new Vector(
-        //               targetLocal.Clone().X * Entity.Heading.X - targetLocal.Clone().Y * Entity.Heading.Y,
-        //               targetLocal.Clone().X * Entity.Heading.Y + targetLocal.Clone().Y * Entity.Heading.X);
+        //targetLocal.X * Entity.Heading.X - targetLocal.Y * Entity.Heading.Y,
+        //targetLocal.X * Entity.Heading.Y + targetLocal.Y * Entity.Heading.X);
 
-        //Vector targetWorld = new Vector(
-        //               targetLocal.Clone().X * Entity.Heading.X - targetLocal.Clone().Y * Entity.Heading.Y,
-        //               targetLocal.Clone().X * Entity.Side.X + targetLocal.Clone().Y * Entity.Side.Y);
+        Vector targetWorld = new Vector(
+                        targetLocal.X * Entity.Heading.X - targetLocal.Y * Entity.Heading.Y,
+                        targetLocal.X * Entity.Side.X + targetLocal.Y * Entity.Side.Y);
 
-        Vector targetWorld = Vector.PointToWorldSpace(targetLocal, Entity.Heading, Entity.Side, Entity.Position);
+        //if (Entity.Heading.LengthSquared() == 0) {
+        //    Entity.Heading = new Vector(1, 0);
+        //}
+
+        //Vector targetLocal = WanderTarget + Entity.Heading.Clone().Normalize() * WanderDistance;
+        //Vector targetWorld = targetLocal + Entity.Position;
+        Console.WriteLine(targetWorld);
 
         return targetWorld - Entity.Position;
     }

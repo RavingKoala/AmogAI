@@ -28,11 +28,11 @@ public class World {
 
 		p4.SteeringBehaviour.TurnOn(BehaviourType.Wander);
 
-		_movingEntities.Add(p1);
-		_movingEntities.Add(p2);
-		_movingEntities.Add(p3);
+		//_movingEntities.Add(p1);
+		//_movingEntities.Add(p2);
+		//_movingEntities.Add(p3);
 		_movingEntities.Add(p4);
-    }
+	}
 
     public void Update(float timeDelta) {
 		foreach (var entity in _movingEntities) {

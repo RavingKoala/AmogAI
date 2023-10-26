@@ -19,8 +19,8 @@ public abstract class MovingEntity : IEntity {
 
     public MovingEntity(Vector pos) {
         Mass = 30f;
-        MaxSpeed = 20f;
-        MaxForce = 20f;
+        MaxSpeed = 10f;
+        MaxForce = 10f;
 
         Position = pos;
         Velocity = new Vector();
@@ -60,7 +60,7 @@ public abstract class MovingEntity : IEntity {
             Side = Heading.Perp();
         }
 
-        Console.WriteLine(ToString());
+        //Console.WriteLine(ToString());
     }
 
     public override string ToString() {
