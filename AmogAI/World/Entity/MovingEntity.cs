@@ -19,7 +19,7 @@ public abstract class MovingEntity : IEntity {
 
     public MovingEntity(Vector pos) {
         Mass = 30f;
-        MaxSpeed = 10f;
+        MaxSpeed = 2f;
         MaxForce = 10f;
 
         Position = pos;

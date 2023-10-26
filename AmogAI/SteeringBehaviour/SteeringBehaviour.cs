@@ -16,6 +16,7 @@ public class SteeringBehaviour {
     public float WanderRadius { get; set; }
     public float WanderDistance { get; set; }
     public float WanderJitter { get; set; }
+    public float LastJitterAngle { get; set; }
     public float WeightSeek { get; set; } // 0
     public float WeightPursuit { get; set; } // 1
     public float WeightWander { get; set; } // 2
@@ -26,9 +27,10 @@ public class SteeringBehaviour {
         Entity = entity;
         _behaviours = new bool[3];
 
-        WanderRadius = 50f;
-        WanderDistance = 100f;
+        WanderRadius = 15f;
+        WanderDistance = 40f;
         WanderJitter = 1f;
+        LastJitterAngle = 0f;
 
         WeightSeek = 1;
         WeightPursuit = 1;
@@ -79,34 +81,20 @@ public class SteeringBehaviour {
     }
 
     public Vector Wander() {
-        //float JitterThisTimeSlice = WanderJitter * Entity.TimeElapsed;
+        float jitterThisTimeSlice = WanderJitter * Entity.TimeElapsed;
 
         Random r = new Random();
 
-        float theta = ((float)r.NextDouble()) * (2 * (float)Math.PI);
+        var jitterAngleOffset = ((float)r.NextDouble() < 0.5 ? -1 : 1) * jitterThisTimeSlice;
+        LastJitterAngle += jitterAngleOffset;
+
+        float theta = LastJitterAngle / (2 * (float)Math.PI);
         WanderTarget = new Vector(WanderRadius * (float)Math.Cos(theta), WanderRadius * (float)Math.Sin(theta));
 
-        Console.WriteLine(WanderTarget);
-        //WanderTarget += new Vector((float)(r.NextDouble() * 2 - 1) * JitterThisTimeSlice,
-        //                           (float)(r.NextDouble() * 2 - 1) * JitterThisTimeSlice);
-        //WanderTarget.Normalize();
+        if (Entity.Heading.LengthSquared() == 0)
+            Entity.Heading = new Vector(0.000001f, 0);
 
-        //WanderTarget *= WanderRadius;
-        //Console.WriteLine(WanderTarget);
-        //Vector targetLocal = WanderTarget.Clone() + new Vector(WanderDistance, 0);
-
-        //Vector targetWorld = new Vector(
-        //                targetLocal.X * Entity.Heading.X - targetLocal.Y * Entity.Heading.Y,
-        //                targetLocal.X * Entity.Side.X + targetLocal.Y * Entity.Side.Y);
-
-        //Console.WriteLine(WanderTarget);
-
-        //if (Entity.Heading.LengthSquared() == 0) {
-        //    Entity.Heading = new Vector(0.000001f, 0);
-        //}
-
-        //WanderTarget += (Entity.Heading.Clone().Normalize() * WanderDistance);
-        //Vector targetWorld = targetLocal - Entity.Position;
+        WanderTarget += Entity.Heading.Clone().Normalize() * WanderDistance;
 
         return WanderTarget;
     }

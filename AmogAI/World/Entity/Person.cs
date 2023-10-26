@@ -29,8 +29,8 @@ public class Person : MovingEntity {
         if (SteeringBehaviour.WanderTarget != null) {
             g.DrawEllipse(p, new Rectangle((int)circleX, (int)circleY, (int)sizeRadius, (int)sizeRadius));
 
-            double targetX = SteeringBehaviour.WanderTarget.X - Scale;
-            double targetY = SteeringBehaviour.WanderTarget.Y - Scale;
+            double targetX = Position.X + (SteeringBehaviour.WanderTarget.X - Scale);
+            double targetY = Position.Y + (SteeringBehaviour.WanderTarget.Y - Scale);
             double sizeTarget = Scale * 2;
             Pen p2 = new Pen(Color.Red, 1);
             g.DrawEllipse(p2, new Rectangle((int)targetX, (int)targetY, (int)sizeTarget, (int)sizeTarget));
