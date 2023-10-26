@@ -2,7 +2,7 @@
 
 using SteeringBehaviour;
 
-internal class Objective {
+public class Objective {
 	public Vector Position { get; set; }
 	public float Duration { get; set; }
 

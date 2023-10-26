@@ -1,5 +1,6 @@
 ﻿namespace AmogAI.World.Entity;
 
+using AmogAI.FuzzyLogic;
 using AmogAI.SteeringBehaviour;
 
 public class Person : IEntity {
@@ -8,8 +9,10 @@ public class Person : IEntity {
 	public Vector Velocity { get; set; }
 	public float Health { get; set; }
 	public int TasksLeft { get; set; }
+	public SurvivorTaskGoal SurvivorTaskGoal { get; set; }
 
 	public void InitialDraw(Graphics g) {
+		SurvivorTaskGoal = new SurvivorTaskGoal(this);
 	}
 
 	public void Redraw(Graphics g) {
