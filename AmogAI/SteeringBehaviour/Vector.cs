@@ -25,28 +25,32 @@ public class Vector {
 	}
 
 	public static Vector operator +(Vector v1, Vector v2) {
-		v1.X += v2.X;
-		v1.Y += v2.Y;
-		return v1;
-	}
-
-	public static Vector operator -(Vector v1, Vector v2) {
-		v1.X -= v2.X;
-		v1.Y -= v2.Y;
-		return v1;
-	}
-
-	public static Vector operator *(Vector v, float value) {
-		v.X *= value;
-		v.Y *= value;
+		Vector v = new Vector(v1.X, v1.Y);
+		v.X += v2.X;
+		v.Y += v2.Y;
 		return v;
 	}
 
-	public static Vector operator /(Vector v, float value) {
-		v.X /= value;
-		v.Y /= value;
-		return v;
-	}
+    public static Vector operator -(Vector v1, Vector v2) {
+        Vector v = new Vector(v1.X, v1.Y);
+        v.X -= v2.X;
+        v.Y -= v2.Y;
+        return v;
+    }
+
+	public static Vector operator *(Vector vec, float val) {
+		Vector vector = new Vector(vec.X, vec.Y);
+		vector.X *= val;
+		vector.Y *= val;
+		return vector;
+    }
+
+	public static Vector operator /(Vector vec, float val) {
+        Vector vector = new Vector(vec.X, vec.Y);
+        vector.X /= val;
+        vector.Y /= val;
+        return vector;
+    }
 
 	public void Reset() {
 		X = 0;

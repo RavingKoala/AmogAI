@@ -14,18 +14,28 @@ public class Person : MovingEntity {
     }
 
     public override void Render(Graphics g) {
-        double leftCorner = Position.X - Scale;
-        double rightCorner = Position.Y - Scale;
-        double size = Scale * 2;      
-        
-        
-        double leftCornerRadius = SteeringBehaviour.WanderRadius * leftCorner;
-        double rightCornerRadius = SteeringBehaviour.WanderRadius * rightCorner;
-        double sizeRadius = Scale * 2;
-            
+        double entityX = Position.X - Scale;
+        double entityY = Position.Y - Scale;
+        double size = Scale * 2;
+
+        Vector circleCenter = Heading.Clone().Normalize() * SteeringBehaviour.WanderDistance + Position;
+        double circleX = circleCenter.X - SteeringBehaviour.WanderRadius;
+        double circleY = circleCenter.Y - SteeringBehaviour.WanderRadius;
+        double sizeRadius = SteeringBehaviour.WanderRadius * 2;
+
         Pen p = new Pen(Color.Blue, 1);
-        g.DrawEllipse(p, new Rectangle((int)leftCorner, (int)rightCorner, (int)size, (int)size));
-        //g.DrawEllipse(p, new Rectangle((int) (int)rightCorner, (int)size, (int)size));
+        g.DrawEllipse(p, new Rectangle((int)entityX, (int)entityY, (int)size, (int)size));
+        
+        if (SteeringBehaviour.WanderTarget != null) {
+            g.DrawEllipse(p, new Rectangle((int)circleX, (int)circleY, (int)sizeRadius, (int)sizeRadius));
+
+            double targetX = SteeringBehaviour.WanderTarget.X - Scale;
+            double targetY = SteeringBehaviour.WanderTarget.Y - Scale;
+            double sizeTarget = Scale * 2;
+            Pen p2 = new Pen(Color.Red, 1);
+            g.DrawEllipse(p2, new Rectangle((int)targetX, (int)targetY, (int)sizeTarget, (int)sizeTarget));
+        }
+
         g.DrawLine(p,
             Position.X,
             Position.Y,

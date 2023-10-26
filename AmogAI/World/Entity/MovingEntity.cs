@@ -49,9 +49,7 @@ public abstract class MovingEntity : IEntity {
 
         // Update the vehicle's velocity
         Velocity.Truncate(MaxSpeed);
-
-        Vector velocity = Velocity.Clone();
-        Position += velocity * timeDelta;
+        Position += Velocity * timeDelta;
 
         // Update the vehicle's position using the new velocity
         if (Velocity.LengthSquared() > 0.00000001) {
