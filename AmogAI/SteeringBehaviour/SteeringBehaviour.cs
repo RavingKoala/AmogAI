@@ -101,14 +101,13 @@ public class SteeringBehaviour {
 
         //Console.WriteLine(WanderTarget);
 
-        if (Entity.Heading.LengthSquared() == 0) {
-            Entity.Heading = new Vector(0.000001f, 0);
-        }
+        //if (Entity.Heading.LengthSquared() == 0) {
+        //    Entity.Heading = new Vector(0.000001f, 0);
+        //}
 
-        Vector offset = (Entity.Heading.Clone().Normalize() * WanderDistance);
-        Vector targetLocal = WanderTarget + offset;
-        Vector targetWorld = targetLocal + Entity.Position;
+        //WanderTarget += (Entity.Heading.Clone().Normalize() * WanderDistance);
+        //Vector targetWorld = targetLocal - Entity.Position;
 
-        return targetWorld;
+        return WanderTarget;
     }
 }
