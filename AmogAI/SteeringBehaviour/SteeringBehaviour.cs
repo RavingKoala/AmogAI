@@ -7,12 +7,14 @@ public enum BehaviourType {
     Seek = 0,
     Pursuit = 1,
     Wander = 2,
+    WallAvoidance = 3
 }
 
 public class SteeringBehaviour {
     public MovingEntity Entity { get; set; }
     public Vector SteeringForce { get; set; }
     public Vector WanderTarget { get; set; }
+    public Vector[] Feelers { get; set; }
     public float WanderRadius { get; set; }
     public float WanderDistance { get; set; }
     public float WanderJitter { get; set; }
@@ -20,21 +22,24 @@ public class SteeringBehaviour {
     public float WeightSeek { get; set; } // 0
     public float WeightPursuit { get; set; } // 1
     public float WeightWander { get; set; } // 2
+    public float WeightWallAvoidance { get; set; } // 3
     private bool[] _behaviours;
 
     public SteeringBehaviour(MovingEntity entity) {
         SteeringForce = new Vector();
         Entity = entity;
-        _behaviours = new bool[3];
+        _behaviours = new bool[4];
+        Feelers = new Vector[3];
 
         WanderRadius = 15f;
         WanderDistance = 40f;
         WanderJitter = 1f;
         LastJitterAngle = 0f;
 
-        WeightSeek = 1;
-        WeightPursuit = 1;
-        WeightWander = 1;
+        WeightSeek = 1f;
+        WeightPursuit = 1f;
+        WeightWander = 1f;
+        WeightWallAvoidance = 1f;
     }
 
     public void TurnOn(BehaviourType behaviour) {
@@ -53,15 +58,22 @@ public class SteeringBehaviour {
         SteeringForce.Reset();
 
         if (On(BehaviourType.Seek))
-            SteeringForce = SteeringForce + Seek(Entity.Target.Position) * WeightSeek;
+            SteeringForce += SteeringForce + Seek(Entity.Target.Position) * WeightSeek;
 
         if (On(BehaviourType.Pursuit))
             SteeringForce += Pursuit(Entity.Target) * WeightPursuit;
 
         if (On(BehaviourType.Wander))
             SteeringForce += Wander() * WeightWander;
-            
+
+        if (On(BehaviourType.WallAvoidance))
+            SteeringForce += WallAvoidance(Entity.World.Walls) * WeightWallAvoidance;
+
         return SteeringForce.Truncate(Entity.MaxForce);
+    }
+
+    private void CreateFeelers() {
+
     }
 
     public Vector Seek(Vector targetPos) {
@@ -97,5 +109,13 @@ public class SteeringBehaviour {
         WanderTarget += Entity.Heading.Clone().Normalize() * WanderDistance;
 
         return WanderTarget;
+    }
+
+    public Vector WallAvoidance(List<Wall> walls) {
+        CreateFeelers();
+
+        // write the lineintersection method
+
+        return new Vector();
     }
 }

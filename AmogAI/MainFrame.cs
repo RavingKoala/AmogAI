@@ -36,11 +36,13 @@ public partial class MainFrame : Form {
 
 	private void OnGamePanel_Paint(object sender, PaintEventArgs e) {
 		World.Render(e.Graphics, RenderPanelType.Game);
+		World.InitialRender(e.Graphics, RenderPanelType.Game);
 	}
 
 	private void OnOverlayPanel_Paint(object sender, PaintEventArgs e) {
 		World.Render(e.Graphics, RenderPanelType.Overlay);
-	}
+        World.InitialRender(e.Graphics, RenderPanelType.Game);
+    }
 
 	private void OnWindow_Resize(object sender, System.EventArgs e) {
 		Control window = (Control)sender;

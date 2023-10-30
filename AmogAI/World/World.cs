@@ -6,12 +6,15 @@ using AmogAI.World.Entity;
 public class World {
 	private List<MovingEntity> _staticEntities;
 	private List<MovingEntity> _movingEntities;
+	public List<Wall> Walls { get; set; }
 
 	public World() {
 		_staticEntities = new List<MovingEntity>();
 		_movingEntities = new List<MovingEntity>();
+		Walls = new List<Wall>();
 
 		Populate();
+		DrawWalls();
 	}
 
     private void Populate() {
@@ -31,7 +34,13 @@ public class World {
 		//_movingEntities.Add(p1);
 		//_movingEntities.Add(p2);
 		//_movingEntities.Add(p3);
-		_movingEntities.Add(p4);
+		//_movingEntities.Add(p4);
+	}
+
+	private void DrawWalls() {
+		Wall w1 = new Wall(new Vector(100, 100), new Vector(100, 600));
+
+		Walls.Add(w1);
 	}
 
     public void Update(float timeDelta) {
@@ -45,4 +54,10 @@ public class World {
 			foreach (var entity in _movingEntities)
 				entity.Render(g);
 	}
+
+	public void InitialRender(Graphics g, RenderPanelType renderType) {
+        if (renderType == RenderPanelType.Game)
+            foreach (var wall in Walls)
+                wall.Render(g);
+    }
 }
