@@ -8,9 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-public class Wall{
+public class Wall {
     public Vector VecFrom { get; set; }
-    public Vector VecTo{ get; set; }
+    public Vector VecTo { get; set; }
     public Vector Normal { get; set; }
     public Vector Center { get; init; }
 
@@ -29,6 +29,10 @@ public class Wall{
     }
 
     public void Render(Graphics g) {
-        g.DrawLine(new Pen(Brushes.Purple, 5), new Point((int)VecFrom.X, (int)VecFrom.Y), new Point((int)VecTo.X, (int)VecTo.Y));
+        g.DrawLine(new Pen(Brushes.Purple, 5),
+            VecFrom.X,
+            VecFrom.Y,
+            VecTo.X,
+            VecTo.Y);
     }
 }

@@ -23,6 +23,7 @@ public class SteeringBehaviour {
     public float WeightPursuit { get; set; } // 1
     public float WeightWander { get; set; } // 2
     public float WeightWallAvoidance { get; set; } // 3
+    public float FeelersLength { get; set; }
     private bool[] _behaviours;
 
     public SteeringBehaviour(MovingEntity entity) {
@@ -35,6 +36,8 @@ public class SteeringBehaviour {
         WanderDistance = 40f;
         WanderJitter = 1f;
         LastJitterAngle = 0f;
+
+        FeelersLength = 50f;
 
         WeightSeek = 1f;
         WeightPursuit = 1f;
@@ -73,7 +76,18 @@ public class SteeringBehaviour {
     }
 
     private void CreateFeelers() {
+        // Feeler pointing straight ahead
+        Feelers[0] = Entity.Position + Entity.Heading.Clone() * FeelersLength;
 
+        // Feeler pointing 45 degrees to the left
+        Vector temp = Entity.Heading.Clone();
+        temp = Vector.RotateAroundOrigin(temp, -45);
+        Feelers[1] = Entity.Position + temp * FeelersLength / 2f;
+
+        // Feeler pointing 45 degrees to the right
+        temp = Entity.Heading.Clone();
+        temp = Vector.RotateAroundOrigin(temp, 45);
+        Feelers[2] = Entity.Position + temp * FeelersLength / 2f;
     }
 
     public Vector Seek(Vector targetPos) {
@@ -106,7 +120,7 @@ public class SteeringBehaviour {
         if (Entity.Heading.LengthSquared() == 0)
             Entity.Heading = new Vector(0.000001f, 0);
 
-        WanderTarget += Entity.Heading.Clone().Normalize() * WanderDistance;
+        WanderTarget += Entity.Heading.Clone() * WanderDistance;
 
         return WanderTarget;
     }
@@ -114,8 +128,37 @@ public class SteeringBehaviour {
     public Vector WallAvoidance(List<Wall> walls) {
         CreateFeelers();
 
-        // write the lineintersection method
+        float distToThisIP = 0f;
+        float distToClosestIP = float.MaxValue;
 
-        return new Vector();
+        int closestWall = -1;
+
+        Vector steeringForce = new Vector();
+        Vector point = new Vector();
+        Vector closestPoint = new Vector();
+
+        for (int i = 0; i < Feelers.Length; i++) {
+            for (int j = 0; j < walls.Count; j++) {
+                if (Vector.LineIntersection(Entity.Position,
+                                            Feelers[i],
+                                            walls[j].VecFrom,
+                                            walls[j].VecTo,
+                                            ref distToThisIP,
+                                            ref point)) {
+                    if (distToThisIP < distToClosestIP) {
+                        distToClosestIP = distToThisIP;
+                        closestWall = j;
+                        closestPoint = point;
+                    }
+                }
+            }
+
+            if (closestWall >= 0) {
+                Vector overShoot = Feelers[i] - closestPoint;
+                steeringForce = walls[closestWall].Normal * overShoot.Length();
+            }
+        }
+
+        return steeringForce;
     }
 }

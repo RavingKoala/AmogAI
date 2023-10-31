@@ -17,12 +17,13 @@ public abstract class MovingEntity : IEntity {
     public float Scale { get; set; }
     public float TimeElapsed { get; set; }  
 
-    public MovingEntity(Vector pos) {
+    public MovingEntity(Vector pos, World world) {
         Mass = 30f;
         MaxSpeed = 2f;
         MaxForce = 10f;
 
         Position = pos;
+        World = world;
         Velocity = new Vector();
         Heading = new Vector();
         Side = new Vector();

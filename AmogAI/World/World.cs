@@ -18,29 +18,36 @@ public class World {
 	}
 
     private void Populate() {
-		Person p1 = new Person(new Vector(50, 50));
-		Person p2 = new Person(new Vector(700, 800));
-		Person p3 = new Person(new Vector(700, 50));
-		Person p4 = new Person(new Vector(350, 350));
+		Person p1 = new Person(new Vector(50, 50), this);
+		Person p2 = new Person(new Vector(350, 350), this);
 
 		p1.SteeringBehaviour.TurnOn(BehaviourType.Pursuit);
+		p1.SteeringBehaviour.TurnOn(BehaviourType.WallAvoidance);
 		p1.Target = p2;
 
-		p2.SteeringBehaviour.TurnOn(BehaviourType.Seek);
-		p2.Target = p3;
+		p2.SteeringBehaviour.TurnOn(BehaviourType.Wander);
+		p2.SteeringBehaviour.TurnOn(BehaviourType.WallAvoidance);
 
-		p4.SteeringBehaviour.TurnOn(BehaviourType.Wander);
-
-		//_movingEntities.Add(p1);
-		//_movingEntities.Add(p2);
-		//_movingEntities.Add(p3);
-		//_movingEntities.Add(p4);
+		_movingEntities.Add(p1);
+		_movingEntities.Add(p2);
 	}
 
 	private void DrawWalls() {
-		Wall w1 = new Wall(new Vector(100, 100), new Vector(100, 600));
+		Wall leftWall = new Wall(new Vector(0, 0), new Vector(0, 800));	
+		Wall topWall = new Wall(new Vector(0, 0), new Vector(1350, 0));	
+		Wall rightWall = new Wall(new Vector(1350, 0), new Vector(1350, 800));	
+		Wall bottomWall = new Wall(new Vector(0, 800), new Vector(1350, 800));	
+
+		Wall w1 = new Wall(new Vector(250, 100), new Vector(250, 600));
+		Wall w2 = new Wall(new Vector(450, 100), new Vector(450, 600));
+
+		Walls.Add(leftWall);
+		Walls.Add(topWall);
+		Walls.Add(rightWall);
+		Walls.Add(bottomWall);
 
 		Walls.Add(w1);
+		Walls.Add(w2);
 	}
 
     public void Update(float timeDelta) {
