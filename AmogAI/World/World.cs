@@ -28,7 +28,7 @@ public class World {
 		p2.SteeringBehaviour.TurnOn(BehaviourType.Wander);
 		p2.SteeringBehaviour.TurnOn(BehaviourType.WallAvoidance);
 
-		_movingEntities.Add(p1);
+		//_movingEntities.Add(p1);
 		_movingEntities.Add(p2);
 	}
 
@@ -40,6 +40,8 @@ public class World {
 
 		Wall w1 = new Wall(new Vector(250, 100), new Vector(250, 600));
 		Wall w2 = new Wall(new Vector(450, 100), new Vector(450, 600));
+		Wall w3 = new Wall(new Vector(250, 100), new Vector(450, 100));
+		Wall w4 = new Wall(new Vector(250, 600), new Vector(450, 600));
 
 		Walls.Add(leftWall);
 		Walls.Add(topWall);
@@ -48,6 +50,8 @@ public class World {
 
 		Walls.Add(w1);
 		Walls.Add(w2);
+		Walls.Add(w3);
+		Walls.Add(w4);
 	}
 
     public void Update(float timeDelta) {

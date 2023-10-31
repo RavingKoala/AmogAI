@@ -39,16 +39,16 @@ public class Person : MovingEntity {
         //}
 
         // Draw the feelers
-        Pen p3 = new Pen(Color.Green, 1);
-        if (SteeringBehaviour.Feelers != null) {
-            foreach (var feeler in SteeringBehaviour.Feelers) {
-                g.DrawLine(p3,
-                    Position.X,
-                    Position.Y,
-                    feeler.X,
-                    feeler.Y);
-            }
-        }
+        //Pen p3 = new Pen(Color.Green, 1);
+        //if (SteeringBehaviour.Feelers != null) {
+        //    foreach (var feeler in SteeringBehaviour.Feelers) {
+        //        g.DrawLine(p3,
+        //            Position.X,
+        //            Position.Y,
+        //            feeler.X,
+        //            feeler.Y);
+        //    }
+        //}
 
         // Draw the velocity vector
         g.DrawLine(p,

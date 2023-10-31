@@ -61,7 +61,7 @@ public class SteeringBehaviour {
         SteeringForce.Reset();
 
         if (On(BehaviourType.Seek))
-            SteeringForce += SteeringForce + Seek(Entity.Target.Position) * WeightSeek;
+            SteeringForce += Seek(Entity.Target.Position) * WeightSeek;
 
         if (On(BehaviourType.Pursuit))
             SteeringForce += Pursuit(Entity.Target) * WeightPursuit;
@@ -109,9 +109,7 @@ public class SteeringBehaviour {
     public Vector Wander() {
         float jitterThisTimeSlice = WanderJitter * Entity.TimeElapsed;
 
-        Random r = new Random();
-
-        var jitterAngleOffset = ((float)r.NextDouble() < 0.5 ? -1 : 1) * jitterThisTimeSlice;
+        var jitterAngleOffset = ((float)new Random().NextDouble() < 0.5 ? -1 : 1) * jitterThisTimeSlice;
         LastJitterAngle += jitterAngleOffset;
 
         float theta = LastJitterAngle / (2 * (float)Math.PI);
