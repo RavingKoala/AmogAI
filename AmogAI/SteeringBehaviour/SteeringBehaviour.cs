@@ -29,7 +29,7 @@ public class SteeringBehaviour {
     public SteeringBehaviour(MovingEntity entity) {
         SteeringForce = new Vector();
         Entity = entity;
-        _behaviours = new bool[4];
+        _behaviours = new bool[Enum.GetNames(typeof(BehaviourType)).Length];
         Feelers = new Vector[3];
 
         WanderRadius = 15f;
@@ -135,24 +135,24 @@ public class SteeringBehaviour {
         Vector point = new Vector();
         Vector closestPoint = new Vector();
 
-        for (int i = 0; i < Feelers.Length; i++) {
-            for (int j = 0; j < walls.Count; j++) {
+        for (int feeler = 0; feeler < Feelers.Length; feeler++) {
+            for (int wall = 0; wall < walls.Count; wall++) {
                 if (Vector.LineIntersection(Entity.Position,
-                                            Feelers[i],
-                                            walls[j].VecFrom,
-                                            walls[j].VecTo,
+                                            Feelers[feeler],
+                                            walls[wall].VecFrom,
+                                            walls[wall].VecTo,
                                             ref distToThisIP,
                                             ref point)) {
                     if (distToThisIP < distToClosestIP) {
                         distToClosestIP = distToThisIP;
-                        closestWall = j;
+                        closestWall = wall;
                         closestPoint = point;
                     }
                 }
             }
 
             if (closestWall >= 0) {
-                Vector overShoot = Feelers[i] - closestPoint;
+                Vector overShoot = Feelers[feeler] - closestPoint;
                 steeringForce = walls[closestWall].Normal * overShoot.Length();
             }
         }
