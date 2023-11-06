@@ -17,14 +17,14 @@ public class World {
         MakeObjectives();
         Populate();
         DrawWalls();
-        
+
     }
 
     private void MakeObjectives() {
         var gridDistance = 200;
         for (int x = 1; x < 5; x++) {
             for (int y = 1; y < 4; y++) {
-                Objectives.Add(new Objective(new Vector(x*gridDistance, y*gridDistance)));
+                Objectives.Add(new Objective(new Vector(x * gridDistance, y * gridDistance)));
             }
         }
     }
@@ -53,9 +53,9 @@ public class World {
     }
 
     private void DrawWalls() {
-        Wall leftWall = new Wall(new Vector(0, 0), new Vector(0, 800), false);	
-        Wall topWall = new Wall(new Vector(0, 0), new Vector(1350, 0), true);	
-        Wall rightWall = new Wall(new Vector(1350, 0), new Vector(1350, 800), true);	
+        Wall leftWall = new Wall(new Vector(0, 0), new Vector(0, 800), false);
+        Wall topWall = new Wall(new Vector(0, 0), new Vector(1350, 0), true);
+        Wall rightWall = new Wall(new Vector(1350, 0), new Vector(1350, 800), true);
         Wall bottomWall = new Wall(new Vector(0, 800), new Vector(1350, 800), false);
 
         Walls.Add(leftWall);
@@ -80,17 +80,18 @@ public class World {
         }
     }
 
-    public void Render(Graphics g, RenderPanelType renderType) {
-        if (renderType == RenderPanelType.Game) {
-            foreach (var entity in _movingEntities)
-                entity.Render(g);
-            foreach (var wall in Walls)
-                wall.Render(g);
-            foreach (var objective in Objectives)
-                objective.Render(g);
-        }
-        if (renderType == RenderPanelType.Overlay) {
-            
-        }
+    public void Render(Graphics g) {
+        foreach (var entity in _movingEntities)
+            entity.Render(g);
+        foreach (var wall in Walls)
+            wall.Render(g);
+        foreach (var objective in Objectives)
+            objective.Render(g);
     }
+
+    public void RenderOverlay(Graphics g) {
+        foreach (var objective in Objectives)
+            objective.RenderOverlay(g);
+    }
+
 }

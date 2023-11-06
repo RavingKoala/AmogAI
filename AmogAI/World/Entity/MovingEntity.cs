@@ -5,7 +5,7 @@ using AmogAI.SteeringBehaviour;
 public abstract class MovingEntity {
     public World World { get; set; }
     public Vector Position { get; set; }
-    public MovingEntity Target { get; set; }
+    public MovingEntity? Target { get; set; }
     public Vector Velocity { get; set; }
     public Vector Heading { get; set; }
     public Vector Side { get; set; }

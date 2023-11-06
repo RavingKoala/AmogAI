@@ -25,13 +25,13 @@ public class Objective {
 
     public void RenderOverlay(Graphics g) {
         if (isDone) {
-            g.DrawLine(new Pen(Brushes.Olive, 5),
+            g.DrawLine(new Pen(Brushes.Olive, 3),
                 Position.X - SIZE / 2,
                 Position.Y - SIZE / 2,
                 Position.X + SIZE / 2,
                 Position.Y + SIZE / 2
             );
-            g.DrawLine(new Pen(Brushes.Olive, 5),
+            g.DrawLine(new Pen(Brushes.Olive, 3),
                 Position.X - SIZE / 2,
                 Position.Y + SIZE / 2,
                 Position.X + SIZE / 2,

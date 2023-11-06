@@ -60,11 +60,13 @@ public class SteeringBehaviour {
     public Vector Calculate() {
         SteeringForce.Reset();
 
-        if (On(BehaviourType.Seek))
-            SteeringForce += Seek(Entity.Target.Position) * WeightSeek;
+        if (Entity.Target != null) {
+            if (On(BehaviourType.Seek))
+                SteeringForce += Seek(Entity.Target.Position) * WeightSeek;
 
-        if (On(BehaviourType.Pursuit))
-            SteeringForce += Pursuit(Entity.Target) * WeightPursuit;
+            if (On(BehaviourType.Pursuit))
+                SteeringForce += Pursuit(Entity.Target) * WeightPursuit;
+        }
 
         if (On(BehaviourType.Wander))
             SteeringForce += Wander() * WeightWander;

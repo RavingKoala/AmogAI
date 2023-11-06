@@ -26,41 +26,32 @@ partial class MainFrame {
     ///  the contents of this method with the code editor.
     /// </summary>
     private void InitializeComponent() {
+        this.gamePanel = new GamePanel();
         this.SuspendLayout();
-
-        this.components = new System.ComponentModel.Container();
-        this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-        this.ClientSize = new System.Drawing.Size(1350, 800);
-        this.Text = "AmogAI Game";
-
-        if (Properties.Settings.Default.isFullscreen)
-            WindowState = FormWindowState.Maximized;
-        else
-            WindowState = FormWindowState.Normal;
-
-
-        this.Resize += new System.EventHandler(this.OnWindow_Resize);
-
-
-        gamePanel = new GamePanel();
-        this.gamePanel.Paint += new System.Windows.Forms.PaintEventHandler(this.OnGamePanel_Paint);
-        gamePanel.Size = this.Size;
-
-        overlayPanel = new OverlayPanel();
-        this.overlayPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.OnOverlayPanel_Paint);
-        overlayPanel.Size = this.Size;
-
-        gamePanel.Invalidate();
-        overlayPanel.Invalidate();
-
-        this.Controls.Add(gamePanel);
-        this.Controls.Add(overlayPanel);
-
+        // 
+        // gamePanel
+        // 
+        this.gamePanel.Dock = DockStyle.Fill;
+        this.gamePanel.Location = new Point(0, 0);
+        this.gamePanel.Name = "gamePanel";
+        this.gamePanel.Size = new Size(1350, 800);
+        this.gamePanel.TabIndex = 0;
+        this.gamePanel.Paint += this.OnGamePanel_Paint;
+        // 
+        // MainFrame
+        // 
+        AutoScaleDimensions = new SizeF(7F, 15F);
+        AutoScaleMode = AutoScaleMode.Font;
+        ClientSize = new Size(1350, 800);
+        Controls.Add(this.gamePanel);
+        ForeColor = SystemColors.ControlText;
+        Name = "MainFrame";
+        Text = "AmogAI Game";
+        KeyDown += this.MainFrame_KeyDown;
         this.ResumeLayout(false);
     }
 
     #endregion
 
     private GamePanel gamePanel;
-    private OverlayPanel overlayPanel;
 }
