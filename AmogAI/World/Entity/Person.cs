@@ -10,7 +10,12 @@ public class Person : MovingEntity {
 	public int TasksLeft { get; set; }
 
 
-	public Person(Vector pos, MovingEntity target, World world) : base(pos, world) {
+	public Person(Vector pos, World world) : base(pos, world) {
+		Velocity = new Vector(0, 0);
+		Scale = 10;
+	}
+
+	public Person(Vector pos, MovingEntity target, World world) : this(pos, world) {
 		Target = target;
     }
 
