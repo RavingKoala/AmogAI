@@ -4,8 +4,8 @@ using AmogAI.World.Entity;
 namespace AmogAI.StateBehaviour;
 
 public class Goal_Flee : Goal<Person> {
-	public IEntity Enemy { get; set; }
-	public Goal_Flee(IEntity enemy) {
+	public MovingEntity Enemy { get; set; }
+	public Goal_Flee(MovingEntity enemy) {
 		if (enemy is Person) {
 			throw new Exception("You can't flee from yourself!");
 		} else {

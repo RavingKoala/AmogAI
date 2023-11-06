@@ -2,6 +2,7 @@
 
 using AmogAI.FuzzyLogic;
 using AmogAI.SteeringBehaviour;
+using System.Drawing;
 
 public class Person : IEntity {
 	public Vector Position { get; set; }
@@ -11,23 +12,57 @@ public class Person : IEntity {
 	public int TasksLeft { get; set; }
 	public SurvivorTaskGoal SurvivorTaskGoal { get; set; }
 
+
+    public Person(Vector pos, MovingEntity target, World world) : this(pos, world) {
+        Target = target;
+    }
+
 	public void InitialDraw(Graphics g) {
 		SurvivorTaskGoal = new SurvivorTaskGoal(this);
 	}
 
-	public void Redraw(Graphics g) {
-		g.DrawEllipse(new Pen(Brushes.Black, 10), (int)MainFrame.WindowCenter.X - 55, (int)MainFrame.WindowCenter.Y - 55, 100, 100);
-	}
+    public override void Render(Graphics g) {
+        double entityX = Position.X - Scale;
+        double entityY = Position.Y - Scale;
+        double size = Scale * 2;
 
-	public void Update(float delta) {
-		//var steeringForce = Vector2.Zero;
-		//steeringForce += Seek.Calculate(steeringForce, GlobalPosition, _player.GlobalPosition, MaxSpeed);
-		//steeringForce += ObstacleAvoidance.Calculate(steeringForce, _rayCastPivot, MaxSpeed);
+        Vector circleCenter = Heading.Clone().Normalize() * SteeringBehaviour.WanderDistance + Position;
+        double circleX = circleCenter.X - SteeringBehaviour.WanderRadius;
+        double circleY = circleCenter.Y - SteeringBehaviour.WanderRadius;
+        double sizeRadius = SteeringBehaviour.WanderRadius * 2;
 
-		//GetNode<RayCast2D>("Velocity").CastTo = steeringForce;
+        // Draw the entity
+        Pen p = new Pen(Color.Blue, 1);
+        g.DrawEllipse(p, new Rectangle((int)entityX, (int)entityY, (int)size, (int)size));
 
-		//Velocity += steeringForce;
-		//Velocity = Velocity.Truncate(MaxSpeed);
-		//Velocity = MoveAndSlide(Velocity);
-	}
+        // Draw the wander circle and target
+        //if (SteeringBehaviour.WanderTarget != null) {
+        //    g.DrawEllipse(p, new Rectangle((int)circleX, (int)circleY, (int)sizeRadius, (int)sizeRadius));
+
+        //    double targetX = Position.X + (SteeringBehaviour.WanderTarget.X - Scale);
+        //    double targetY = Position.Y + (SteeringBehaviour.WanderTarget.Y - Scale);
+        //    double sizeTarget = Scale * 2;
+        //    Pen p2 = new Pen(Color.Red, 1);
+        //    g.DrawEllipse(p2, new Rectangle((int)targetX, (int)targetY, (int)sizeTarget, (int)sizeTarget));
+        //}
+
+        // Draw the feelers
+        //Pen p3 = new Pen(Color.Green, 1);
+        //if (SteeringBehaviour.Feelers != null) {
+        //    foreach (var feeler in SteeringBehaviour.Feelers) {
+        //        g.DrawLine(p3,
+        //            Position.X,
+        //            Position.Y,
+        //            feeler.X,
+        //            feeler.Y);
+        //    }
+        //}
+
+        // Draw the velocity vector
+        g.DrawLine(p,
+            Position.X,
+            Position.Y,
+            Position.X + Velocity.X * 2,
+            Position.Y + Velocity.Y * 2);
+    }
 }
