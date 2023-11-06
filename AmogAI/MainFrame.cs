@@ -10,6 +10,7 @@ public partial class MainFrame : Form {
 	private bool _showOverlay;
     private const float _timeDelta = 0.8f;
     private readonly object _lock = new();
+
     public MainFrame() {
 		InitializeComponent();
 

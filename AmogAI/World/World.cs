@@ -87,5 +87,8 @@ public class World {
             foreach (var wall in Walls)
                 wall.Render(g);
         }
+        if (renderType == RenderPanelType.Overlay) {
+            
+        }
     }
 }
