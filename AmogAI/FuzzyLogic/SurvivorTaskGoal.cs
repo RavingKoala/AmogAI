@@ -1,5 +1,4 @@
-﻿using AmogAI.World;
-using AmogAI.World.Entity;
+﻿using AmogAI.World.Entity;
 
 namespace AmogAI.FuzzyLogic {
     public class SurvivorTaskGoal {

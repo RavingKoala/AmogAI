@@ -21,9 +21,9 @@ public class World {
     }
 
     private void MakeObjectives() {
-        var gridDistance = 40;
-        for (int x = 0; x < 3; x++) {
-            for (int y = 0; y < 3; y++) {
+        var gridDistance = 200;
+        for (int x = 1; x < 5; x++) {
+            for (int y = 1; y < 4; y++) {
                 Objectives.Add(new Objective(new Vector(x*gridDistance, y*gridDistance)));
             }
         }
@@ -86,6 +86,8 @@ public class World {
                 entity.Render(g);
             foreach (var wall in Walls)
                 wall.Render(g);
+            foreach (var objective in Objectives)
+                objective.Render(g);
         }
         if (renderType == RenderPanelType.Overlay) {
             
