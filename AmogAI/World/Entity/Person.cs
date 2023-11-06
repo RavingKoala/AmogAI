@@ -4,17 +4,14 @@ using AmogAI.FuzzyLogic;
 using AmogAI.SteeringBehaviour;
 using System.Drawing;
 
-public class Person : IEntity {
-	public Vector Position { get; set; }
-	public float MaxSpeed { get; set; }
-	public Vector Velocity { get; set; }
+public class Person : MovingEntity {
+	public SurvivorTaskGoal SurvivorTaskGoal { get; set; }
 	public float Health { get; set; }
 	public int TasksLeft { get; set; }
-	public SurvivorTaskGoal SurvivorTaskGoal { get; set; }
 
 
-    public Person(Vector pos, MovingEntity target, World world) : this(pos, world) {
-        Target = target;
+	public Person(Vector pos, MovingEntity target, World world) : base(pos, world) {
+		Target = target;
     }
 
 	public void InitialDraw(Graphics g) {
