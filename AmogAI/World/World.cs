@@ -28,30 +28,38 @@ public class World {
 		p2.SteeringBehaviour.TurnOn(BehaviourType.Wander);
 		p2.SteeringBehaviour.TurnOn(BehaviourType.WallAvoidance);
 
-		//_movingEntities.Add(p1);
+		for (int i = 0; i < 50; i++) {
+			Person p = new Person(new Vector(350, 350), this);
+            p.SteeringBehaviour.TurnOn(BehaviourType.Wander);
+            p.SteeringBehaviour.TurnOn(BehaviourType.WallAvoidance);
+
+            _movingEntities.Add(p);
+		}
+
+		_movingEntities.Add(p1);
 		_movingEntities.Add(p2);
 	}
 
 	private void DrawWalls() {
-		Wall leftWall = new Wall(new Vector(0, 0), new Vector(0, 800));	
-		Wall topWall = new Wall(new Vector(0, 0), new Vector(1350, 0));	
-		Wall rightWall = new Wall(new Vector(1350, 0), new Vector(1350, 800));	
-		Wall bottomWall = new Wall(new Vector(0, 800), new Vector(1350, 800));	
-
-		Wall w1 = new Wall(new Vector(250, 100), new Vector(250, 600));
-		Wall w2 = new Wall(new Vector(450, 100), new Vector(450, 600));
-		Wall w3 = new Wall(new Vector(250, 100), new Vector(450, 100));
-		Wall w4 = new Wall(new Vector(250, 600), new Vector(450, 600));
+		Wall leftWall = new Wall(new Vector(0, 0), new Vector(0, 800), false);	
+		Wall topWall = new Wall(new Vector(0, 0), new Vector(1350, 0), true);	
+		Wall rightWall = new Wall(new Vector(1350, 0), new Vector(1350, 800), true);	
+		Wall bottomWall = new Wall(new Vector(0, 800), new Vector(1350, 800), false);
 
 		Walls.Add(leftWall);
 		Walls.Add(topWall);
 		Walls.Add(rightWall);
 		Walls.Add(bottomWall);
 
-		Walls.Add(w1);
-		Walls.Add(w2);
-		Walls.Add(w3);
-		Walls.Add(w4);
+		Wall w1 = new Wall(new Vector(250, 100), new Vector(250, 600), false); // left
+		Wall w2 = new Wall(new Vector(450, 100), new Vector(450, 600), true); // right
+		Wall w3 = new Wall(new Vector(250, 100), new Vector(450, 100), true); // top
+		Wall w4 = new Wall(new Vector(250, 600), new Vector(450, 600), false); // bottom
+
+		//Walls.Add(w1);
+		//Walls.Add(w2);
+		//Walls.Add(w3);
+		//Walls.Add(w4);
 	}
 
     public void Update(float timeDelta) {

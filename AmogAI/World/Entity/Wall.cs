@@ -14,18 +14,21 @@ public class Wall {
     public Vector Normal { get; set; }
     public Vector Center { get; init; }
 
-    public Wall(Vector vecFrom, Vector vecTo) {
+    public Wall(Vector vecFrom, Vector vecTo, bool normalShouldFaceBottomLeft) {
         VecFrom = vecFrom;
         VecTo = vecTo;
         Center = (vecFrom + vecTo) / 2;
-        CalculateNormal();
+        CalculateNormal(normalShouldFaceBottomLeft);
     }
 
-    private void CalculateNormal() {
+    private void CalculateNormal(bool normalShouldFaceBottomLeft) {
         Vector temp = VecTo - VecFrom;
         temp.Normalize();
 
-        Normal = temp.Perp();
+        if (normalShouldFaceBottomLeft)
+            Normal = temp.Perp();
+        else
+            Normal = temp.PerpNeg();
     }
 
     public void Render(Graphics g) {

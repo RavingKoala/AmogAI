@@ -89,6 +89,10 @@ public class Vector {
         return new Vector(-Y, X);
     }
 
+    public Vector PerpNeg() {
+        return new Vector(Y, -X);
+    }
+
     public Vector Clone() {
         return new Vector(X, Y);
     }
