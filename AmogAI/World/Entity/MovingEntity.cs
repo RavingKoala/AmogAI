@@ -2,7 +2,7 @@
 
 using AmogAI.SteeringBehaviour;
 
-public abstract class MovingEntity : IEntity {
+public abstract class MovingEntity {
     public World World { get; set; }
     public Vector Position { get; set; }
     public MovingEntity Target { get; set; }
@@ -28,10 +28,6 @@ public abstract class MovingEntity : IEntity {
         Heading = new Vector();
         Side = new Vector();
         SteeringBehaviour = new SteeringBehaviour(this);
-    }
-
-    public void InitialRender(Graphics g) {
-        g.DrawEllipse(new Pen(Brushes.Black, 10), (int)MainFrame.WindowCenter.X - 55, (int)MainFrame.WindowCenter.Y - 55, 100, 100);
     }
 
     public virtual void Render(Graphics g) {
