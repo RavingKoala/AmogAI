@@ -18,33 +18,21 @@ namespace AmogAI.FuzzyLogic {
         private FzSet _desirable;
         private FzSet _veryDesirable;
 
-        private static double _timeWaited;
-        private double _timeToWait;
-
         public SurvivorTaskGoal(Person survivor) {
             _survivor = survivor;
 
             InitFuzzy();
         }
 
-        public void Process(float timeDelta, List<Objective> tasks) {
-            // Keep track fo time waited
-            _timeWaited += timeDelta;
+        public float Process(List<Objective> objectives) {
+            Objective currentObjective = objectives[0];
 
-            // If the agent has waited enough time move on to the next fish
-            if (_timeWaited > _timeToWait) {
-                _timeWaited = 0.0;
-                _timeToWait = 0.0;
+            // Fuzzyify fishquality and fishsize with the current fish
+            _fm.Fuzzify("TaskDistance", (_survivor.Position - currentObjective.Position).Length());
+            _fm.Fuzzify("SurvivorHealth", _survivor.Health);
 
-                Objective currentTask = tasks[0];
-
-                // Fuzzyify fishquality and fishsize with the current fish
-                _fm.Fuzzify("TaskDistance", (_survivor.Position - currentTask.Position).Length());
-                _fm.Fuzzify("SurvivorHealth", _survivor.Health);
-
-                // Defuzzify the current fish to get the cookingtime
-                _timeToWait = _fm.DeFuzzify("TaskDistance", FuzzyModule.DefuzzifyMethod.max_av);
-            }
+            // Defuzzify the current fish to get the cookingtime
+            return (float) _fm.DeFuzzify("Desirability", FuzzyModule.DefuzzifyMethod.max_av);
         }
 
         public void Terminate() { }
@@ -54,35 +42,35 @@ namespace AmogAI.FuzzyLogic {
         /// </summary>
         private void InitFuzzy() {
             _fm = new FuzzyModule();
-            FuzzyVariable TaskDistance = _fm.CreateFLV("TaskDistance");
+            FuzzyVariable taskDistance = _fm.CreateFLV("TaskDistance");
 
-            _taskDistanceClose = TaskDistance.AddLeftShoulderSet("TaskDistance_Close", 10, 40, 60);
-            _taskDistanceMedium = TaskDistance.AddTriangularSet("TaskDistance_Medium", 40, 60, 80);
-            _taskDistanceFar = TaskDistance.AddRightShoulderSet("TaskDistance_Far", 60, 80, 100);
+            _taskDistanceClose = taskDistance.AddLeftShoulderSet("TaskDistance_Close", 0, 100, 350);
+            _taskDistanceMedium = taskDistance.AddTriangularSet("TaskDistance_Medium", 100, 350, 800);
+            _taskDistanceFar = taskDistance.AddRightShoulderSet("TaskDistance_Far", 350, 800, 10000);
 
             FuzzyVariable survivorHealth = _fm.CreateFLV("SurvivorHealth");
 
-            _survivorHealthLow = survivorHealth.AddLeftShoulderSet("SurvivorHealth_Low", 0, 5, 40);
-            _survivorHealthmedium = survivorHealth.AddTriangularSet("SurvivorHealth_Medium", 5, 40, 70);
-            _survivorHealthHigh = survivorHealth.AddRightShoulderSet("SurvivorHealth_High", 40, 70, 100);
+            _survivorHealthLow = survivorHealth.AddLeftShoulderSet("SurvivorHealth_Low", 0, 35, 50);
+            _survivorHealthmedium = survivorHealth.AddTriangularSet("SurvivorHealth_Medium", 35, 50, 70);
+            _survivorHealthHigh = survivorHealth.AddRightShoulderSet("SurvivorHealth_High", 50, 70, 100);
 
             FuzzyVariable desirability = _fm.CreateFLV("Desirability");
 
-            _undisirable = desirability.AddLeftShoulderSet("Desirability_Low", 0, 25, 50);
-            _desirable = desirability.AddTriangularSet("Desirability_Medium", 25, 50, 75);
-            _veryDesirable = desirability.AddRightShoulderSet("Desirability_High", 50, 75, 100);
+            _undisirable = desirability.AddLeftShoulderSet("Desirability_Low", 0, 20, 45);
+            _desirable = desirability.AddTriangularSet("Desirability_Medium", 20, 45, 75);
+            _veryDesirable = desirability.AddRightShoulderSet("Desirability_High", 45, 75, 100);
 
-            _fm.AddRule(new FzAND(_taskDistanceClose, _survivorHealthLow), _undisirable);
-            _fm.AddRule(new FzAND(_taskDistanceClose, _survivorHealthmedium), _undisirable);
-            _fm.AddRule(new FzAND(_taskDistanceClose, _survivorHealthHigh), _desirable);
+            _fm.AddRule(new FzAND(_taskDistanceFar, _survivorHealthLow), _undisirable);
+            _fm.AddRule(new FzAND(_taskDistanceFar, _survivorHealthmedium), _undisirable);
+            _fm.AddRule(new FzAND(_taskDistanceFar, _survivorHealthHigh), _desirable);
 
-            _fm.AddRule(new FzAND(_taskDistanceMedium, _survivorHealthLow), _desirable);
+            _fm.AddRule(new FzAND(_taskDistanceMedium, _survivorHealthLow), _undisirable);
             _fm.AddRule(new FzAND(_taskDistanceMedium, _survivorHealthmedium), _desirable);
             _fm.AddRule(new FzAND(_taskDistanceMedium, _survivorHealthHigh), _veryDesirable);
 
-            _fm.AddRule(new FzAND(_taskDistanceFar, _survivorHealthLow), _desirable);
-            _fm.AddRule(new FzAND(_taskDistanceFar, _survivorHealthmedium), _veryDesirable);
-            _fm.AddRule(new FzAND(_taskDistanceFar, _survivorHealthHigh), _veryDesirable);
+            _fm.AddRule(new FzAND(_taskDistanceClose, _survivorHealthLow), _desirable);
+            _fm.AddRule(new FzAND(_taskDistanceClose, _survivorHealthmedium), _veryDesirable);
+            _fm.AddRule(new FzAND(_taskDistanceClose, _survivorHealthHigh), _veryDesirable);
         }
     }
 }

@@ -6,21 +6,36 @@ using System.Drawing;
 
 public class Person : MovingEntity {
     public SurvivorTaskGoal SurvivorTaskGoal { get; set; }
-    public const float descitionInterval = 1;
+    public const float decisionInterval = 1000; // ms
+    public float decisionIntervalDelta = 0;
     public float Health { get; set; }
-    public int TasksLeft { get; set; }
 
     public Person(Vector pos, World world) : base(pos, world) {
         Velocity = new Vector(0, 0);
         Scale = 10;
+        Health = 50;
+        
+        SurvivorTaskGoal = new SurvivorTaskGoal(this);
     }
 
     public Person(Vector pos, MovingEntity target, World world) : this(pos, world) {
         Target = target;
     }
 
+    public override void Update(float timeDelta) {
+        base.Update(timeDelta);
+
+        decisionIntervalDelta += timeDelta;
+        if (decisionIntervalDelta > decisionInterval) {
+            decisionIntervalDelta = 0;
+
+            float result = SurvivorTaskGoal.Process(this.World.Objectives);
+            Console.WriteLine(result);
+        }
+
+    }
+
     public void InitialDraw(Graphics g) {
-        SurvivorTaskGoal = new SurvivorTaskGoal(this);
     }
 
     public override void Render(Graphics g) {
@@ -64,7 +79,7 @@ public class Person : MovingEntity {
         g.DrawLine(p,
             Position.X,
             Position.Y,
-            Position.X + Velocity.X * 2,
-            Position.Y + Velocity.Y * 2);
+            Position.X + Velocity.X * 80,
+            Position.Y + Velocity.Y * 80);
     }
 }

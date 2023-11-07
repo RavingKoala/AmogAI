@@ -39,13 +39,13 @@ public class World {
         p2.SteeringBehaviour.TurnOn(BehaviourType.Wander);
         p2.SteeringBehaviour.TurnOn(BehaviourType.WallAvoidance);
 
-        for (int i = 0; i < 20; i++) {
-            Person p = new Person(new Vector(350, 350), this);
-            p.SteeringBehaviour.TurnOn(BehaviourType.Wander);
-            p.SteeringBehaviour.TurnOn(BehaviourType.WallAvoidance);
+        //for (int i = 0; i < 20; i++) {
+        //    Person p = new Person(new Vector(350, 350), this);
+        //    p.SteeringBehaviour.TurnOn(BehaviourType.Wander);
+        //    p.SteeringBehaviour.TurnOn(BehaviourType.WallAvoidance);
 
-            _movingEntities.Add(p);
-        }
+        //    _movingEntities.Add(p);
+        //}
 
         _movingEntities.Add(p1);
         _movingEntities.Add(p2);

@@ -18,9 +18,9 @@ public abstract class MovingEntity {
     public float TimeElapsed { get; set; }
 
     public MovingEntity(Vector pos, World world) {
-        Mass = 30f;
-        MaxSpeed = 2f;
-        MaxForce = 10f;
+        Mass = 100f;
+        MaxSpeed = 0.2f;
+        MaxForce = 1f;
 
         Position = pos;
         World = world;
@@ -34,7 +34,7 @@ public abstract class MovingEntity {
         g.DrawEllipse(new Pen(Brushes.Black, 10), (int)MainFrame.WindowCenter.X - 55, (int)MainFrame.WindowCenter.Y - 55, 100, 100);
     }
 
-    public void Update(float timeDelta) {
+    public virtual void Update(float timeDelta) {
         TimeElapsed = timeDelta;
 
         // Calculate the steering force 

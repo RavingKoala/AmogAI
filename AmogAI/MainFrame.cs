@@ -8,7 +8,7 @@ public partial class MainFrame : Form {
     public System.Timers.Timer GameTimer;
     public static Vector WindowCenter = new Vector(0, 0);
     private bool _showOverlay;
-    private const float _timeDelta = 0.8f;
+    private float _timeDelta = 1000 / Properties.Settings.Default.fps;
     private readonly object _lock = new();
 
     public MainFrame() {
