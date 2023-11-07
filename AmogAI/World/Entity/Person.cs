@@ -5,23 +5,23 @@ using AmogAI.SteeringBehaviour;
 using System.Drawing;
 
 public class Person : MovingEntity {
-	public SurvivorTaskGoal SurvivorTaskGoal { get; set; }
-	public float Health { get; set; }
-	public int TasksLeft { get; set; }
+    public SurvivorTaskGoal SurvivorTaskGoal { get; set; }
+    public const float descitionInterval = 1;
+    public float Health { get; set; }
+    public int TasksLeft { get; set; }
 
-
-	public Person(Vector pos, World world) : base(pos, world) {
-		Velocity = new Vector(0, 0);
-		Scale = 10;
-	}
-
-	public Person(Vector pos, MovingEntity target, World world) : this(pos, world) {
-		Target = target;
+    public Person(Vector pos, World world) : base(pos, world) {
+        Velocity = new Vector(0, 0);
+        Scale = 10;
     }
 
-	public void InitialDraw(Graphics g) {
-		SurvivorTaskGoal = new SurvivorTaskGoal(this);
-	}
+    public Person(Vector pos, MovingEntity target, World world) : this(pos, world) {
+        Target = target;
+    }
+
+    public void InitialDraw(Graphics g) {
+        SurvivorTaskGoal = new SurvivorTaskGoal(this);
+    }
 
     public override void Render(Graphics g) {
         double entityX = Position.X - Scale;

@@ -13,11 +13,11 @@ public abstract class MovingEntity {
     public float Mass { get; set; }
     public float MaxSpeed { get; set; }
     public float MaxForce { get; set; }
-    public float MaxTurnRate { get; set; }  
+    public float MaxTurnRate { get; set; }
     public float Scale { get; set; }
     public float TimeElapsed { get; set; }
 
-	public MovingEntity(Vector pos, World world) {
+    public MovingEntity(Vector pos, World world) {
         Mass = 30f;
         MaxSpeed = 2f;
         MaxForce = 10f;
@@ -33,7 +33,7 @@ public abstract class MovingEntity {
     public virtual void Render(Graphics g) {
         g.DrawEllipse(new Pen(Brushes.Black, 10), (int)MainFrame.WindowCenter.X - 55, (int)MainFrame.WindowCenter.Y - 55, 100, 100);
     }
-    
+
     public void Update(float timeDelta) {
         TimeElapsed = timeDelta;
 

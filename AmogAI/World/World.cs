@@ -2,7 +2,6 @@
 
 using AmogAI.SteeringBehaviour;
 using AmogAI.World.Entity;
-using System;
 
 public class World {
     private List<MovingEntity> _movingEntities;

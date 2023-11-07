@@ -22,10 +22,10 @@ namespace AmogAI.FuzzyLogic {
         private double _timeToWait;
 
         public SurvivorTaskGoal(Person survivor) {
-			_survivor = survivor;
-         
+            _survivor = survivor;
+
             InitFuzzy();
-		}
+        }
 
         public void Process(float timeDelta, List<Objective> tasks) {
             // Keep track fo time waited
@@ -38,8 +38,8 @@ namespace AmogAI.FuzzyLogic {
 
                 Objective currentTask = tasks[0];
 
-				// Fuzzyify fishquality and fishsize with the current fish
-				_fm.Fuzzify("TaskDistance", (_survivor.Position - currentTask.Position).Length());
+                // Fuzzyify fishquality and fishsize with the current fish
+                _fm.Fuzzify("TaskDistance", (_survivor.Position - currentTask.Position).Length());
                 _fm.Fuzzify("SurvivorHealth", _survivor.Health);
 
                 // Defuzzify the current fish to get the cookingtime
@@ -47,7 +47,7 @@ namespace AmogAI.FuzzyLogic {
             }
         }
 
-        public void Terminate() {}
+        public void Terminate() { }
 
         /// <summary>
         /// Init fuzzy moduls, fuzzysets and fuzzyrules
@@ -56,19 +56,19 @@ namespace AmogAI.FuzzyLogic {
             _fm = new FuzzyModule();
             FuzzyVariable TaskDistance = _fm.CreateFLV("TaskDistance");
 
-			_taskDistanceClose = TaskDistance.AddLeftShoulderSet("TaskDistance_Close", 10, 40, 60);
-			_taskDistanceMedium = TaskDistance.AddTriangularSet("TaskDistance_Medium", 40, 60, 80);
-			_taskDistanceFar = TaskDistance.AddRightShoulderSet("TaskDistance_Far", 60, 80, 100);
+            _taskDistanceClose = TaskDistance.AddLeftShoulderSet("TaskDistance_Close", 10, 40, 60);
+            _taskDistanceMedium = TaskDistance.AddTriangularSet("TaskDistance_Medium", 40, 60, 80);
+            _taskDistanceFar = TaskDistance.AddRightShoulderSet("TaskDistance_Far", 60, 80, 100);
 
             FuzzyVariable survivorHealth = _fm.CreateFLV("SurvivorHealth");
 
-			_survivorHealthLow = survivorHealth.AddLeftShoulderSet("SurvivorHealth_Low", 0, 5, 40);
-			_survivorHealthmedium = survivorHealth .AddTriangularSet("SurvivorHealth_Medium", 5, 40, 70);
-			_survivorHealthHigh = survivorHealth .AddRightShoulderSet("SurvivorHealth_High", 40, 70, 100);
+            _survivorHealthLow = survivorHealth.AddLeftShoulderSet("SurvivorHealth_Low", 0, 5, 40);
+            _survivorHealthmedium = survivorHealth.AddTriangularSet("SurvivorHealth_Medium", 5, 40, 70);
+            _survivorHealthHigh = survivorHealth.AddRightShoulderSet("SurvivorHealth_High", 40, 70, 100);
 
-			FuzzyVariable desirability = _fm.CreateFLV("Desirability");
+            FuzzyVariable desirability = _fm.CreateFLV("Desirability");
 
-			_undisirable = desirability.AddLeftShoulderSet("Desirability_Low", 0, 25, 50);
+            _undisirable = desirability.AddLeftShoulderSet("Desirability_Low", 0, 25, 50);
             _desirable = desirability.AddTriangularSet("Desirability_Medium", 25, 50, 75);
             _veryDesirable = desirability.AddRightShoulderSet("Desirability_High", 50, 75, 100);
 

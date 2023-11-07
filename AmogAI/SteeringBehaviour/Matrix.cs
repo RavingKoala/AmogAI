@@ -1,6 +1,5 @@
 ﻿namespace AmogAI.SteeringBehaviour;
 
-using System.Drawing.Drawing2D;
 using System.Text;
 
 public class Matrix {
@@ -81,7 +80,7 @@ public class Matrix {
                                  m1.mat[2, 0], m1.mat[2, 1], m1.mat[2, 2]);
         return m * f;
     }
-        
+
     public static Matrix operator *(Matrix m1, Matrix m2) {
         Matrix m = new Matrix(m1.mat[0, 0], m1.mat[0, 1], m1.mat[0, 2],
                                 m1.mat[1, 0], m1.mat[1, 1], m1.mat[1, 2],
