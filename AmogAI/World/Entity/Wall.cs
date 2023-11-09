@@ -33,4 +33,12 @@ public class Wall {
             VecTo.X,
             VecTo.Y);
     }
+
+    public void RenderOverlay(Graphics g) {
+        g.DrawLine(new Pen(Brushes.Purple, 5),
+            Center.X,
+            Center.Y,
+            Normal.X + 50,
+            Normal.Y + 50);
+    }
 }
