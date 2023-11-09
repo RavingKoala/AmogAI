@@ -3,7 +3,7 @@
 using AmogAI.SteeringBehaviour;
 using System.Drawing;
 
-public class Wall {
+public class Wall : IRenderable {
     public Vector VecFrom { get; set; }
     public Vector VecTo { get; set; }
     public Vector Normal { get; set; }
@@ -32,5 +32,9 @@ public class Wall {
             VecFrom.Y,
             VecTo.X,
             VecTo.Y);
+    }
+
+    public void RenderOverlay(Graphics g) {
+        throw new NotImplementedException();
     }
 }

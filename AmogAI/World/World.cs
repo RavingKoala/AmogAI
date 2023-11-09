@@ -3,7 +3,7 @@
 using AmogAI.SteeringBehaviour;
 using AmogAI.World.Entity;
 
-public class World {
+public class World : IRenderable {
     private List<MovingEntity> _movingEntities;
     public List<Objective> Objectives;
     public List<Wall> Walls { get; set; }

@@ -15,7 +15,7 @@ public partial class MainFrame : Form {
         InitializeComponent();
 
         World = new World.World();
-        _showOverlay = false;
+        _showOverlay = true;
 
         MainFrame.WindowCenter = new Vector(this.Size.Width / 2, this.Size.Height / 2);
 
