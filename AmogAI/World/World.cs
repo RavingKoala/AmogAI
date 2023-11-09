@@ -82,6 +82,8 @@ public class World : IRenderable {
     public void RenderOverlay(Graphics g) {
         foreach (var objective in Objectives)
             objective.RenderOverlay(g);
+        foreach (var wall in Walls)
+            wall.RenderOverlay(g);
     }
 
 }

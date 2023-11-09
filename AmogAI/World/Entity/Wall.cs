@@ -18,7 +18,6 @@ public class Wall : IRenderable {
 
     private void CalculateNormal(bool normalShouldFaceBottomLeft) {
         Vector temp = VecTo - VecFrom;
-        temp.Normalize();
 
         if (normalShouldFaceBottomLeft)
             Normal = temp.Perp();
@@ -35,10 +34,12 @@ public class Wall : IRenderable {
     }
 
     public void RenderOverlay(Graphics g) {
-        g.DrawLine(new Pen(Brushes.Purple, 5),
+        Vector v = Normal.Normalize() * 20;
+
+        g.DrawLine(new Pen(Brushes.Purple, 1),
             Center.X,
             Center.Y,
-            Normal.X + 50,
-            Normal.Y + 50);
+            Center.X + v.X,
+            Center.Y + v.Y);
     }
 }
