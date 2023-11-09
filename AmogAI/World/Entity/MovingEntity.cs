@@ -2,7 +2,7 @@
 
 using AmogAI.SteeringBehaviour;
 
-public abstract class MovingEntity {
+public abstract class MovingEntity : IRenderable {
     public World World { get; set; }
     public Vector Position { get; set; }
     public MovingEntity? Target { get; set; }
@@ -18,7 +18,7 @@ public abstract class MovingEntity {
     public float TimeElapsed { get; set; }
 
     public MovingEntity(Vector pos, World world) {
-        Mass = 100f;
+        Mass = 300f;
         MaxSpeed = 0.2f;
         MaxForce = 1f;
 
@@ -60,5 +60,9 @@ public abstract class MovingEntity {
 
     public override string ToString() {
         return string.Format("{0}", Velocity);
+    }
+
+    public void RenderOverlay(Graphics g) {
+        throw new NotImplementedException();
     }
 }
