@@ -27,11 +27,9 @@ namespace AmogAI.FuzzyLogic {
         public float Process(List<Objective> objectives) {
             Objective currentObjective = objectives[0];
 
-            // Fuzzyify fishquality and fishsize with the current fish
             _fm.Fuzzify("TaskDistance", (_survivor.Position - currentObjective.Position).Length());
             _fm.Fuzzify("SurvivorHealth", _survivor.Health);
 
-            // Defuzzify the current fish to get the cookingtime
             return (float) _fm.DeFuzzify("Desirability", FuzzyModule.DefuzzifyMethod.max_av);
         }
 
