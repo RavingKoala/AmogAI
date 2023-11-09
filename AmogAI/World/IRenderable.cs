@@ -6,6 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 public interface IRenderable {
-    public void Render(Graphics g);
-    public void RenderOverlay(Graphics g);
+    public abstract void Render(Graphics g);
+    public abstract void RenderOverlay(Graphics g);
 }

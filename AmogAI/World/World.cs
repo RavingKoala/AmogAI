@@ -84,6 +84,11 @@ public class World : IRenderable {
             objective.RenderOverlay(g);
         foreach (var wall in Walls)
             wall.RenderOverlay(g);
+        foreach (var entity in _movingEntities)
+            if (entity.GetType() == typeof(Person)) {
+                Person person = (Person)entity;
+                entity.RenderOverlay(g);
+            }
     }
 
 }

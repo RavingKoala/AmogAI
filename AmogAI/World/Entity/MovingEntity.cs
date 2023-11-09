@@ -62,7 +62,7 @@ public abstract class MovingEntity : IRenderable {
         return string.Format("{0}", Velocity);
     }
 
-    public void RenderOverlay(Graphics g) {
+    public virtual void RenderOverlay(Graphics g) {
         throw new NotImplementedException();
     }
 }

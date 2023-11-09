@@ -48,7 +48,7 @@ public class Person : MovingEntity {
         g.DrawEllipse(p, new Rectangle((int)entityX, (int)entityY, (int)size, (int)size));
     }
 
-    public new void RenderOverlay(Graphics g) {
+    public override void RenderOverlay(Graphics g) {
         Pen p = new Pen(Color.Blue, 1);
         
         // Draw the velocity vector
