@@ -18,7 +18,7 @@ public abstract class MovingEntity {
     public float TimeElapsed { get; set; }
 
     public MovingEntity(Vector pos, World world) {
-        Mass = 100f;
+        Mass = 300f;
         MaxSpeed = 0.2f;
         MaxForce = 1f;
 

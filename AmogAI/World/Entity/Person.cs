@@ -13,7 +13,7 @@ public class Person : MovingEntity {
     public Person(Vector pos, World world) : base(pos, world) {
         Velocity = new Vector(0, 0);
         Scale = 10;
-        Health = 50;
+        Health = 100;
         
         SurvivorTaskGoal = new SurvivorTaskGoal(this);
     }

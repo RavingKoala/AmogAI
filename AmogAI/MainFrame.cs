@@ -19,6 +19,9 @@ public partial class MainFrame : Form {
 
         MainFrame.WindowCenter = new Vector(this.Size.Width / 2, this.Size.Height / 2);
 
+        if (Properties.Settings.Default.isFullscreen)
+            WindowState = FormWindowState.Maximized;
+
         GameTimer = new System.Timers.Timer();
         GameTimer.Elapsed += Timer_Elapsed;
         GameTimer.Interval = 1000 / Properties.Settings.Default.fps;
