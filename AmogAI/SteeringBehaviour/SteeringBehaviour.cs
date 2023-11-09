@@ -34,7 +34,7 @@ public class SteeringBehaviour {
 
         WanderRadius = 15f;
         WanderDistance = 40f;
-        WanderJitter = 1f;
+        WanderJitter = 0.06f;
         LastJitterAngle = 0f;
 
         FeelersLength = 50f;
