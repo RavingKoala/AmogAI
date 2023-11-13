@@ -1,43 +1,30 @@
 ﻿namespace AmogAI.StateBehaviour;
 
-using AmogAI.World.Entity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+public abstract class StateMachine<T> {
+    public T Owner { get; set; }
+    public IState<T> CurrentState { get; set; }
+    public IState<T> PreviousState { get; set; }
 
-public abstract class StateMachine {
-    public Survivor Owner { get; set; }
-    public IState CurrentState { get; set; }
-    public IState PreviousState { get; set; }
-    public IState GlobalState { get; set; }
-
-    public StateMachine(Survivor owner) {
+    public StateMachine(T owner) {
         CurrentState = null;
         PreviousState = null;
-        GlobalState = null;
         Owner = owner;
     }
 
     public abstract void Update(float timeDelta);
 
-    public void ChangeState(IState newState) {
+    public void ChangeState(IState<T> newState) {
         PreviousState = CurrentState;
         CurrentState.Exit(Owner);
         CurrentState = newState;
         CurrentState.Enter(Owner);
     }
 
-    public void SetCurrentState(IState state) {
+    public void SetCurrentState(IState<T> state) {
         CurrentState = state;
     }
 
-    public void SetGlobalState(IState state) {
-        GlobalState = state;
-    }
-
-    public void SetPreviousState(IState state) {
+    public void SetPreviousState(IState<T> state) {
         PreviousState = state;
     }
 
@@ -45,7 +32,7 @@ public abstract class StateMachine {
         ChangeState(PreviousState);
     }
 
-    public bool IsInState(IState state) {
+    public bool IsInState(IState<T> state) {
         return CurrentState == state;
     }
 }

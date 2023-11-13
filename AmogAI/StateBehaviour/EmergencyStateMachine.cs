@@ -1,16 +1,14 @@
 ﻿namespace AmogAI.StateBehaviour;
 
-using AmogAI.World.Entity;
+// WalkTowardsEmergencyState
+// DoEmergencyState
 
-public class EmergencyStateMachine : StateMachine {
+public class EmergencyStateMachine<Survivor> : StateMachine<Survivor> {
 
     public EmergencyStateMachine(Survivor owner) : base(owner) {
     }
 
     public override void Update(float timeDelta) {
-        if (GlobalState != null)
-            GlobalState.Execute(Owner);
-
         if (CurrentState != null)
             CurrentState.Execute(Owner);
     }   

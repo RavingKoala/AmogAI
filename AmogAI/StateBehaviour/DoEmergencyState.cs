@@ -1,9 +1,8 @@
 ﻿namespace AmogAI.StateBehaviour;
 
 using AmogAI.World.Entity;
-using System;
 
-public class DoEmergencyState : IState {
+public class DoEmergencyState : IState<Survivor> {
     public void Enter(Survivor s) {
 
     }

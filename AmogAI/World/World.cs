@@ -1,5 +1,6 @@
 ﻿namespace AmogAI.World;
 
+using AmogAI.StateBehaviour;
 using AmogAI.SteeringBehaviour;
 using AmogAI.World.Entity;
 
@@ -7,11 +8,13 @@ public class World : IRenderable {
     private List<MovingEntity> _movingEntities;
     public List<Objective> Objectives;
     public List<Wall> Walls { get; set; }
+    public GlobalStateMachine GlobalStateMachine { get; set; }
 
     public World() {
         _movingEntities = new List<MovingEntity>();
         Walls = new List<Wall>();
         Objectives = new List<Objective>();
+        GlobalStateMachine = new GlobalStateMachine(this);  
 
         MakeObjectives();
         Populate();
@@ -65,6 +68,8 @@ public class World : IRenderable {
     }
 
     public void Update(float timeDelta) {
+        GlobalStateMachine.Update(timeDelta);
+
         foreach (var entity in _movingEntities) {
             entity.Update(timeDelta);
         }

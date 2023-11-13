@@ -2,7 +2,7 @@
 
 using AmogAI.World.Entity;
 
-public class WalkTowardsTaskState : IState {
+public class WalkTowardsTaskState : IState<Survivor> {
     public void Enter(Survivor s) {
         
     }
