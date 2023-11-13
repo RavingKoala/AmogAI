@@ -28,8 +28,8 @@ public class World : IRenderable {
     }
 
     private void Populate() {
-        Person p1 = new Person(new Vector(50, 50), this);
-        Person p2 = new Person(new Vector(350, 350), this);
+        Survivor p1 = new Survivor(new Vector(50, 50), this);
+        Survivor p2 = new Survivor(new Vector(350, 350), this);
 
         p1.SteeringBehaviour.TurnOn(BehaviourType.Pursuit);
         p1.SteeringBehaviour.TurnOn(BehaviourType.WallAvoidance);
@@ -85,8 +85,8 @@ public class World : IRenderable {
         foreach (var wall in Walls)
             wall.RenderOverlay(g);
         foreach (var entity in _movingEntities)
-            if (entity.GetType() == typeof(Person)) {
-                Person person = (Person)entity;
+            if (entity.GetType() == typeof(Survivor)) {
+                Survivor person = (Survivor)entity;
                 entity.RenderOverlay(g);
             }
     }

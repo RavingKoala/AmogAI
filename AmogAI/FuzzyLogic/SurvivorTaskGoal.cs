@@ -2,7 +2,7 @@
 
 namespace AmogAI.FuzzyLogic {
     public class SurvivorTaskGoal {
-        private readonly Person _survivor;
+        private readonly Survivor _survivor;
 
         private FuzzyModule _fm;
 
@@ -18,7 +18,7 @@ namespace AmogAI.FuzzyLogic {
         private FzSet _desirable;
         private FzSet _veryDesirable;
 
-        public SurvivorTaskGoal(Person survivor) {
+        public SurvivorTaskGoal(Survivor survivor) {
             _survivor = survivor;
 
             InitFuzzy();
