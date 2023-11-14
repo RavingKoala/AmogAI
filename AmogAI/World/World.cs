@@ -3,18 +3,23 @@
 using AmogAI.StateBehaviour;
 using AmogAI.SteeringBehaviour;
 using AmogAI.World.Entity;
+using System.Diagnostics;
 
 public class World : IRenderable {
-    private List<MovingEntity> _movingEntities;
-    public List<Objective> Objectives;
+    public bool EmergencyHappening { get; set; }
+    public Stopwatch Stopwatch { get; set; }
+    public List<MovingEntity> MovingEntities { get; set; }
+    public List<Objective> Objectives { get; set; }
     public List<Wall> Walls { get; set; }
     public GlobalStateMachine GlobalStateMachine { get; set; }
 
     public World() {
-        _movingEntities = new List<MovingEntity>();
+        MovingEntities = new List<MovingEntity>();
         Walls = new List<Wall>();
         Objectives = new List<Objective>();
-        GlobalStateMachine = new GlobalStateMachine(this);  
+        Stopwatch = new Stopwatch();
+        GlobalStateMachine = new GlobalStateMachine(this);
+        GlobalStateMachine.CurrentState = new GlobalTaskState();
 
         MakeObjectives();
         Populate();
@@ -41,8 +46,8 @@ public class World : IRenderable {
         p2.SteeringBehaviour.TurnOn(BehaviourType.Wander);
         p2.SteeringBehaviour.TurnOn(BehaviourType.WallAvoidance);
 
-        _movingEntities.Add(p1);
-        _movingEntities.Add(p2);
+        MovingEntities.Add(p1);
+        MovingEntities.Add(p2);
     }
 
     private void DrawWalls() {
@@ -70,13 +75,13 @@ public class World : IRenderable {
     public void Update(float timeDelta) {
         GlobalStateMachine.Update(timeDelta);
 
-        foreach (var entity in _movingEntities) {
+        foreach (var entity in MovingEntities) {
             entity.Update(timeDelta);
         }
     }
 
     public void Render(Graphics g) {
-        foreach (var entity in _movingEntities)
+        foreach (var entity in MovingEntities)
             entity.Render(g);
         foreach (var wall in Walls)
             wall.Render(g);
@@ -89,7 +94,7 @@ public class World : IRenderable {
             objective.RenderOverlay(g);
         foreach (var wall in Walls)
             wall.RenderOverlay(g);
-        foreach (var entity in _movingEntities)
+        foreach (var entity in MovingEntities)
             if (entity.GetType() == typeof(Survivor)) {
                 Survivor survivor = (Survivor)entity;
                 entity.RenderOverlay(g);

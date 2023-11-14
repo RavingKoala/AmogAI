@@ -45,5 +45,7 @@ public partial class MainFrame : Form {
     private void MainFrame_KeyDown(object sender, KeyEventArgs e) {
         if (e.KeyCode == Keys.Tab)
             _showOverlay = !_showOverlay;
+        if (e.KeyCode == Keys.E)
+            World.EmergencyHappening = !World.EmergencyHappening;
     }
 }

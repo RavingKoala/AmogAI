@@ -2,7 +2,7 @@
 
 using AmogAI.World.Entity;
 
-public class WalkTowardsEmergencyState : IState<Survivor> {
+public class WalkTowardsEmergencyState<Survivor> : IState<Survivor> {
     public void Enter(Survivor s) {
         // calculate shortest path to emergency
     }

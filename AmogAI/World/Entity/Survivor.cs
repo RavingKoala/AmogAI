@@ -36,7 +36,6 @@ public class Survivor : MovingEntity {
             float result = SurvivorTaskGoal.Process(this.World.Objectives);
             Console.WriteLine(result);
         }
-
     }
 
     public override void Render(Graphics g) {

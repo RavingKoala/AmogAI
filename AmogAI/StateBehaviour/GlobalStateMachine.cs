@@ -7,10 +7,7 @@ using AmogAI.World;
 
 public class GlobalStateMachine : StateMachine<World> {
     public GlobalStateMachine(World owner) : base(owner) {
-    }
-
-    public override void Update(float timeDelta) {
-        if (CurrentState != null)
-            CurrentState.Execute(Owner);
+        CurrentState = new GlobalTaskState();
+        CurrentState.Enter(owner);
     }
 }

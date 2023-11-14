@@ -6,10 +6,7 @@
 public class EmergencyStateMachine<Survivor> : StateMachine<Survivor> {
 
     public EmergencyStateMachine(Survivor owner) : base(owner) {
-    }
-
-    public override void Update(float timeDelta) {
-        if (CurrentState != null)
-            CurrentState.Execute(Owner);
-    }   
+        CurrentState = new WalkTowardsEmergencyState<Survivor>();
+        CurrentState.Enter(owner);
+    } 
 }

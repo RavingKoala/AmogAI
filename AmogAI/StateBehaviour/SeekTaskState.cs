@@ -2,7 +2,7 @@
 
 using AmogAI.World.Entity;
 
-public class SeekTaskState : IState<Survivor> {
+public class SeekTaskState<Survivor> : IState<Survivor> {
     public void Enter(Survivor s) {
         // calculate desirability of tasks
     }

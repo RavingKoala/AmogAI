@@ -11,21 +11,16 @@ public abstract class StateMachine<T> {
         Owner = owner;
     }
 
-    public abstract void Update(float timeDelta);
+    public void Update(float timeDelta) {
+        if (CurrentState != null)
+            CurrentState.Execute(Owner);
+    }
 
     public void ChangeState(IState<T> newState) {
         PreviousState = CurrentState;
         CurrentState.Exit(Owner);
         CurrentState = newState;
         CurrentState.Enter(Owner);
-    }
-
-    public void SetCurrentState(IState<T> state) {
-        CurrentState = state;
-    }
-
-    public void SetPreviousState(IState<T> state) {
-        PreviousState = state;
     }
 
     public void RevertToPreviousState() {
