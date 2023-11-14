@@ -7,17 +7,35 @@ using System.Threading.Tasks;
 
 public class Edge : IRenderable {
 
-	public Node Node1;
-	public Node Node2;
-	public const bool Bidirectional = true;
+    public Node Node1;
+    public Node Node2;
+    public const bool Bidirectional = true;
 
-	public void Render(Graphics g) {
-		throw new NotImplementedException();
-	}
+    public Edge(Node node1, Node node2) {
+        Node1 = node1;
+        Node2 = node2;
+     }
 
-	public void RenderOverlay(Graphics g) {
-		Pen p = new Pen(Color.Yellow, 2);
+    public void Render(Graphics g) {
+        throw new NotImplementedException();
+    }
 
-		g.DrawLine(p, Node1.Position.X, Node1.Position.Y, Node2.Position.X, Node2.Position.Y);
-	}
+    public void RenderOverlay(Graphics g) {
+        Pen p = new Pen(Color.Red, 1);
+
+        g.DrawLine(p, Node1.Position.X, Node1.Position.Y, Node2.Position.X, Node2.Position.Y);
+    }
+
+    public override bool Equals(Object? obj) {
+        //Check for null and compare run-time types.
+        if ((obj == null) || !this.GetType().Equals(obj.GetType())) {
+            return false;
+        } else {
+            Edge edge = (Edge)obj;
+            if (Bidirectional)
+                return this.Node1.Equals(edge.Node1) && this.Node2.Equals(edge.Node2) || this.Node1.Equals(edge.Node2) && this.Node2.Equals(edge.Node1);
+
+            //return this.Node1.Equals(edge.Node1) && this.Node2.Equals(edge.Node2);
+        }
+    }
 }

@@ -19,8 +19,19 @@ public class Node : IRenderable {
 	}
 
 	public void RenderOverlay(Graphics g) {
-		Pen p = new Pen(Color.Yellow);
+		Pen p = new Pen(Color.Red, 2);
 
-		g.DrawEllipse(p, Position.X - 2, Position.Y - 2, 4, 4);
-	}
+		g.DrawEllipse(p, Position.X - 2, Position.Y - 2, (float)4, (float)4);
+        //g.FillEllipse(p, Position.X - 2, Position.Y - 2, (float)4, (float)4);
+    }
+
+    public override bool Equals(Object? obj) {
+        //Check for null and compare run-time types.
+        if ((obj == null) || !this.GetType().Equals(obj.GetType())) {
+            return false;
+        } else {
+            Node node = (Node)obj;
+            return this.Position.Equals(node.Position);
+        }
+    }
 }

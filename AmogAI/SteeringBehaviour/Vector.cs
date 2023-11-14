@@ -168,4 +168,14 @@ public class Vector {
         if (pos.Y > maxY)
             pos.Y = 0.0f;
     }
+
+    public override bool Equals(Object? obj) {
+        //Check for null and compare run-time types.
+        if ((obj == null) || !this.GetType().Equals(obj.GetType())) {
+            return false;
+        } else {
+            Vector vec = (Vector)obj;
+            return this.X == vec.X && this.Y == vec.Y;
+        }
+    }
 }
