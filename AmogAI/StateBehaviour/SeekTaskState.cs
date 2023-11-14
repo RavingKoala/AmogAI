@@ -4,14 +4,14 @@ using AmogAI.World.Entity;
 
 public class SeekTaskState : IState<Survivor> {
     public void Enter(Survivor s) {
-        // choose a task to do depending on desirability
+        // calculate desirability of tasks
     }
 
     public void Execute(Survivor s) {
-        // a* to task
+        // look for a task to do depending on desirability
     }
 
     public void Exit(Survivor s) {
-        
+        // assign task -> transition to WalkTowardsTaskState
     }
 }

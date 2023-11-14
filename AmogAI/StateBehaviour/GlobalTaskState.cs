@@ -1,17 +1,17 @@
 ﻿namespace AmogAI.StateBehaviour;
 
-using AmogAI.World.Entity;
+using AmogAI.World;
 
-public class GlobalTaskState : IState<Survivor> {
-    public void Enter(Survivor s) {
-      
+public class GlobalTaskState : IState<World> {
+    public void Enter(World s) {
+        // move SurvivorStateMachine's statemachine to TaskStateMachine
     }
 
-    public void Execute(Survivor s) {
-      
+    public void Execute(World s) {
+        // increment a timer for when an emergency should trigger
     }
 
-    public void Exit(Survivor s) {
-        
+    public void Exit(World s) {
+        // move to GlobalEmergencyState
     }
 }

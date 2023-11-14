@@ -91,7 +91,7 @@ public class World : IRenderable {
             wall.RenderOverlay(g);
         foreach (var entity in _movingEntities)
             if (entity.GetType() == typeof(Survivor)) {
-                Survivor person = (Survivor)entity;
+                Survivor survivor = (Survivor)entity;
                 entity.RenderOverlay(g);
             }
     }
