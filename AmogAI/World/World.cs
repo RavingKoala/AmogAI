@@ -1,8 +1,8 @@
 ﻿namespace AmogAI.World;
 
+using AmogAI.AStar;
 using AmogAI.SteeringBehaviour;
 using AmogAI.World.Entity;
-using AmogAI.World.Grid;
 
 public class World : IRenderable {
     private List<MovingEntity> _movingEntities;
@@ -24,9 +24,7 @@ public class World : IRenderable {
     }
 
     private void DrawGrid() {
-        var result = GenerateWorldGrid.Generate(this);
-        GridNodes = result.Item1;
-        GridEdges = result.Item2;
+        (GridNodes, GridEdges) = Graph.Generate(this);
     }
 
     private void MakeObjectives() {
@@ -82,28 +80,28 @@ public class World : IRenderable {
     }
 
     public void Render(Graphics g) {
-        foreach (var entity in _movingEntities)
-            entity.Render(g);
         foreach (var wall in Walls)
             wall.Render(g);
         foreach (var objective in Objectives)
             objective.Render(g);
+        foreach (var entity in _movingEntities)
+            entity.Render(g);
     }
 
     public void RenderOverlay(Graphics g) {
-        foreach (var objective in Objectives)
-            objective.RenderOverlay(g);
+        foreach (var Node in GridNodes)
+            Node.RenderOverlay(g);
+        foreach (var Edge in GridEdges)
+            Edge.RenderOverlay(g);
         foreach (var wall in Walls)
             wall.RenderOverlay(g);
+        foreach (var objective in Objectives)
+            objective.RenderOverlay(g);
         foreach (var entity in _movingEntities)
             if (entity.GetType() == typeof(Person)) {
                 Person person = (Person)entity;
                 entity.RenderOverlay(g);
             }
-        foreach (var Node in GridNodes)
-            Node.RenderOverlay(g);
-        foreach (var Edge in GridEdges)
-            Edge.RenderOverlay(g);
     }
 
 }
