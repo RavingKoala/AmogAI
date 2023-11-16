@@ -10,11 +10,13 @@ public class Edge : IRenderable {
 
     public Node Node1;
     public Node Node2;
+    public float cost;
     public const bool Bidirectional = true;
 
     public Edge(Node node1, Node node2) {
         Node1 = node1;
         Node2 = node2;
+        this.cost = node1.Position.Distance(node2.Position);
     }
 
     public void Render(Graphics g) {
