@@ -17,7 +17,7 @@ public class Graph {
 
         while (nodeQueue.Count > 0) {
             Node node = nodeQueue.Dequeue();
-            if (nodeQueue.Count > 400) // failsafe if it goes through walls
+            if (nodeQueue.Count > 500) // failsafe if it goes through walls // TODO make sure this doesnt need to be here
                 break;
             if (nodes.Any(n => n.Equals(node)))
                 continue;
