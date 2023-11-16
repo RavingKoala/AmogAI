@@ -1,4 +1,4 @@
-## Game Info
+# Game Info
 ## Concept
 Survivors have to fulfill tasks to escape the maze.
 While in the maze 1 or more killers will attempt to kill all survivors.
@@ -11,35 +11,32 @@ If 1 or more survivor escapes the survivors win.
 |:--|:--|
 | Hunter | |
 | Survivor | |
-| task | |
+| Task | |
 | Attack | |
-| healing | |
-| healing circle | |
+| Healing | |
+| Healing circle | |
 
 ## Requirements
 ### Steering Behaviour
 **Simpele behaviours**
-- [ ] Seek
-- [ ] Wander
-- [ ] Pursue
+- [x] Seek
+- [x] Pursue
+- [x] Wander
+
 **Complex behaviours**
-Either:
- - [ ] Wall avoidance
-Or:
- - [ ] Path following
+- [x] Wall avoidance
 
 ### Graphs (A*)
-- [ ] Use float fill
+- [ ] Use flood fill
 
-### FuzzyLogics
-- [ ] survivors use fuzzy logic
-- [ ] 2 antecedents
-- [ ] 1 consequent
+### FuzzyLogic
+- [ ] Survivors use fuzzy logic
+- [x] 2 antecedents
+- [x] 1 consequent
 
-### Behaviours
+### State Machine
  - [ ] Nested state machine
  - [ ] Goal driven behaviour?
-
 
 ## Expandable Ideas
 1. Survivors have HP and killers do some damage and flee afterwards
