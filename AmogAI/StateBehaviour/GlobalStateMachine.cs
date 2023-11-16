@@ -6,8 +6,8 @@ using AmogAI.World;
 // GlobalEmergencyState
 
 public class GlobalStateMachine : StateMachine<World> {
-    public GlobalStateMachine(World owner) : base(owner) {
+    public GlobalStateMachine(World world) : base(world) {
         CurrentState = new GlobalTaskState();
-        CurrentState.Enter(owner);
+        CurrentState.Enter(world);
     }
 }

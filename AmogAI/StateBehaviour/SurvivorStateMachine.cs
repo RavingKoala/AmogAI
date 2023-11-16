@@ -9,9 +9,9 @@ public class SurvivorStateMachine  {
     public Survivor Owner { get; set; }
     public StateMachine<Survivor> StateMachine { get; set; }
 
-    public SurvivorStateMachine(Survivor owner) {
-        Owner = owner;
-        StateMachine = new TaskStateMachine<Survivor>(owner);
+    public SurvivorStateMachine(Survivor survivor) {
+        Owner = survivor;
+        StateMachine = new TaskStateMachine(survivor);
     }
 
     public void ChangeStateMachine(StateMachine<Survivor> stateMachine) {

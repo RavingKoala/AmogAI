@@ -2,17 +2,18 @@
 
 using AmogAI.World.Entity;
 
-public class WalkTowardsEmergencyState<Survivor> : IState<Survivor> {
-    public void Enter(Survivor s) {
+public class WalkTowardsEmergencyState : IState<Survivor> {
+    public void Enter(Survivor survivor) {
         // calculate shortest path to emergency
     }
 
-    public void Execute(Survivor s) {
-        // walk towards emergency
+    public void Execute(Survivor survivor) {
+        // walk towards emergency then turn down velocity/mass to 0
+
+        // survivor.SurvivorStateMachine.StateMachine.ChangeState(new DoEmergencyState());
     }
 
-    public void Exit(Survivor s) {
-        // start doing emergency -> transition to DoEmergencyState
-        // or if emergency is done by another survivor -> transition to SeekTaskState
+    public void Exit(Survivor survivor) {
+        Console.WriteLine("Gonna start working on the emergency!");
     }
 }

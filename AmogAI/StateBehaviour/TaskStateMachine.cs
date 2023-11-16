@@ -6,10 +6,10 @@ using AmogAI.World.Entity;
 // WalkTowardsTaskState
 // DoTaskState
 
-public class TaskStateMachine<Survivor>: StateMachine<Survivor> {
+public class TaskStateMachine: StateMachine<Survivor> {
 
-    public TaskStateMachine(Survivor owner) : base(owner) {
-        CurrentState = new SeekTaskState<Survivor>();
-        CurrentState.Enter(owner);
+    public TaskStateMachine(Survivor survivor) : base(survivor) {
+        CurrentState = new SeekTaskState();
+        CurrentState.Enter(survivor);
     }
 }

@@ -19,7 +19,6 @@ public class World : IRenderable {
         Objectives = new List<Objective>();
         Stopwatch = new Stopwatch();
         GlobalStateMachine = new GlobalStateMachine(this);
-        GlobalStateMachine.CurrentState = new GlobalTaskState();
 
         MakeObjectives();
         Populate();

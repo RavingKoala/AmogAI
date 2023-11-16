@@ -1,7 +1,7 @@
 ﻿namespace AmogAI.StateBehaviour;
 
 public interface IState<T> {
-    void Enter(T s);
-    void Execute(T s);
-    void Exit(T s);
+    void Enter(T owner);
+    void Execute(T owner);
+    void Exit(T owner);
 }

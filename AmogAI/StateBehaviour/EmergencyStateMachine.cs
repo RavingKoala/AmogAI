@@ -3,10 +3,12 @@
 // WalkTowardsEmergencyState
 // DoEmergencyState
 
-public class EmergencyStateMachine<Survivor> : StateMachine<Survivor> {
+using AmogAI.World.Entity;
 
-    public EmergencyStateMachine(Survivor owner) : base(owner) {
-        CurrentState = new WalkTowardsEmergencyState<Survivor>();
-        CurrentState.Enter(owner);
+public class EmergencyStateMachine : StateMachine<Survivor> {
+
+    public EmergencyStateMachine(Survivor survivor) : base(survivor) {
+        CurrentState = new WalkTowardsEmergencyState();
+        CurrentState.Enter(survivor);
     } 
 }
