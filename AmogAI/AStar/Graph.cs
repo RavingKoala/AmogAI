@@ -5,7 +5,7 @@ using AmogAI.World;
 
 public class Graph {
     public static readonly float NODE_SPACING = 40;
-    public static readonly Vector NODE_START = new Vector(10, 11);
+    public static readonly Vector NODE_START = new Vector(11, 10);
 
     public static (List<Node>, List<Edge>) Generate(World world) {
         var nodes = new List<Node>();
@@ -17,8 +17,8 @@ public class Graph {
 
         while (nodeQueue.Count > 0) {
             Node node = nodeQueue.Dequeue();
-            //if (nodeQueue.Count > 400) // failsafe if it goes through walls
-            //    break;
+            if (nodeQueue.Count > 400) // failsafe if it goes through walls
+                break;
             if (nodes.Any(n => n.Equals(node)))
                 continue;
             nodes.Add(node);
