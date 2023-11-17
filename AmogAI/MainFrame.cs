@@ -8,6 +8,7 @@ public partial class MainFrame : Form {
     public System.Timers.Timer GameTimer;
     public static Vector WindowCenter = new Vector(0, 0);
     private bool _showOverlay;
+    private bool _paused = false;
     private float _timeDelta = 1000 / Properties.Settings.Default.fps;
     private readonly object _lock = new();
 
@@ -30,6 +31,9 @@ public partial class MainFrame : Form {
 
     private void Timer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e) {
         lock (_lock) {
+            if (_paused)
+                return;
+
             World.Update(_timeDelta);
 
             gamePanel.Invalidate();
@@ -47,5 +51,7 @@ public partial class MainFrame : Form {
             _showOverlay = !_showOverlay;
         if (e.KeyCode == Keys.E)
             World.EmergencyHappening = !World.EmergencyHappening;
+        if (e.KeyCode == Keys.P)
+            _paused = !_paused;
     }
 }
