@@ -1,6 +1,7 @@
 ﻿namespace AmogAI.World;
 
 using AmogAI.StateBehaviour;
+using AmogAI.AStar;
 using AmogAI.SteeringBehaviour;
 using AmogAI.World.Entity;
 using System.Diagnostics;
@@ -12,6 +13,8 @@ public class World : IRenderable {
     public List<Objective> Objectives { get; set; }
     public List<Wall> Walls { get; set; }
     public GlobalStateMachine GlobalStateMachine { get; set; }
+    public List<Edge> GridEdges {  get; private set; }
+    public List<Node> GridNodes { get; private set; }
 
     public World() {
         MovingEntities = new List<MovingEntity>();
@@ -20,9 +23,14 @@ public class World : IRenderable {
         Stopwatch = new Stopwatch();
         GlobalStateMachine = new GlobalStateMachine(this);
 
+        DrawWalls();
+        DrawGrid();
         MakeObjectives();
         Populate();
-        DrawWalls();
+    }
+
+    private void DrawGrid() {
+        (GridNodes, GridEdges) = Graph.Generate(this);
     }
 
     private void MakeObjectives() {
@@ -56,25 +64,25 @@ public class World : IRenderable {
     }
 
     private void DrawWalls() {
-        Wall leftWall = new Wall(new Vector(0, 0), new Vector(0, 800), false);
-        Wall topWall = new Wall(new Vector(0, 0), new Vector(1350, 0), true);
-        Wall rightWall = new Wall(new Vector(1350, 0), new Vector(1350, 800), true);
-        Wall bottomWall = new Wall(new Vector(0, 800), new Vector(1350, 800), false);
+        Wall leftWall = new Wall(new Vector(-1, 0), new Vector(-1, 800), false);
+        Wall topWall = new Wall(new Vector(-1, 0), new Vector(1351, 0), true);
+        Wall rightWall = new Wall(new Vector(1351, 0), new Vector(1351, 800), true);
+        Wall bottomWall = new Wall(new Vector(-1, 800), new Vector(1351, 800), false);
 
         Walls.Add(leftWall);
         Walls.Add(topWall);
         Walls.Add(rightWall);
         Walls.Add(bottomWall);
 
-        Wall w1 = new Wall(new Vector(250, 100), new Vector(250, 600), false); // left
-        Wall w2 = new Wall(new Vector(450, 100), new Vector(450, 600), true); // right
-        Wall w3 = new Wall(new Vector(250, 100), new Vector(450, 100), true); // top
-        Wall w4 = new Wall(new Vector(250, 600), new Vector(450, 600), false); // bottom
+        Wall w1 = new Wall(new Vector(240, 120), new Vector(240, 600), true); // left
+        Wall w2 = new Wall(new Vector(480, 120), new Vector(480, 600), false); // right
+        Wall w3 = new Wall(new Vector(240, 120), new Vector(480, 120), false); // top
+        Wall w4 = new Wall(new Vector(240, 600), new Vector(480, 600), true); // bottom
 
-        //Walls.Add(w1);
-        //Walls.Add(w2);
-        //Walls.Add(w3);
-        //Walls.Add(w4);
+        Walls.Add(w1);
+        Walls.Add(w2);
+        Walls.Add(w3);
+        Walls.Add(w4);
     }
 
     public void Update(float timeDelta) {
@@ -86,19 +94,23 @@ public class World : IRenderable {
     }
 
     public void Render(Graphics g) {
-        foreach (var entity in MovingEntities)
-            entity.Render(g);
         foreach (var wall in Walls)
             wall.Render(g);
         foreach (var objective in Objectives)
             objective.Render(g);
+        foreach (var entity in MovingEntities)
+            entity.Render(g);
     }
 
     public void RenderOverlay(Graphics g) {
-        foreach (var objective in Objectives)
-            objective.RenderOverlay(g);
+        foreach (var Node in GridNodes)
+            Node.RenderOverlay(g);
+        foreach (var Edge in GridEdges)
+            Edge.RenderOverlay(g);
         foreach (var wall in Walls)
             wall.RenderOverlay(g);
+        foreach (var objective in Objectives)
+            objective.RenderOverlay(g);
         foreach (var entity in MovingEntities)
             if (entity.GetType() == typeof(Survivor)) {
                 Survivor survivor = (Survivor)entity;

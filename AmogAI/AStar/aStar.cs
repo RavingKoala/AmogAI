@@ -1,4 +1,6 @@
 ﻿namespace AmogAI.AStar;
 
-public class Vertex {
+
+public class aStar {
+    
 }
