@@ -11,6 +11,7 @@ public class Survivor : MovingEntity {
     public const float decisionInterval = 1000; // ms
     public float decisionIntervalDelta = 0;
     public float Health { get; set; }
+    public Objective CurrentObjective { get; set; }
 
     public Survivor(Vector pos, World world) : base(pos, world) {
         Velocity = new Vector(0, 0);
@@ -23,6 +24,11 @@ public class Survivor : MovingEntity {
 
     public Survivor(Vector pos, MovingEntity target, World world) : this(pos, world) {
         Target = target;
+    }
+
+    public void SetObjective(int objectiveId) {
+        World.Objectives.TryGetValue(objectiveId, out Objective objective);
+        CurrentObjective = objective;
     }
 
     public override void Update(float timeDelta) {

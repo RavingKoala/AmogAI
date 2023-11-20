@@ -4,13 +4,15 @@ using SteeringBehaviour;
 
 public class Objective {
     private const float SIZE = 20.0f;
+    public int Id { get; set; }
     public Vector Position { get; set; }
     public int Duration { get; set; } // in ms
     public System.Windows.Forms.Timer Timer { get; set; }
     private bool _isDone;
 
-    public Objective(Vector position) : this(position, 5000) { }
-    public Objective(Vector position, int duration) {
+    public Objective(int id, Vector position) : this(id, position, 5000) { }
+    public Objective(int id, Vector position, int duration) {
+        Id = id;
         Position = position;
         Duration = duration;
         Timer = new System.Windows.Forms.Timer();
@@ -26,7 +28,7 @@ public class Objective {
     private void EndTask(object sender, EventArgs e) {
         _isDone = true;
         Timer.Stop();
-        Console.WriteLine("task is done");
+        Console.WriteLine("Task is done");
     }
 
     public void Render(Graphics g) {

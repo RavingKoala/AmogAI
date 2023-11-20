@@ -10,7 +10,7 @@ public class World : IRenderable {
     public bool EmergencyHappening { get; set; }
     public Stopwatch Stopwatch { get; set; }
     public List<MovingEntity> MovingEntities { get; set; }
-    public List<Objective> Objectives { get; set; }
+    public Dictionary<int, Objective> Objectives { get; set; }
     public List<Wall> Walls { get; set; }
     public GlobalStateMachine GlobalStateMachine { get; set; }
     public List<Edge> GridEdges {  get; private set; }
@@ -19,7 +19,7 @@ public class World : IRenderable {
     public World() {
         MovingEntities = new List<MovingEntity>();
         Walls = new List<Wall>();
-        Objectives = new List<Objective>();
+        Objectives = new Dictionary<int, Objective>();
         Stopwatch = new Stopwatch();
         GlobalStateMachine = new GlobalStateMachine(this);
 
@@ -27,6 +27,10 @@ public class World : IRenderable {
         DrawGrid();
         MakeObjectives();
         Populate();
+        
+        Survivor survivor = (Survivor)MovingEntities[0];
+        survivor.SetObjective(1);
+        survivor.CurrentObjective.StartTask();
     }
 
     private void DrawGrid() {
@@ -35,9 +39,11 @@ public class World : IRenderable {
 
     private void MakeObjectives() {
         var gridDistance = 200;
+        int objectiveId = 1;
         for (int x = 1; x < 5; x++) {
             for (int y = 1; y < 4; y++) {
-                Objectives.Add(new Objective(new Vector(x * gridDistance, y * gridDistance)));
+                Objectives.Add(objectiveId, new Objective(objectiveId, new Vector(x * gridDistance, y * gridDistance)));
+                objectiveId++;
             }
         }
     }
@@ -96,8 +102,8 @@ public class World : IRenderable {
     public void Render(Graphics g) {
         foreach (var wall in Walls)
             wall.Render(g);
-        foreach (var objective in Objectives)
-            objective.Render(g);
+        foreach (KeyValuePair<int, Objective> objective in Objectives)
+            objective.Value.Render(g);
         foreach (var entity in MovingEntities)
             entity.Render(g);
     }
@@ -109,8 +115,8 @@ public class World : IRenderable {
             Edge.RenderOverlay(g);
         foreach (var wall in Walls)
             wall.RenderOverlay(g);
-        foreach (var objective in Objectives)
-            objective.RenderOverlay(g);
+        foreach (KeyValuePair<int, Objective> objective in Objectives)
+            objective.Value.RenderOverlay(g);
         foreach (var entity in MovingEntities)
             if (entity.GetType() == typeof(Survivor)) {
                 Survivor survivor = (Survivor)entity;

@@ -24,8 +24,8 @@ namespace AmogAI.FuzzyLogic {
             InitFuzzy();
         }
 
-        public float Process(List<Objective> objectives) {
-            Objective currentObjective = objectives[0];
+        public float Process(Dictionary<int, Objective> objectives) {
+            Objective currentObjective = objectives[1];
 
             _fm.Fuzzify("TaskDistance", (_survivor.Position - currentObjective.Position).Length());
             _fm.Fuzzify("SurvivorHealth", _survivor.Health);
