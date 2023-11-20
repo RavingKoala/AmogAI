@@ -47,12 +47,12 @@ public class World : IRenderable {
             }
         }
     }
-
+        
     private void Populate() {
-        Survivor p1 = new Survivor(new Vector(350, 350), this);
-        Survivor p2 = new Survivor(new Vector(350, 350), this);
-        Survivor p3 = new Survivor(new Vector(350, 350), this);
-        Survivor p4 = new Survivor(new Vector(350, 350), this);
+        Survivor p1 = new Survivor(new Vector(50, 50), this);
+        Survivor p2 = new Survivor(new Vector(50, 50), this);
+        Survivor p3 = new Survivor(new Vector(50, 50), this);
+        Survivor p4 = new Survivor(new Vector(50, 50), this);
 
         p1.SteeringBehaviour.TurnOn(BehaviourType.Pursuit);
         p1.SteeringBehaviour.TurnOn(BehaviourType.WallAvoidance);
@@ -70,10 +70,10 @@ public class World : IRenderable {
     }
 
     private void DrawWalls() {
-        Wall leftWall = new Wall(new Vector(-1, 0), new Vector(-1, 800), false);
-        Wall topWall = new Wall(new Vector(-1, 0), new Vector(1351, 0), true);
-        Wall rightWall = new Wall(new Vector(1351, 0), new Vector(1351, 800), true);
-        Wall bottomWall = new Wall(new Vector(-1, 800), new Vector(1351, 800), false);
+        Wall leftWall = new Wall(new Vector(0, 0), new Vector(0, 800), false);
+        Wall topWall = new Wall(new Vector(0, 0), new Vector(1350, 0), true);
+        Wall rightWall = new Wall(new Vector(1350, 0), new Vector(1350, 800), true);
+        Wall bottomWall = new Wall(new Vector(0, 800), new Vector(1350, 800), false);
 
         Walls.Add(leftWall);
         Walls.Add(topWall);
