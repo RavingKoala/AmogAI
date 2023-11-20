@@ -3,16 +3,30 @@
 using SteeringBehaviour;
 
 public class Objective {
-    public const float SIZE = 20.0f;
+    private const float SIZE = 20.0f;
     public Vector Position { get; set; }
     public int Duration { get; set; } // in ms
-    public bool isDone { get; set; }
+    public System.Windows.Forms.Timer Timer { get; set; }
+    private bool _isDone;
 
-    public Objective(Vector position) : this(position, 1000) { }
+    public Objective(Vector position) : this(position, 5000) { }
     public Objective(Vector position, int duration) {
         Position = position;
         Duration = duration;
-        isDone = false;
+        Timer = new System.Windows.Forms.Timer();
+        Timer.Interval = Duration;
+        Timer.Tick += EndTask;
+        _isDone = false;
+    }
+    
+    public void StartTask() {
+        Timer.Start();
+    }
+
+    private void EndTask(object sender, EventArgs e) {
+        _isDone = true;
+        Timer.Stop();
+        Console.WriteLine("task is done");
     }
 
     public void Render(Graphics g) {
@@ -24,7 +38,7 @@ public class Objective {
     }
 
     public void RenderOverlay(Graphics g) {
-        if (isDone) {
+        if (_isDone) {
             g.DrawLine(new Pen(Brushes.Olive, 3),
                 Position.X - SIZE / 2,
                 Position.Y - SIZE / 2,
