@@ -28,8 +28,7 @@ public class Survivor : MovingEntity {
     }
 
     public void SetObjective(int objectiveId) {
-        World.Objectives.TryGetValue(objectiveId, out Objective objective);
-        CurrentObjective = objective;
+        CurrentObjective = World.Objectives[objectiveId-1];
     }
 
     public override void Update(float timeDelta) {
