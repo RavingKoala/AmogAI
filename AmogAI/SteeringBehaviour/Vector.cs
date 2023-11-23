@@ -169,6 +169,17 @@ public class Vector {
             pos.Y = 0.0f;
     }
 
+    public static bool operator ==(Vector b1, Vector b2) {
+        if ((object)b1 == null)
+            return (object)b2 == null;
+
+        return b1.Equals(b2);
+    }
+
+    public static bool operator !=(Vector b1, Vector b2) {
+        return !(b1 == b2);
+    }
+
     public override bool Equals(Object? obj) {
         //Check for null and compare run-time types.
         if ((obj == null) || !this.GetType().Equals(obj.GetType())) {

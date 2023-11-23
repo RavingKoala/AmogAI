@@ -32,7 +32,7 @@ public class Node : IRenderable {
             return false;
         } else {
             Node node = (Node)obj;
-            return Position.Equals(node.Position);
+            return Position == node.Position;
         }
     }
 }

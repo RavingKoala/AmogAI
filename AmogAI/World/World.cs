@@ -17,9 +17,9 @@ public class World : IRenderable {
     public List<Node> GridNodes { get; private set; }
 
     public World() {
-        MovingEntities = new List<MovingEntity>();
         Walls = new List<Wall>();
         Objectives = new List<Objective>();
+        MovingEntities = new List<MovingEntity>();
         Stopwatch = new Stopwatch();
         GlobalStateMachine = new GlobalStateMachine(this);
 
@@ -79,10 +79,10 @@ public class World : IRenderable {
         Wall w3 = new Wall(new Vector(240, 120), new Vector(480, 120), false); // top
         Wall w4 = new Wall(new Vector(240, 600), new Vector(480, 600), true); // bottom
 
-        Walls.Add(w1);
-        Walls.Add(w2);
-        Walls.Add(w3);
-        Walls.Add(w4);
+        //Walls.Add(w1);
+        //Walls.Add(w2);
+        //Walls.Add(w3);
+        //Walls.Add(w4);
     }
 
     public void Update(float timeDelta) {

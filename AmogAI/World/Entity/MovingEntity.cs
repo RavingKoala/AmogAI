@@ -1,5 +1,6 @@
 ﻿namespace AmogAI.World.Entity;
 
+using AmogAI.AStar;
 using AmogAI.SteeringBehaviour;
 
 public abstract class MovingEntity : IRenderable {
@@ -10,6 +11,7 @@ public abstract class MovingEntity : IRenderable {
     public Vector Heading { get; set; }
     public Vector Side { get; set; }
     public SteeringBehaviour SteeringBehaviour { get; set; }
+    public PathFollowBehaviour? PathFollowBehaviour { get; set; }
     public float Mass { get; set; }
     public float MaxSpeed { get; set; }
     public float MaxForce { get; set; }
@@ -28,6 +30,7 @@ public abstract class MovingEntity : IRenderable {
         Heading = new Vector();
         Side = new Vector();
         SteeringBehaviour = new SteeringBehaviour(this);
+        PathFollowBehaviour = new PathFollowBehaviour(this, world.GridNodes, World.Objectives[5].Position);
     }
 
     public virtual void Render(Graphics g) {
@@ -37,9 +40,20 @@ public abstract class MovingEntity : IRenderable {
     public virtual void Update(float timeDelta) {
         TimeElapsed = timeDelta;
 
+
+        if (PathFollowBehaviour != null) {
+            Vector force = PathFollowBehaviour.update();
+            force = force.Truncate(MaxSpeed * timeDelta);
+            Position += force;
+            if (PathFollowBehaviour.Arrived)
+                PathFollowBehaviour = null;
+            else 
+                return;
+        }
+        // do steering behaviour
         // Calculate the steering force 
         Vector steeringForce = SteeringBehaviour.Calculate();
-        Vector acceleration = steeringForce / Mass;
+        Vector acceleration = steeringForce / Mass; 
 
         // Convert the steering force into an acceleration 
         Velocity += acceleration * timeDelta;
