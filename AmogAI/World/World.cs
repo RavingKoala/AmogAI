@@ -64,10 +64,10 @@ public class World : IRenderable {
     }
 
     private void DrawWalls() {
-        Wall leftWall = new Wall(new Vector(-1, 0), new Vector(-1, 800), false);
+        Wall leftWall = new Wall(new Vector(0, -1), new Vector(0, 801), false);
         Wall topWall = new Wall(new Vector(-1, 0), new Vector(1351, 0), true);
-        Wall rightWall = new Wall(new Vector(1351, 0), new Vector(1351, 800), true);
         Wall bottomWall = new Wall(new Vector(-1, 800), new Vector(1351, 800), false);
+        Wall rightWall = new Wall(new Vector(1350, -1), new Vector(1350, 801), true);
 
         Walls.Add(leftWall);
         Walls.Add(topWall);
