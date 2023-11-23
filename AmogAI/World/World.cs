@@ -10,16 +10,16 @@ public class World : IRenderable {
     public bool EmergencyHappening { get; set; }
     public Stopwatch Stopwatch { get; set; }
     public List<MovingEntity> MovingEntities { get; set; }
-    public Dictionary<int, Objective> Objectives { get; set; }
+    public List<Objective> Objectives { get; set; }
     public List<Wall> Walls { get; set; }
     public GlobalStateMachine GlobalStateMachine { get; set; }
     public List<Edge> GridEdges {  get; private set; }
     public List<Node> GridNodes { get; private set; }
 
     public World() {
-        MovingEntities = new List<MovingEntity>();
         Walls = new List<Wall>();
-        Objectives = new Dictionary<int, Objective>();
+        Objectives = new List<Objective>();
+        MovingEntities = new List<MovingEntity>();
         Stopwatch = new Stopwatch();
         GlobalStateMachine = new GlobalStateMachine(this);
 
@@ -39,11 +39,9 @@ public class World : IRenderable {
 
     private void MakeObjectives() {
         var gridDistance = 200;
-        int objectiveId = 1;
         for (int x = 1; x < 5; x++) {
             for (int y = 1; y < 4; y++) {
-                Objectives.Add(objectiveId, new Objective(objectiveId, new Vector(x * gridDistance, y * gridDistance)));
-                objectiveId++;
+                Objectives.Add(new Objective(new Vector(x * gridDistance, y * gridDistance)));
             }
         }
     }
@@ -70,10 +68,10 @@ public class World : IRenderable {
     }
 
     private void DrawWalls() {
-        Wall leftWall = new Wall(new Vector(0, 0), new Vector(0, 800), false);
-        Wall topWall = new Wall(new Vector(0, 0), new Vector(1350, 0), true);
-        Wall rightWall = new Wall(new Vector(1350, 0), new Vector(1350, 800), true);
-        Wall bottomWall = new Wall(new Vector(0, 800), new Vector(1350, 800), false);
+        Wall leftWall = new Wall(new Vector(0, -1), new Vector(0, 801), false);
+        Wall topWall = new Wall(new Vector(-1, 0), new Vector(1351, 0), true);
+        Wall bottomWall = new Wall(new Vector(-1, 800), new Vector(1351, 800), false);
+        Wall rightWall = new Wall(new Vector(1350, -1), new Vector(1350, 801), true);
 
         Walls.Add(leftWall);
         Walls.Add(topWall);
@@ -85,10 +83,10 @@ public class World : IRenderable {
         Wall w3 = new Wall(new Vector(240, 120), new Vector(480, 120), false); // top
         Wall w4 = new Wall(new Vector(240, 600), new Vector(480, 600), true); // bottom
 
-        Walls.Add(w1);
-        Walls.Add(w2);
-        Walls.Add(w3);
-        Walls.Add(w4);
+        //Walls.Add(w1);
+        //Walls.Add(w2);
+        //Walls.Add(w3);
+        //Walls.Add(w4);
     }
 
     public void Update(float timeDelta) {
@@ -102,8 +100,8 @@ public class World : IRenderable {
     public void Render(Graphics g) {
         foreach (var wall in Walls)
             wall.Render(g);
-        foreach (KeyValuePair<int, Objective> objective in Objectives)
-            objective.Value.Render(g);
+        foreach (var objective in Objectives)
+            objective.Render(g);
         foreach (var entity in MovingEntities)
             entity.Render(g);
     }
@@ -115,8 +113,8 @@ public class World : IRenderable {
             Edge.RenderOverlay(g);
         foreach (var wall in Walls)
             wall.RenderOverlay(g);
-        foreach (KeyValuePair<int, Objective> objective in Objectives)
-            objective.Value.RenderOverlay(g);
+        foreach (var objective in Objectives)
+            objective.RenderOverlay(g);
         foreach (var entity in MovingEntities)
             if (entity.GetType() == typeof(Survivor)) {
                 Survivor survivor = (Survivor)entity;

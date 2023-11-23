@@ -5,7 +5,7 @@ using AmogAI.World;
 
 public class Graph {
     public static readonly float NODE_SPACING = 40;
-    public static readonly Vector NODE_START = new Vector(11, 10);
+    public static readonly Vector NODE_START = new Vector(10, 10);
 
     public static (List<Node>, List<Edge>) Generate(World world) {
         var nodes = new List<Node>();
