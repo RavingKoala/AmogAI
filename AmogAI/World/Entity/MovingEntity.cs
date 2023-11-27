@@ -30,7 +30,7 @@ public abstract class MovingEntity : IRenderable {
         Heading = new Vector();
         Side = new Vector();
         SteeringBehaviour = new SteeringBehaviour(this);
-        PathFollowBehaviour = new PathFollowBehaviour(this, world.GridNodes, World.Objectives[5].Position);
+        PathFollowBehaviour = new PathFollowBehaviour(this, world, World.Objectives[5].Position);
     }
 
     public virtual void Render(Graphics g) {
@@ -40,12 +40,11 @@ public abstract class MovingEntity : IRenderable {
     public virtual void Update(float timeDelta) {
         TimeElapsed = timeDelta;
 
-
         if (PathFollowBehaviour != null) {
             Vector force = PathFollowBehaviour.update();
             force = force.Truncate(MaxSpeed * timeDelta);
             Position += force;
-            if (PathFollowBehaviour.Arrived)
+            if (PathFollowBehaviour.HasArrived || PathFollowBehaviour.IsImpossible)
                 PathFollowBehaviour = null;
             else 
                 return;

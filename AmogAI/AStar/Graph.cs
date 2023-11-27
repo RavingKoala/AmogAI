@@ -21,6 +21,7 @@ public class Graph {
                 break;
             if (nodes.Any(n => n.Equals(node)))
                 continue;
+
             nodes.Add(node);
             List<Node> neighbourNodes = getNodeNeighbours(node);
             foreach (Node neighbourNode in neighbourNodes) {
@@ -43,11 +44,15 @@ public class Graph {
                     continue;
 
                 // not through wall -> add node and edge to lists
+                
                 nodeQueue.Enqueue(neighbourNode);
 
                 var edge = new Edge(node, neighbourNode);
+
                 if (!edges.Any(e => e.Equals(edge)))
                     edges.Add(edge);
+
+                node.ConnectedEdges.Add(edge);
             }
         }
         return (nodes, edges);

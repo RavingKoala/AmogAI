@@ -169,15 +169,15 @@ public class Vector {
             pos.Y = 0.0f;
     }
 
-    public static bool operator ==(Vector b1, Vector b2) {
-        if ((object)b1 == null)
-            return (object)b2 == null;
+    public static bool operator ==(Vector v1, Vector v2) {
+        if ((object)v1 == null)
+            return (object)v2 == null;
 
-        return b1.Equals(b2);
+        return v1.Equals(v2);
     }
 
-    public static bool operator !=(Vector b1, Vector b2) {
-        return !(b1 == b2);
+    public static bool operator !=(Vector v1, Vector v2) {
+        return !(v1 == v2);
     }
 
     public override bool Equals(Object? obj) {

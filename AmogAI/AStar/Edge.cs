@@ -16,7 +16,7 @@ public class Edge : IRenderable {
     public Edge(Node node1, Node node2) {
         Node1 = node1;
         Node2 = node2;
-        this.cost = node1.Position.Distance(node2.Position);
+        cost = node1.Position.Distance(node2.Position);
     }
 
     public void Render(Graphics g) {
@@ -27,6 +27,17 @@ public class Edge : IRenderable {
         Pen p = new Pen(Color.Red, 1);
 
         g.DrawLine(p, Node1.Position.X, Node1.Position.Y, Node2.Position.X, Node2.Position.Y);
+    }
+
+    public static bool operator ==(Edge e1, Edge e2) {
+        if ((object)e1 == null)
+            return (object)e2 == null;
+
+        return e1.Equals(e2);
+    }
+
+    public static bool operator !=(Edge e1, Edge e2) {
+        return !(e1 == e2);
     }
 
     public override bool Equals(object? obj) {

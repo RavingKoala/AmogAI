@@ -4,24 +4,25 @@ using AmogAI.World.Entity;
 using System;
 using System.Collections.Generic;
 using AmogAI.SteeringBehaviour;
+using AmogAI.World;
 
 public class PathFollowBehaviour {
     private readonly MovingEntity _entity;
-    private readonly List<Node> _gridNodes;
-    public Queue<Node> Path { get; private set; } // does not contain the next node on path
-    public Node NextNodeOnPath { get; private set; }
+    private World _world;
+    public Queue<Node>? Path { get; private set; } // does not contain the next node on path
     private Vector To;
-    public bool Arrived { get; private set;}
+    public bool HasArrived { get; private set;}
+    public bool IsImpossible { get; private set;}
 
-    public PathFollowBehaviour(MovingEntity entity, List<Node> gridNodes, Vector destination) {
+    public PathFollowBehaviour(MovingEntity entity, World world, Vector destination) {
         _entity = entity;
-        _gridNodes = gridNodes;
+        _world = world;
         To = destination;
         CalcAStarTo(destination);
-        Arrived = false;
-
+        HasArrived = false;
+        
         if (entity.Position == destination)
-            Arrived = true;
+            HasArrived = true;
     }
 
     public static Node GetClosestNodeFromVector(Vector vector, List<Node> nodes) {
@@ -38,7 +39,7 @@ public class PathFollowBehaviour {
 
     public Vector update() {
         if (To == _entity.Position) {
-            Arrived = true;
+            HasArrived = true;
             return new Vector(0, 0);
         }
 
@@ -52,7 +53,6 @@ public class PathFollowBehaviour {
         }
 
         return Path.Peek().Position - _entity.Position;
-
     }
 
     public void CalcAStarTo(Objective objective) {
@@ -61,8 +61,15 @@ public class PathFollowBehaviour {
 
     public void CalcAStarTo(Vector vector) {
         To = vector;
-        Node toNode = PathFollowBehaviour.GetClosestNodeFromVector(vector, _gridNodes);
-        Node fromNode = PathFollowBehaviour.GetClosestNodeFromVector(_entity.Position, _gridNodes);
-        Path = AStar.FindPath(fromNode, toNode, _gridNodes);
+        Node toNode = PathFollowBehaviour.GetClosestNodeFromVector(vector, _world.GridNodes);
+        Node fromNode = PathFollowBehaviour.GetClosestNodeFromVector(_entity.Position, _world.GridNodes);
+        Queue<Node>? path = AStar.FindPath(fromNode, toNode);
+        if (path != null) {
+            Path = path;
+            IsImpossible = false;
+        } else {
+            Path = new Queue<Node>();
+            IsImpossible = true;
+        }
     }
 }
