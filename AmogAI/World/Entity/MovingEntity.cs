@@ -40,9 +40,9 @@ public abstract class MovingEntity : IRenderable {
     public virtual void Update(float timeDelta) {
         TimeElapsed = timeDelta;
 
-
+        // If a path is set, update method will move on that path
         if (PathFollowBehaviour != null) {
-            Vector force = PathFollowBehaviour.update();
+            Vector force = PathFollowBehaviour.Update();
             force = force.Truncate(MaxSpeed * timeDelta);
             Position += force;
             if (PathFollowBehaviour.Arrived)
@@ -50,7 +50,8 @@ public abstract class MovingEntity : IRenderable {
             else 
                 return;
         }
-        // do steering behaviour
+
+        // If there is no path, update method will use steering behaviours instead
         // Calculate the steering force 
         Vector steeringForce = SteeringBehaviour.Calculate();
         Vector acceleration = steeringForce / Mass; 

@@ -36,7 +36,7 @@ public class PathFollowBehaviour {
         return closestNode;
     }
 
-    public Vector update() {
+    public Vector Update() {
         if (To == _entity.Position) {
             Arrived = true;
             return new Vector(0, 0);
