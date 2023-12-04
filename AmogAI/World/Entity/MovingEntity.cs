@@ -41,12 +41,12 @@ public abstract class MovingEntity : IRenderable {
         TimeElapsed = timeDelta;
 
         if (PathFollowBehaviour != null) {
-            Vector force = PathFollowBehaviour.update();
-            force = force.Truncate(MaxSpeed * timeDelta);
-            Position += force;
+            Vector targetDirection = PathFollowBehaviour.update();
+            targetDirection = targetDirection.Truncate(MaxSpeed * timeDelta);
+            Position += targetDirection;
             if (PathFollowBehaviour.HasArrived || PathFollowBehaviour.IsImpossible)
                 PathFollowBehaviour = null;
-            else 
+            else
                 return;
         }
         // do steering behaviour

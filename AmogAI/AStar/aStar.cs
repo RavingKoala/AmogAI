@@ -8,6 +8,8 @@ public class AStar {
     // <(float, Queue<Node>), float>
     // First float is cost of Queue<Node> so far
     // Last float is total travel distance
+    // eg:
+    //    { (20, (A -> B)), (20, (A -> C)), (40, (A -> B -> D), ... }
     private static PriorityQueue<(float, Queue<Node>), float> _paths = new PriorityQueue<(float, Queue<Node>), float>();
 
 
@@ -39,8 +41,8 @@ public class AStar {
 
             foreach (Edge edge in lastNode.ConnectedEdges) {
                 if (path.Any(n => n == edge.Node2))
-                    continue;
-                
+                    continue; // prevent loops
+
                 Queue<Node> newPath = new Queue<Node>(path);
                 newPath.Enqueue(edge.Node2);
                 float newDistance = distanceTraveled + edge.cost;
@@ -51,6 +53,6 @@ public class AStar {
             }
         }
 
-         return null;
+        return null;
     }
 }

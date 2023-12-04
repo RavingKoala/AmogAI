@@ -11,12 +11,13 @@ public class Edge : IRenderable {
     public Node Node1;
     public Node Node2;
     public float cost;
-    public const bool Bidirectional = true;
+    public bool Bidirectional;
 
     public Edge(Node node1, Node node2) {
         Node1 = node1;
         Node2 = node2;
         cost = node1.Position.Distance(node2.Position);
+        Bidirectional = true;
     }
 
     public void Render(Graphics g) {
@@ -49,7 +50,7 @@ public class Edge : IRenderable {
             if (Bidirectional)
                 return Node1.Equals(edge.Node1) && Node2.Equals(edge.Node2) || Node1.Equals(edge.Node2) && Node2.Equals(edge.Node1);
 
-            //return this.Node1.Equals(edge.Node1) && this.Node2.Equals(edge.Node2);
+            return this.Node1.Equals(edge.Node1) && this.Node2.Equals(edge.Node2);
         }
     }
 }

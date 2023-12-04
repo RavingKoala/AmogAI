@@ -8,21 +8,22 @@ public class Graph {
     public static readonly Vector NODE_START = new Vector(10, 10);
 
     public static (List<Node>, List<Edge>) Generate(World world) {
-        var nodes = new List<Node>();
-        var edges = new List<Edge>();
+        List<Node> nodes = new List<Node>();
+        List<Edge> edges = new List<Edge>();
         Queue<Node> nodeQueue = new Queue<Node>();
         // start node
-        var node1 = new Node(NODE_START);
+        Node node1 = new Node(NODE_START);
         nodeQueue.Enqueue(node1);
 
         while (nodeQueue.Count > 0) {
             Node node = nodeQueue.Dequeue();
-            if (nodeQueue.Count > 500) // failsafe if it goes through walls // TODO make sure this doesnt need to be here
-                break;
-            if (nodes.Any(n => n.Equals(node)))
+            //if (nodeQueue.Count > 500) // failsafe if it goes through walls // TODO make sure this doesnt need to be here
+            //    break;
+            if (nodes.Any(n => n == node))
                 continue;
 
             nodes.Add(node);
+
             List<Node> neighbourNodes = getNodeNeighbours(node);
             foreach (Node neighbourNode in neighbourNodes) {
                 // check if new node is on the other side of a wall
@@ -47,9 +48,9 @@ public class Graph {
                 
                 nodeQueue.Enqueue(neighbourNode);
 
-                var edge = new Edge(node, neighbourNode);
+                Edge edge = new Edge(node, neighbourNode);
 
-                if (!edges.Any(e => e.Equals(edge)))
+                if (!edges.Any(e => e == edge))
                     edges.Add(edge);
 
                 node.ConnectedEdges.Add(edge);

@@ -98,28 +98,29 @@ public class World : IRenderable {
     }
 
     public void Render(Graphics g) {
-        foreach (var wall in Walls)
+        foreach (Wall wall in Walls)
             wall.Render(g);
-        foreach (var objective in Objectives)
+        foreach (Objective objective in Objectives)
             objective.Render(g);
-        foreach (var entity in MovingEntities)
+        foreach (MovingEntity entity in MovingEntities)
             entity.Render(g);
     }
 
     public void RenderOverlay(Graphics g) {
-        foreach (var Node in GridNodes)
-            Node.RenderOverlay(g);
-        foreach (var Edge in GridEdges)
-            Edge.RenderOverlay(g);
-        foreach (var wall in Walls)
+        foreach (Edge edge in GridEdges)
+            edge.RenderOverlay(g);
+        foreach (Node node in GridNodes)
+            node.RenderOverlay(g);
+        foreach (Wall wall in Walls)
             wall.RenderOverlay(g);
-        foreach (var objective in Objectives)
+        foreach (Objective objective in Objectives)
             objective.RenderOverlay(g);
-        foreach (var entity in MovingEntities)
+        foreach (MovingEntity entity in MovingEntities)
             if (entity.GetType() == typeof(Survivor)) {
                 Survivor survivor = (Survivor)entity;
                 entity.RenderOverlay(g);
             }
+        g.FillEllipse(new SolidBrush(Color.Green), 804, 764, 12, 12);
     }
 
 }

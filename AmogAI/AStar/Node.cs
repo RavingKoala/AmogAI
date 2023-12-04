@@ -25,6 +25,10 @@ public class Node : IRenderable {
 
         g.DrawEllipse(p, Position.X - 2, Position.Y - 2, 4, 4);
         //g.FillEllipse(p, Position.X - 2, Position.Y - 2, (float)4, (float)4);
+        foreach (Edge edge in ConnectedEdges) {
+            Vector direction = (edge.Node2.Position - Position) / 4;
+            g.DrawLine(new Pen(Color.Black, 2), Position.X, Position.Y, Position.X + direction.X, Position.Y + direction.Y);
+        }
     }
 
     public static bool operator ==(Node n1, Node n2) {
