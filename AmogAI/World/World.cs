@@ -27,10 +27,6 @@ public class World : IRenderable {
         DrawGrid();
         MakeObjectives();
         Populate();
-        
-        Survivor survivor = (Survivor)MovingEntities[0];
-        survivor.SetObjective(1);
-        survivor.CurrentObjective.StartTask();
     }
 
     private void DrawGrid() {
@@ -62,9 +58,9 @@ public class World : IRenderable {
         p4.SteeringBehaviour.TurnOn(BehaviourType.WallAvoidance);
 
         MovingEntities.Add(p1);
-        MovingEntities.Add(p2);
-        MovingEntities.Add(p3);
-        MovingEntities.Add(p4);
+        //MovingEntities.Add(p2);
+        //MovingEntities.Add(p3);
+        //MovingEntities.Add(p4);
     }
 
     private void DrawWalls() {

@@ -30,7 +30,7 @@ public abstract class MovingEntity : IRenderable {
         Heading = new Vector();
         Side = new Vector();
         SteeringBehaviour = new SteeringBehaviour(this);
-        PathFollowBehaviour = new PathFollowBehaviour(this, world.GridNodes, World.Objectives[5].Position);
+        PathFollowBehaviour = new PathFollowBehaviour(this, world.GridNodes);
     }
 
     public virtual void Render(Graphics g) {
@@ -41,20 +41,18 @@ public abstract class MovingEntity : IRenderable {
         TimeElapsed = timeDelta;
 
         // If a path is set, update method will move on that path
-        if (PathFollowBehaviour != null) {
+        if (PathFollowBehaviour.Destination != null) {
             Vector force = PathFollowBehaviour.Update();
             force = force.Truncate(MaxSpeed * timeDelta);
             Position += force;
-            if (PathFollowBehaviour.Arrived)
-                PathFollowBehaviour = null;
-            else 
+            if (!PathFollowBehaviour.Arrived)
                 return;
         }
 
         // If there is no path, update method will use steering behaviours instead
         // Calculate the steering force 
         Vector steeringForce = SteeringBehaviour.Calculate();
-        Vector acceleration = steeringForce / Mass; 
+        Vector acceleration = steeringForce / Mass;
 
         // Convert the steering force into an acceleration 
         Velocity += acceleration * timeDelta;

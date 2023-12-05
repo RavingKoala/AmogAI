@@ -10,23 +10,26 @@ public class PathFollowBehaviour {
     private readonly List<Node> _gridNodes;
     public Queue<Node> Path { get; private set; } // does not contain the next node on path
     public Node NextNodeOnPath { get; private set; }
-    public Vector Destination { get; private set };
+    public Vector Destination { get; private set; }
     public bool Arrived { get; private set;}
 
-    public PathFollowBehaviour(MovingEntity entity, List<Node> gridNodes, Vector destination) {
+    public PathFollowBehaviour(MovingEntity entity, List<Node> gridNodes) {
         _entity = entity;
         _gridNodes = gridNodes;
-        Destination = destination;
-        CalcAStarTo(destination);
         Arrived = false;
 
-        if (entity.Position == destination)
+        if (entity.Position == Destination)
             Arrived = true;
+    }
+
+    public void SetDestination(Objective destination) {
+        Destination = destination.Position;
+        CalcAStar();
     }
 
     public static Node GetClosestNodeFromVector(Vector vector, List<Node> nodes) {
         if (nodes.Count <= 0)
-            throw new Exception("calculating on empty Node list.");
+            throw new Exception("Calculating on empty node list.");
 
         Node closestNode = nodes[0];
         foreach (Node node in nodes)
@@ -54,14 +57,15 @@ public class PathFollowBehaviour {
         return Path.Peek().Position - _entity.Position;
     }
 
-    public void CalcAStarTo(Objective objective) {
-        CalcAStarTo(objective.Position);
-    }
-
-    public void CalcAStarTo(Vector vector) {
-        Destination = vector;
-        Node toNode = GetClosestNodeFromVector(vector, _gridNodes);
+    public void CalcAStar() {
+        Node toNode = GetClosestNodeFromVector(Destination, _gridNodes);
         Node fromNode = GetClosestNodeFromVector(_entity.Position, _gridNodes);
         Path = AStar.FindPath(fromNode, toNode, _gridNodes);
+    }
+
+    public void ClearPath() {
+        Path.Clear();
+        Destination = null;
+        Arrived = false;
     }
 }
