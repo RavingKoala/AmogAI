@@ -1,6 +1,7 @@
 ﻿namespace AmogAI.AStar;
 
 using System.Collections.Generic;
+
 using System.IO;
 using AmogAI.World;
 
@@ -13,8 +14,8 @@ public class AStar {
     private static PriorityQueue<(float, Queue<Node>), float> _paths = new PriorityQueue<(float, Queue<Node>), float>();
 
 
-    public static Queue<Node>? FindPath(Node fromNode, Node toNode) {
-        return DoAStar(fromNode, toNode);
+    public static Queue<Node>? FindPath(Node fromNode, Node toNode, List<Edge> edges) {
+        return DoAStar(fromNode, toNode, edges);
 
         //Queue<Node> retQueue = new Queue<Node>();
         
@@ -24,7 +25,7 @@ public class AStar {
         //return retQueue;
     }
 
-    private static Queue<Node>? DoAStar(Node fromNode, Node toNode) {
+    private static Queue<Node>? DoAStar(Node fromNode, Node toNode, List<Edge> edges) {
         _paths.Clear();
 
         Queue<Node> firstPath = new Queue<Node>();
@@ -40,15 +41,18 @@ public class AStar {
             if (lastNode == toNode)
                 return path;
 
-            i++;
-            foreach (Edge edge in lastNode.ConnectedEdges.ToList()) {
-                if (path.Any(n => n == edge.Node2))
+            List<Edge> connectedEdges = edges.FindAll(e => e.Node1 == lastNode || e.Node2 == lastNode);
+
+            foreach (Edge edge in connectedEdges) {
+                Node connectedNode = edge.Node1 == lastNode ? edge.Node2 : edge.Node1;
+
+                if (path.Any(n => n == connectedNode))
                     continue; // prevent loops
 
                 Queue<Node> newPath = new Queue<Node>(path);
-                newPath.Enqueue(edge.Node2);
+                newPath.Enqueue(connectedNode);
                 float newDistance = distanceTraveled + edge.cost;
-                float priority = newDistance + lastNode.Position.Distance(toNode.Position);
+                float priority = newDistance + connectedNode.Position.Distance(toNode.Position);
                 _paths.Enqueue(
                     (newDistance, newPath),
                     priority

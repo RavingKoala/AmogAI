@@ -52,8 +52,6 @@ public class Graph {
 
                 if (!edges.Any(e => e == edge))
                     edges.Add(edge);
-
-                node.ConnectedEdges.Add(edge);
             }
         }
         return (nodes, edges);

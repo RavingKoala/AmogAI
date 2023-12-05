@@ -63,7 +63,7 @@ public class PathFollowBehaviour {
         To = vector;
         Node toNode = PathFollowBehaviour.GetClosestNodeFromVector(vector, _world.GridNodes);
         Node fromNode = PathFollowBehaviour.GetClosestNodeFromVector(_entity.Position, _world.GridNodes);
-        Queue<Node>? path = AStar.FindPath(fromNode, toNode);
+        Queue<Node>? path = AStar.FindPath(fromNode, toNode, _world.GridEdges);
         if (path != null) {
             Path = path;
             IsImpossible = false;
