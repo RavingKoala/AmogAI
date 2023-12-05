@@ -32,6 +32,7 @@ public class AStar {
         float firstDistanceTraveled = 0;
         _paths.Enqueue((firstDistanceTraveled, firstPath), fromNode.Position.Distance(toNode.Position));
 
+        var i = 0;
         while (_paths.Count > 0) {
             (float distanceTraveled, Queue<Node> path) = _paths.Dequeue();
             Node lastNode = path.Last();
@@ -39,20 +40,22 @@ public class AStar {
             if (lastNode == toNode)
                 return path;
 
-            foreach (Edge edge in lastNode.ConnectedEdges) {
+            i++;
+            foreach (Edge edge in lastNode.ConnectedEdges.ToList()) {
                 if (path.Any(n => n == edge.Node2))
                     continue; // prevent loops
 
                 Queue<Node> newPath = new Queue<Node>(path);
                 newPath.Enqueue(edge.Node2);
                 float newDistance = distanceTraveled + edge.cost;
+                float priority = newDistance + lastNode.Position.Distance(toNode.Position);
                 _paths.Enqueue(
                     (newDistance, newPath),
-                    newDistance + lastNode.Position.Distance(toNode.Position)
+                    priority
                 );
             }
         }
 
-        return null;
+        return null; // no valid path found
     }
 }
