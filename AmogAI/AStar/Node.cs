@@ -19,15 +19,14 @@ public class Node : IRenderable {
     }
 
     public void RenderOverlay(Graphics g) {
-        Pen p = new Pen(Color.Red, 2);
+        Brush b = new SolidBrush(Color.Red);
 
-        g.DrawEllipse(p, Position.X - 2, Position.Y - 2, 4, 4);
-        //g.FillEllipse(p, Position.X - 2, Position.Y - 2, (float)4, (float)4);
+        g.FillEllipse(b, Position.X - 2, Position.Y - 2, 4, 4);
     }
 
     public static bool operator ==(Node n1, Node n2) {
-        if ((object)n1 == null)
-            return (object)n2 == null;
+        if ((object) n1 == null)
+            return (object) n2 == null;
 
         return n1.Equals(n2);
     }
@@ -41,7 +40,7 @@ public class Node : IRenderable {
         if (obj == null || !GetType().Equals(obj.GetType())) {
             return false;
         } else {
-            Node node = (Node)obj;
+            Node node = (Node) obj;
             return Position == node.Position;
         }
     }

@@ -45,7 +45,7 @@ public class Graph {
                     continue;
 
                 // not through wall -> add node and edge to lists
-                
+
                 nodeQueue.Enqueue(neighbourNode);
 
                 Edge edge = new Edge(node, neighbourNode);

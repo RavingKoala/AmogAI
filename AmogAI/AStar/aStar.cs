@@ -2,9 +2,6 @@
 
 using System.Collections.Generic;
 
-using System.IO;
-using AmogAI.World;
-
 public class AStar {
     // <(float, Queue<Node>), float>
     // First float is cost of Queue<Node> so far
@@ -15,17 +12,6 @@ public class AStar {
 
 
     public static Queue<Node>? FindPath(Node fromNode, Node toNode, List<Edge> edges) {
-        return DoAStar(fromNode, toNode, edges);
-
-        //Queue<Node> retQueue = new Queue<Node>();
-        
-        //retQueue.Enqueue(fromNode);
-        //retQueue.Enqueue(toNode);
-
-        //return retQueue;
-    }
-
-    private static Queue<Node>? DoAStar(Node fromNode, Node toNode, List<Edge> edges) {
         _paths.Clear();
 
         Queue<Node> firstPath = new Queue<Node>();
@@ -33,7 +19,6 @@ public class AStar {
         float firstDistanceTraveled = 0;
         _paths.Enqueue((firstDistanceTraveled, firstPath), fromNode.Position.Distance(toNode.Position));
 
-        var i = 0;
         while (_paths.Count > 0) {
             (float distanceTraveled, Queue<Node> path) = _paths.Dequeue();
             Node lastNode = path.Last();

@@ -1,18 +1,18 @@
 ﻿namespace AmogAI.AStar;
 
+using AmogAI.SteeringBehaviour;
+using AmogAI.World;
 using AmogAI.World.Entity;
 using System;
 using System.Collections.Generic;
-using AmogAI.SteeringBehaviour;
-using AmogAI.World;
 
 public class PathFollowBehaviour {
     private readonly MovingEntity _entity;
     private World _world;
     public Queue<Node>? Path { get; private set; } // does not contain the next node on path
     private Vector To;
-    public bool HasArrived { get; private set;}
-    public bool IsImpossible { get; private set;}
+    public bool HasArrived { get; private set; }
+    public bool IsImpossible { get; private set; }
 
     public PathFollowBehaviour(MovingEntity entity, World world, Vector destination) {
         _entity = entity;
@@ -20,7 +20,7 @@ public class PathFollowBehaviour {
         To = destination;
         CalcAStarTo(destination);
         HasArrived = false;
-        
+
         if (entity.Position == destination)
             HasArrived = true;
     }
@@ -49,7 +49,6 @@ public class PathFollowBehaviour {
         if (_entity.Position == Path.Peek().Position) {
             Node tempNode = Path.Dequeue();
             return tempNode.Position - _entity.Position;
-
         }
 
         return Path.Peek().Position - _entity.Position;

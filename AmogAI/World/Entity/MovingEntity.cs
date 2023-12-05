@@ -34,16 +34,16 @@ public abstract class MovingEntity : IRenderable {
     }
 
     public virtual void Render(Graphics g) {
-        g.DrawEllipse(new Pen(Brushes.Black, 10), (int)MainFrame.WindowCenter.X - 55, (int)MainFrame.WindowCenter.Y - 55, 100, 100);
+        g.DrawEllipse(new Pen(Brushes.Black, 10), (int) MainFrame.WindowCenter.X - 55, (int) MainFrame.WindowCenter.Y - 55, 100, 100);
     }
 
     public virtual void Update(float timeDelta) {
         TimeElapsed = timeDelta;
 
         if (PathFollowBehaviour != null) {
-            Vector targetDirection = PathFollowBehaviour.update();
-            targetDirection = targetDirection.Truncate(MaxSpeed * timeDelta);
-            Position += targetDirection;
+            Vector force = PathFollowBehaviour.update();
+            force = force.Truncate(MaxSpeed * timeDelta);
+            Position += force;
             if (PathFollowBehaviour.HasArrived || PathFollowBehaviour.IsImpossible)
                 PathFollowBehaviour = null;
             else
@@ -52,7 +52,7 @@ public abstract class MovingEntity : IRenderable {
         // do steering behaviour
         // Calculate the steering force 
         Vector steeringForce = SteeringBehaviour.Calculate();
-        Vector acceleration = steeringForce / Mass; 
+        Vector acceleration = steeringForce / Mass;
 
         // Convert the steering force into an acceleration 
         Velocity += acceleration * timeDelta;

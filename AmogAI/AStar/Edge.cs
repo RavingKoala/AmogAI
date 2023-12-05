@@ -1,10 +1,6 @@
 ﻿namespace AmogAI.AStar;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AmogAI.World;
+using System;
 
 public class Edge : IRenderable {
 
@@ -31,8 +27,8 @@ public class Edge : IRenderable {
     }
 
     public static bool operator ==(Edge e1, Edge e2) {
-        if ((object)e1 == null)
-            return (object)e2 == null;
+        if ((object) e1 == null)
+            return (object) e2 == null;
 
         return e1.Equals(e2);
     }
@@ -46,7 +42,7 @@ public class Edge : IRenderable {
         if (obj == null || !GetType().Equals(obj.GetType())) {
             return false;
         } else {
-            Edge edge = (Edge)obj;
+            Edge edge = (Edge) obj;
             if (Bidirectional)
                 return Node1.Equals(edge.Node1) && Node2.Equals(edge.Node2) || Node1.Equals(edge.Node2) && Node2.Equals(edge.Node1);
 
