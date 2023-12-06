@@ -51,7 +51,6 @@ public class PathFollowBehaviour {
         if (_entity.Position == Path.Peek().Position) {
             Node tempNode = Path.Dequeue();
             return tempNode.Position - _entity.Position;
-
         }
 
         return Path.Peek().Position - _entity.Position;

@@ -9,13 +9,13 @@ public class Objective {
     public int Duration { get; set; } // in ms
     public System.Windows.Forms.Timer Timer { get; set; }
     public bool IsDone { get; private set; }
-    public Objective(Vector position) : this(position, 5000) { }
+    public Objective(Vector position) : this(position, 2000) { }
     public Objective(Vector position, int duration) {
         Position = position;
         Duration = duration;
         Timer = new System.Windows.Forms.Timer();
         Timer.Interval = Duration;
-        Timer.Tick += EndTask;
+        Timer.Tick += new EventHandler(EndTask);;
         IsDone = false;
     }
     
@@ -26,8 +26,8 @@ public class Objective {
     }
 
     private void EndTask(object? sender, EventArgs e) {
-        IsDone = true;
         Timer.Stop();
+        IsDone = true;
         Survivor.IsDoingTask = false;
         Survivor = null;
         Console.WriteLine("Task is done");

@@ -27,6 +27,8 @@ public class World : IRenderable {
         DrawGrid();
         MakeObjectives();
         Populate();
+
+        //Objectives[Objectives.Count - 1].StartTask(MovingEntities[0] as Survivor);
     }
 
     private void DrawGrid() {
