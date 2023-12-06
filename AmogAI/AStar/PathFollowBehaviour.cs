@@ -18,8 +18,8 @@ public class PathFollowBehaviour {
         _gridNodes = gridNodes;
         Arrived = false;
 
-        if (entity.Position == Destination)
-            Arrived = true;
+        //if (entity.Position == Destination)
+        //    Arrived = true;
     }
 
     public void SetDestination(Objective destination) {

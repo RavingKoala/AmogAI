@@ -11,7 +11,7 @@ public abstract class MovingEntity : IRenderable {
     public Vector Heading { get; set; }
     public Vector Side { get; set; }
     public SteeringBehaviour SteeringBehaviour { get; set; }
-    public PathFollowBehaviour? PathFollowBehaviour { get; set; }
+    public PathFollowBehaviour PathFollowBehaviour { get; set; }
     public float Mass { get; set; }
     public float MaxSpeed { get; set; }
     public float MaxForce { get; set; }
@@ -38,6 +38,13 @@ public abstract class MovingEntity : IRenderable {
     }
 
     public virtual void Update(float timeDelta) {
+        Survivor survivor = this as Survivor;
+        if (survivor != null) {
+            if (survivor.IsDoingTask) {
+                return;
+            }
+        }
+
         TimeElapsed = timeDelta;
 
         // If a path is set, update method will move on that path

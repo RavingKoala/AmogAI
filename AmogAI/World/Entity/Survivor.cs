@@ -13,6 +13,7 @@ public class Survivor : MovingEntity {
     public float decisionIntervalDelta = 0;
     public float Health { get; set; }
     public Objective CurrentObjective { get; set; }
+    public bool IsDoingTask { get; set; }
 
     public Survivor(Vector pos, World world) : base(pos, world) {
         Velocity = new Vector(0, 0);
@@ -29,6 +30,10 @@ public class Survivor : MovingEntity {
 
     public void SetObjective(int objectiveId) {
         CurrentObjective = World.Objectives[objectiveId-1];
+    }
+
+    public void StartCurrentTask() {
+        CurrentObjective.StartTask(this);
     }
 
     public override void Update(float timeDelta) {
