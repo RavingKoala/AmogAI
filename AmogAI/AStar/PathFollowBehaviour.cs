@@ -8,26 +8,29 @@ using System.Collections.Generic;
 
 public class PathFollowBehaviour {
     private readonly MovingEntity _entity;
-    private World _world;
-    public Queue<Node>? Path { get; private set; } // does not contain the next node on path
-    private Vector To;
-    public bool HasArrived { get; private set; }
-    public bool IsImpossible { get; private set; }
+    private readonly List<Node> _gridNodes;
+    public Queue<Node> Path { get; private set; } // does not contain the next node on path
+    public Node NextNodeOnPath { get; private set; }
+    public Vector Destination { get; private set; }
+    public bool Arrived { get; private set;}
 
-    public PathFollowBehaviour(MovingEntity entity, World world, Vector destination) {
+    public PathFollowBehaviour(MovingEntity entity, List<Node> gridNodes) {
         _entity = entity;
-        _world = world;
-        To = destination;
-        CalcAStarTo(destination);
-        HasArrived = false;
+        _gridNodes = gridNodes;
+        Arrived = false;
 
-        if (entity.Position == destination)
-            HasArrived = true;
+        //if (entity.Position == Destination)
+        //    Arrived = true;
+    }
+
+    public void SetDestination(Objective destination) {
+        Destination = destination.Position;
+        CalcAStar();
     }
 
     public static Node GetClosestNodeFromVector(Vector vector, List<Node> nodes) {
         if (nodes.Count <= 0)
-            throw new Exception("calculating on empty Node list.");
+            throw new Exception("Calculating on empty node list.");
 
         Node closestNode = nodes[0];
         foreach (Node node in nodes)
@@ -37,14 +40,14 @@ public class PathFollowBehaviour {
         return closestNode;
     }
 
-    public Vector update() {
-        if (To == _entity.Position) {
-            HasArrived = true;
+    public Vector Update() {
+        if (Destination == _entity.Position) {
+            Arrived = true;
             return new Vector(0, 0);
         }
 
         if (Path.Count <= 0)
-            return To - _entity.Position;
+            return Destination - _entity.Position;
 
         if (_entity.Position == Path.Peek().Position) {
             Node tempNode = Path.Dequeue();
@@ -54,21 +57,15 @@ public class PathFollowBehaviour {
         return Path.Peek().Position - _entity.Position;
     }
 
-    public void CalcAStarTo(Objective objective) {
-        CalcAStarTo(objective.Position);
+    public void CalcAStar() {
+        Node toNode = GetClosestNodeFromVector(Destination, _gridNodes);
+        Node fromNode = GetClosestNodeFromVector(_entity.Position, _gridNodes);
+        Path = AStar.FindPath(fromNode, toNode, _gridNodes);
     }
 
-    public void CalcAStarTo(Vector vector) {
-        To = vector;
-        Node toNode = PathFollowBehaviour.GetClosestNodeFromVector(vector, _world.GridNodes);
-        Node fromNode = PathFollowBehaviour.GetClosestNodeFromVector(_entity.Position, _world.GridNodes);
-        Queue<Node>? path = AStar.FindPath(fromNode, toNode, _world.GridEdges);
-        if (path != null) {
-            Path = path;
-            IsImpossible = false;
-        } else {
-            Path = new Queue<Node>();
-            IsImpossible = true;
-        }
+    public void ClearPath() {
+        Path.Clear();
+        Destination = null;
+        Arrived = false;
     }
 }

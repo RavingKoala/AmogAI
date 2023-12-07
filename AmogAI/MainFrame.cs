@@ -25,7 +25,7 @@ public partial class MainFrame : Form {
 
         GameTimer = new System.Timers.Timer();
         GameTimer.Elapsed += Timer_Elapsed;
-        GameTimer.Interval = 1000 / Properties.Settings.Default.fps;
+        GameTimer.Interval = _timeDelta;
         GameTimer.Enabled = true;
     }
 

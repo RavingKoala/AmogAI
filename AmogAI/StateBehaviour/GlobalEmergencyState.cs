@@ -13,7 +13,7 @@ public class GlobalEmergencyState : IState<World> {
         }
     }
 
-    public void Execute(World world) {
+    public void Execute(World world, float timeDelta) {
         if (!world.EmergencyHappening) {
             world.GlobalStateMachine.ChangeState(new GlobalTaskState());
         }
