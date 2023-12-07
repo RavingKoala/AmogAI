@@ -2,7 +2,7 @@
 
 public abstract class StateMachine<T> {
     public T Owner { get; set; }
-    public IState<T> CurrentState { get; set; }
+    public IState<T>? CurrentState { get; set; }
 
     public StateMachine(T owner) {
         CurrentState = null;
@@ -11,7 +11,7 @@ public abstract class StateMachine<T> {
 
     public void Update(float timeDelta) {
         if (CurrentState != null)
-            CurrentState.Execute(Owner);
+            CurrentState.Execute(Owner, timeDelta);
     }
 
     public void ChangeState(IState<T> newState) {

@@ -13,7 +13,7 @@ public class GlobalTaskState : IState<World> {
         }
     }
 
-    public void Execute(World world) {
+    public void Execute(World world, float timeDelta) {
         if (world.EmergencyHappening) {
             world.GlobalStateMachine.ChangeState(new GlobalEmergencyState());
             // start an emergency, this should call a method inside World that starts a random emergency

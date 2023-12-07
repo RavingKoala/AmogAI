@@ -7,7 +7,7 @@ public class WalkTowardsEmergencyState : IState<Survivor> {
         // calculate shortest path to emergency
     }
 
-    public void Execute(Survivor survivor) {
+    public void Execute(Survivor survivor, float timeDelta) {
         // walk towards emergency then turn down velocity/mass to 0
 
         // survivor.SurvivorStateMachine.StateMachine.ChangeState(new DoEmergencyState());

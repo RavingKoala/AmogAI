@@ -5,31 +5,24 @@ using SteeringBehaviour;
 public class Objective {
     private const float SIZE = 20.0f;
     public Vector Position { get; set; }
-    public Survivor Survivor { get; private set; }
     public int Duration { get; set; } // in ms
-    public System.Windows.Forms.Timer Timer { get; set; }
+    public bool IsInProgress { get; private set; }
     public bool IsDone { get; private set; }
     public Objective(Vector position) : this(position, 5000) { }
     public Objective(Vector position, int duration) {
         Position = position;
         Duration = duration;
         IsDone = false;
+        //IsInProgress = false;
     }
     
     public void StartTask(Survivor survivor) {
-        Timer = new System.Windows.Forms.Timer();
-        Timer.Interval = Duration;
-        Timer.Tick += new EventHandler(EndTask);
-        Survivor = survivor;
-        Survivor.IsDoingTask = true;
-        Timer.Start();
+        IsInProgress = true;
     }
 
-    private void EndTask(object? sender, EventArgs e) {
-        Timer.Stop();
+    public void EndTask() {
+        IsInProgress = false;
         IsDone = true;
-        Survivor.IsDoingTask = false;
-        Survivor = null;
         Console.WriteLine("Task is done");
     }
 

@@ -89,7 +89,6 @@ public class World : IRenderable {
 
     public void Update(float timeDelta) {
         GlobalStateMachine.Update(timeDelta);
-        Console.Write("+");
 
         foreach (var entity in MovingEntities) {
             entity.Update(timeDelta);

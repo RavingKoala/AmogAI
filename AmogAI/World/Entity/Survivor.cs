@@ -12,7 +12,8 @@ public class Survivor : MovingEntity {
     public const float decisionInterval = 1000; // ms
     public float decisionIntervalDelta = 0;
     public float Health { get; set; }
-    public Objective CurrentObjective { get; set; }
+    public Objective? CurrentObjective { get; set; }
+    public float ObjectiveProgress { get; set; }
     public bool IsDoingTask { get; set; }
 
     public Survivor(Vector pos, World world) : base(pos, world) {
@@ -33,11 +34,18 @@ public class Survivor : MovingEntity {
     }
 
     public void StartCurrentTask() {
+        IsDoingTask = true;
         CurrentObjective.StartTask(this);
     }
 
     public override void Update(float timeDelta) {
         if (IsDoingTask) {
+            ObjectiveProgress += timeDelta;
+            if (ObjectiveProgress >= CurrentObjective.Duration) {
+                CurrentObjective.EndTask();
+                IsDoingTask = false;
+            }
+
             return;
         }
 

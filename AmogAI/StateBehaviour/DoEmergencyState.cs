@@ -7,7 +7,7 @@ public class DoEmergencyState : IState<Survivor> {
         // start doing emergency
     }
 
-    public void Execute(Survivor survivor) {
+    public void Execute(Survivor survivor, float timeDelta) {
         // wait at task location until emergency is done (its timer is up)
 
         // survivor.World.EmergencyHappening = false;
