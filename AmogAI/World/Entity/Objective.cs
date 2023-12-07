@@ -12,8 +12,6 @@ public class Objective {
     public Objective(Vector position, int duration) {
         Position = position;
         Duration = duration;
-        IsDone = false;
-        //IsInProgress = false;
     }
     
     public void StartTask(Survivor survivor) {
