@@ -28,7 +28,7 @@ public class World : IRenderable {
         MakeObjectives();
         Populate();
 
-        //Objectives[Objectives.Count - 1].StartTask(MovingEntities[0] as Survivor);
+        //Objectives[0].StartTask(MovingEntities[0] as Survivor);
     }
 
     private void DrawGrid() {
@@ -89,6 +89,7 @@ public class World : IRenderable {
 
     public void Update(float timeDelta) {
         GlobalStateMachine.Update(timeDelta);
+        Console.Write("+");
 
         foreach (var entity in MovingEntities) {
             entity.Update(timeDelta);

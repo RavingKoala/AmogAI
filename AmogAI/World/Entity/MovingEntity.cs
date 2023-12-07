@@ -38,13 +38,6 @@ public abstract class MovingEntity : IRenderable {
     }
 
     public virtual void Update(float timeDelta) {
-        Survivor survivor = this as Survivor;
-        if (survivor != null) {
-            if (survivor.IsDoingTask) {
-                return;
-            }
-        }
-
         TimeElapsed = timeDelta;
 
         // If a path is set, update method will move on that path

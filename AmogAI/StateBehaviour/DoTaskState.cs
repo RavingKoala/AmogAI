@@ -8,8 +8,8 @@ public class DoTaskState : IState<Survivor> {
     }
 
     public void Execute(Survivor survivor) {
-        if (survivor.CurrentObjective.Timer.Enabled)
-            Console.WriteLine("timer is working");
+        //if (survivor.CurrentObjective.Timer.Enabled)
+        //    Console.WriteLine("timer is working");
 
         if (survivor.CurrentObjective.IsDone) {
             Console.WriteLine("changing to seektaskstate");

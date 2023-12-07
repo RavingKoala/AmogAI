@@ -9,17 +9,17 @@ public class Objective {
     public int Duration { get; set; } // in ms
     public System.Windows.Forms.Timer Timer { get; set; }
     public bool IsDone { get; private set; }
-    public Objective(Vector position) : this(position, 2000) { }
+    public Objective(Vector position) : this(position, 5000) { }
     public Objective(Vector position, int duration) {
         Position = position;
         Duration = duration;
-        Timer = new System.Windows.Forms.Timer();
-        Timer.Interval = Duration;
-        Timer.Tick += new EventHandler(EndTask);;
         IsDone = false;
     }
     
     public void StartTask(Survivor survivor) {
+        Timer = new System.Windows.Forms.Timer();
+        Timer.Interval = Duration;
+        Timer.Tick += new EventHandler(EndTask);
         Survivor = survivor;
         Survivor.IsDoingTask = true;
         Timer.Start();

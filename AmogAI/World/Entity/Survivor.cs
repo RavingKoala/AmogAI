@@ -37,6 +37,10 @@ public class Survivor : MovingEntity {
     }
 
     public override void Update(float timeDelta) {
+        if (IsDoingTask) {
+            return;
+        }
+
         base.Update(timeDelta);
         SurvivorStateMachine.Update(timeDelta);
 
