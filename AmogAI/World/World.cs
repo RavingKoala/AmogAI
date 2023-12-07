@@ -118,7 +118,6 @@ public class World : IRenderable {
                 Survivor survivor = (Survivor)entity;
                 entity.RenderOverlay(g);
             }
-        g.FillEllipse(new SolidBrush(Color.Green), 804, 764, 12, 12);
     }
 
 }
