@@ -24,15 +24,18 @@ public class Node : IRenderable {
         g.FillEllipse(b, Position.X - 2, Position.Y - 2, 4, 4);
     }
 
-    public static bool operator ==(Node n1, Node n2) {
-        if ((object) n1 == null)
-            return (object) n2 == null;
+    public static bool operator ==(Node? n1, Node? n2) {
+        if (n1 == null)
+            return n2 == null;
 
         return n1.Equals(n2);
     }
 
-    public static bool operator !=(Node n1, Node n2) {
-        return !(n1 == n2);
+    public static bool operator !=(Node? n1, Node? n2) {
+        if (n1 == null)
+            return n2 != null;
+
+        return !n1.Equals(n2);
     }
 
     public override bool Equals(object? obj) {
