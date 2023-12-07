@@ -132,17 +132,6 @@ public class Vector {
         return vector2D.LengthSquared();
     }
 
-    public static Vector PointToWorldSpace(Vector point, Vector heading, Vector side, Vector pos) {
-        Vector transPoint = point;
-
-        Matrix transformMatrix = new Matrix();
-        transformMatrix *= Matrix.RotateMatrix(heading, side);
-        transformMatrix *= Matrix.Translate(pos);
-        transformMatrix.TransformVector(transPoint);
-
-        return transPoint;
-    }
-
     public static Vector RotateAroundOrigin(Vector vector, float degrees) {
         float radians = (float)Math.PI * degrees / 180.0f;
         float cosTheta = (float)Math.Cos(radians);
@@ -154,21 +143,6 @@ public class Vector {
         return new Vector(newX, newY);
     }
 
-    // Used for wrapping around the screen, probably not needed for this project but can stay here for now
-    public static void WrapAround(Vector pos, int maxX, int maxY) {
-        if (pos.X > maxX)
-            pos.X = 0.0f;
-
-        if (pos.X < 0)
-            pos.X = maxX;
-
-        if (pos.Y < 0)
-            pos.Y = maxY;
-
-        if (pos.Y > maxY)
-            pos.Y = 0.0f;
-    }
-
     public static bool operator ==(Vector v1, Vector v2) {
         if ((object)v1 == null)
             return (object)v2 == null;
@@ -177,6 +151,9 @@ public class Vector {
     }
 
     public static bool operator !=(Vector v1, Vector v2) {
+        if ((object)v1 == null)
+            return (object)v2 != null;
+
         return !(v1 == v2);
     }
 

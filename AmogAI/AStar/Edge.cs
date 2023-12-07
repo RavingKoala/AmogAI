@@ -27,13 +27,16 @@ public class Edge : IRenderable {
     }
 
     public static bool operator ==(Edge e1, Edge e2) {
-        if ((object) e1 == null)
-            return (object) e2 == null;
+        if ((object)e1 is null)
+            return (object)e2 is null;
 
         return e1.Equals(e2);
     }
 
     public static bool operator !=(Edge e1, Edge e2) {
+        if ((object)e1 is null)
+            return (object)e2 is not null;
+        
         return !(e1 == e2);
     }
 

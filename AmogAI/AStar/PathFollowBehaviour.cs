@@ -12,7 +12,7 @@ public class PathFollowBehaviour {
     private readonly List<Edge> _gridEdges;
     public Queue<Node> Path { get; private set; } // does not contain the next node on path
     public Node NextNodeOnPath { get; private set; }
-    public Vector Destination { get; private set; }
+    public Vector? Destination { get; private set; }
     public bool Arrived { get; private set;}
 
     public PathFollowBehaviour(MovingEntity entity, List<Node> gridNodes, List<Edge> gridEdges) {
