@@ -9,14 +9,16 @@ using System.Collections.Generic;
 public class PathFollowBehaviour {
     private readonly MovingEntity _entity;
     private readonly List<Node> _gridNodes;
+    private readonly List<Edge> _gridEdges;
     public Queue<Node> Path { get; private set; } // does not contain the next node on path
     public Node NextNodeOnPath { get; private set; }
     public Vector Destination { get; private set; }
     public bool Arrived { get; private set;}
 
-    public PathFollowBehaviour(MovingEntity entity, List<Node> gridNodes) {
+    public PathFollowBehaviour(MovingEntity entity, List<Node> gridNodes, List<Edge> gridEdges) {
         _entity = entity;
         _gridNodes = gridNodes;
+        _gridEdges = gridEdges;
         Arrived = false;
     }
 
@@ -57,7 +59,7 @@ public class PathFollowBehaviour {
     public void CalcAStar() {
         Node toNode = GetClosestNodeFromVector(Destination, _gridNodes);
         Node fromNode = GetClosestNodeFromVector(_entity.Position, _gridNodes);
-        Path = AStar.FindPath(fromNode, toNode, _gridNodes);
+        Path = AStar.FindPath(fromNode, toNode, _gridEdges);
     }
 
     public void ClearPath() {

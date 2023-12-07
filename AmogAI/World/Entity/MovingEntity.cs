@@ -30,7 +30,7 @@ public abstract class MovingEntity : IRenderable {
         Heading = new Vector();
         Side = new Vector();
         SteeringBehaviour = new SteeringBehaviour(this);
-        PathFollowBehaviour = new PathFollowBehaviour(this, world.GridNodes);
+        PathFollowBehaviour = new PathFollowBehaviour(this, world.GridNodes, world.GridEdges);
     }
 
     public virtual void Render(Graphics g) {
