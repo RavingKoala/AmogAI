@@ -61,7 +61,7 @@ public class PathFollowBehaviour {
     }
 
     public void CalcAStar() {
-        if (Destination != null) {
+        if (Destination == null) {
             Path = null;
             return;
         }

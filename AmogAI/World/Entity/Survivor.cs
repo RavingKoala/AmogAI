@@ -34,12 +34,14 @@ public class Survivor : MovingEntity {
     }
 
     public void StartCurrentTask() {
-        IsDoingTask = true;
-        CurrentObjective.StartTask(this);
+        if (CurrentObjective != null) {
+            IsDoingTask = true;
+            CurrentObjective.StartTask(this);
+        }
     }
 
     public override void Update(float timeDelta) {
-        if (IsDoingTask) {
+        if (IsDoingTask && CurrentObjective != null) {
             ObjectiveProgress += timeDelta;
             if (ObjectiveProgress >= CurrentObjective.Duration) {
                 CurrentObjective.EndTask();

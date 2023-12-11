@@ -31,6 +31,7 @@ public class SteeringBehaviour {
         Entity = entity;
         _behaviours = new bool[Enum.GetNames(typeof(BehaviourType)).Length];
         Feelers = new Vector[3];
+        WanderTarget = new Vector(0, 0);
 
         WanderRadius = 15f;
         WanderDistance = 40f;
