@@ -25,15 +25,15 @@ public class Node : IRenderable {
     }
 
     public static bool operator ==(Node? n1, Node? n2) {
-        if (n1 == null)
-            return n2 == null;
+        if (n1 is null)
+            return n2 is null;
 
         return n1.Equals(n2);
     }
 
     public static bool operator !=(Node? n1, Node? n2) {
-        if (n1 == null)
-            return n2 != null;
+        if (n1 is null)
+            return n2 is not null;
 
         return !n1.Equals(n2);
     }
@@ -46,5 +46,9 @@ public class Node : IRenderable {
             Node node = (Node) obj;
             return Position == node.Position;
         }
+    }
+
+    public override int GetHashCode() {
+        return Position.GetHashCode();
     }
 }

@@ -27,15 +27,15 @@ public class Edge : IRenderable {
     }
 
     public static bool operator ==(Edge? e1, Edge? e2) {
-        if (e1 == null)
-            return e2 == null;
+        if (e1 is null)
+            return e2 is null;
 
         return e1.Equals(e2);
     }
 
     public static bool operator !=(Edge? e1, Edge? e2) {
-        if (e1 == null)
-            return e2 != null;
+        if (e1 is null)
+            return e2 is not null;
         
         return !e1.Equals(e2);
     }
@@ -49,7 +49,11 @@ public class Edge : IRenderable {
             if (Bidirectional)
                 return Node1.Equals(edge.Node1) && Node2.Equals(edge.Node2) || Node1.Equals(edge.Node2) && Node2.Equals(edge.Node1);
 
-            return this.Node1.Equals(edge.Node1) && this.Node2.Equals(edge.Node2);
+            return Node1.Equals(edge.Node1) && Node2.Equals(edge.Node2);
         }
+    }
+
+    public override int GetHashCode() {
+        return Node1.GetHashCode() ^ Node2.GetHashCode() ^ (int) cost ^ (Bidirectional ? -1 : 0);
     }
 }
