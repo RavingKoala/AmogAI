@@ -10,8 +10,7 @@ public class PathFollowBehaviour {
     private readonly MovingEntity _entity;
     private readonly List<Node> _gridNodes;
     private readonly List<Edge> _gridEdges;
-    public Queue<Node> Path { get; private set; } // does not contain the next node on path
-    public Node NextNodeOnPath { get; private set; }
+    public Queue<Node>? Path { get; private set; } // does not contain the next node on path
     public Vector? Destination { get; private set; }
     public bool Arrived { get; private set;}
 
@@ -25,6 +24,8 @@ public class PathFollowBehaviour {
     public void SetDestination(Objective destination) {
         Destination = destination.Position;
         CalcAStar();
+        if (Path != null)
+            Destination = null;
     }
 
     public static Node GetClosestNodeFromVector(Vector vector, List<Node> nodes) {
@@ -40,12 +41,15 @@ public class PathFollowBehaviour {
     }
 
     public Vector Update() {
+        if (Destination == null)
+            return new Vector(0, 0);
+
         if (Destination == _entity.Position) {
             Arrived = true;
             return new Vector(0, 0);
         }
 
-        if (Path.Count <= 0)
+        if (Path == null || Path.Count <= 0)
             return Destination - _entity.Position;
 
         if (_entity.Position == Path.Peek().Position) {
@@ -57,13 +61,17 @@ public class PathFollowBehaviour {
     }
 
     public void CalcAStar() {
+        if (Destination != null) {
+            Path = null;
+            return;
+        }
         Node toNode = GetClosestNodeFromVector(Destination, _gridNodes);
         Node fromNode = GetClosestNodeFromVector(_entity.Position, _gridNodes);
         Path = AStar.FindPath(fromNode, toNode, _gridEdges);
     }
 
     public void ClearPath() {
-        Path.Clear();
+        Path?.Clear();
         Destination = null;
         Arrived = false;
     }
