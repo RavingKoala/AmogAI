@@ -23,7 +23,7 @@ public class SeekTaskState : IState<Survivor> {
         // wander for a while until desirability of a task is high enough to assign
         if (_taskAssigned) {
             _timer.Dispose();
-            survivor.SetObjective(0);
+            survivor.SetObjective(1);
             Console.WriteLine("changing to walktowardstaskstate");
             survivor.SurvivorStateMachine.StateMachine.ChangeState(new WalkTowardsTaskState());
         }

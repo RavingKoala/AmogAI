@@ -24,7 +24,7 @@ public class PathFollowBehaviour {
     public void SetDestination(Objective destination) {
         Destination = destination.Position;
         CalcAStar();
-        if (Path != null)
+        if (Path == null)
             Destination = null;
     }
 
@@ -71,7 +71,7 @@ public class PathFollowBehaviour {
     }
 
     public void ClearPath() {
-        Path?.Clear();
+        Path = null;
         Destination = null;
         Arrived = false;
     }
