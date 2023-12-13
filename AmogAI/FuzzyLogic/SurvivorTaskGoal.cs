@@ -26,7 +26,7 @@ public class SurvivorTaskGoal {
     }
 
     public float Process(List<Objective> objectives) {
-        Objective currentObjective = objectives[1];
+        Objective currentObjective = objectives[0];
 
         _fm.Fuzzify("TaskDistance", (_survivor.Position - currentObjective.Position).Length());
         _fm.Fuzzify("SurvivorHealth", _survivor.Health);
