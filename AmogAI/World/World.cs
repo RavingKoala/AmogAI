@@ -111,8 +111,38 @@ public class World : IRenderable {
         Walls.Add(URwall2);
         Walls.Add(URwall3);
         Walls.Add(URwall4);
-        Walls.Add(URwall5); 
+        Walls.Add(URwall5);
         Walls.Add(URwall6);
+
+        // Lower left structure
+        Wall LLwall1 = new Wall(new Vector(99, 451), new Vector(99, 701), true);
+        Wall LLwall2 = new Wall(new Vector(99, 451), new Vector(149, 451), false);
+        Wall LLwall3 = new Wall(new Vector(99, 701), new Vector(499, 701), true);
+        Wall LLwall4 = new Wall(new Vector(499, 701), new Vector(499, 651), true);
+        Wall LLwall5 = new Wall(new Vector(149, 651), new Vector(499, 651), false);
+        Wall LLwall6 = new Wall(new Vector(149, 451), new Vector(149, 651), false);
+
+        Walls.Add(LLwall1);
+        Walls.Add(LLwall2);
+        Walls.Add(LLwall3);
+        Walls.Add(LLwall4);
+        Walls.Add(LLwall5);
+        Walls.Add(LLwall6);
+
+        // Lower middle structure
+        Wall LMwall1 = new Wall(new Vector(250, 450), new Vector(700, 450), false);
+        Wall LMwall2 = new Wall(new Vector(700, 450), new Vector(700, 700), false);
+        Wall LMwall3 = new Wall(new Vector(650, 700), new Vector(700, 700), true);
+        Wall LMwall4 = new Wall(new Vector(650, 500), new Vector(650, 700), true);
+        Wall LMwall5 = new Wall(new Vector(250, 450), new Vector(250, 500), true);
+        Wall LMwall6 = new Wall(new Vector(250, 500), new Vector(650, 500), true);
+
+        Walls.Add(LMwall1);
+        Walls.Add(LMwall2);
+        Walls.Add(LMwall3);
+        Walls.Add(LMwall4);
+        Walls.Add(LMwall5);
+        Walls.Add(LMwall6);
     }
 
     public void Update(float timeDelta) {
