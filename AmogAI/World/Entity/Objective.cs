@@ -21,6 +21,7 @@ public class Objective {
     public void EndTask() {
         IsInProgress = false;
         IsDone = true;
+        Console.WriteLine("Task is done");
     }
 
     public void Render(Graphics g) {

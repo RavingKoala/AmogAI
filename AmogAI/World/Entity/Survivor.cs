@@ -59,7 +59,7 @@ public class Survivor : MovingEntity {
             decisionIntervalDelta = 0;
 
             float result = SurvivorTaskGoal.Process(World.Objectives);
-            //Console.WriteLine(result);
+            Console.WriteLine(result);
         }
     }
 
@@ -83,20 +83,19 @@ public class Survivor : MovingEntity {
             Position.X + Velocity.X * 80,
             Position.Y + Velocity.Y * 80);
 
-        if (SteeringBehaviour.On(BehaviourType.Wander)) {
+        if (PathFollowBehaviour == null) { // TODO: No pathfollow means
             // Draw the wander circle and target
             Vector circleCenter = Heading.Clone().Normalize() * SteeringBehaviour.WanderDistance + Position;
             double circleX = circleCenter.X - SteeringBehaviour.WanderRadius;
             double circleY = circleCenter.Y - SteeringBehaviour.WanderRadius;
             double sizeRadius = SteeringBehaviour.WanderRadius * 2;
 
-            g.DrawEllipse(p, new Rectangle((int)circleX, (int)circleY, (int)sizeRadius, (int)sizeRadius));
-
-            double targetX = Position.X + (SteeringBehaviour.WanderTarget.X - Scale);
-            double targetY = Position.Y + (SteeringBehaviour.WanderTarget.Y - Scale);
-            double sizeTarget = Scale * 2;
-            Pen p2 = new Pen(Color.Red, 1);
-            g.DrawEllipse(p2, new Rectangle((int)targetX, (int)targetY, (int)sizeTarget, (int)sizeTarget));
+                g.DrawEllipse(p, new Rectangle((int)circleX, (int)circleY, (int)sizeRadius, (int)sizeRadius));
+                double targetX = Position.X + (SteeringBehaviour.WanderTarget.X - Scale);
+                double targetY = Position.Y + (SteeringBehaviour.WanderTarget.Y - Scale);
+                double sizeTarget = Scale * 2;
+                Pen p2 = new Pen(Color.Red, 1);
+                g.DrawEllipse(p2, new Rectangle((int)targetX, (int)targetY, (int)sizeTarget, (int)sizeTarget));
 
             // Draw the feelers
             Pen p3 = new Pen(Color.Green, 1);
@@ -107,6 +106,7 @@ public class Survivor : MovingEntity {
                     feeler.X,
                     feeler.Y);
             }
+            
         }
     }
 }
