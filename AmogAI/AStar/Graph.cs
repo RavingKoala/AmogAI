@@ -59,10 +59,8 @@ public class Graph {
 
     private static List<Node> getNodeNeighbours(Node node) {
         List<Node> retList = new List<Node>();
-        foreach (var xDir in new int[] { -1, 1 })
-            foreach (var yDir in new int[] { -1, 1 })
-                if (xDir != 0 || yDir != 0)
-                    retList.Add(new Node(node.Position.X + xDir * NODE_SPACING, node.Position.Y + yDir * NODE_SPACING));
+        foreach ((int x, int y) in new[] { (-1, 0), (1, 0), (0, -1), (0, 1) })
+            retList.Add(new Node(node.Position.X + x * NODE_SPACING, node.Position.Y + y * NODE_SPACING));
 
         return retList;
     }
