@@ -1,4 +1,4 @@
-﻿namespace AmogAI.StateBehaviour;
+﻿namespace AmogAI.StateBehaviour.WordStates;
 
 using AmogAI.World;
 

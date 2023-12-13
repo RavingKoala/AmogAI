@@ -1,4 +1,4 @@
-﻿namespace AmogAI.StateBehaviour;
+﻿namespace AmogAI.StateBehaviour.SurvivorStates;
 
 // WalkTowardsEmergencyState
 // DoEmergencyState
@@ -10,5 +10,5 @@ public class EmergencyStateMachine : StateMachine<Survivor> {
     public EmergencyStateMachine(Survivor survivor) : base(survivor) {
         CurrentState = new WalkTowardsEmergencyState();
         CurrentState.Enter(survivor);
-    } 
+    }
 }

@@ -1,10 +1,10 @@
 ﻿namespace AmogAI.World;
 
-using AmogAI.StateBehaviour;
 using AmogAI.AStar;
 using AmogAI.SteeringBehaviour;
 using AmogAI.World.Entity;
 using System.Diagnostics;
+using AmogAI.StateBehaviour.WordStates;
 
 public class World : IRenderable {
     public bool EmergencyHappening { get; set; }

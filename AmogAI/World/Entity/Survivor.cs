@@ -2,7 +2,7 @@
 
 using AmogAI.AStar;
 using AmogAI.FuzzyLogic;
-using AmogAI.StateBehaviour;
+using AmogAI.StateBehaviour.SurvivorStates;
 using AmogAI.SteeringBehaviour;
 using System.Drawing;
 

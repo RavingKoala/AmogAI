@@ -1,34 +1,36 @@
-﻿namespace AmogAI.StateBehaviour;
+﻿namespace AmogAI.StateBehaviour.WordStates;
 
+using AmogAI.StateBehaviour.SurvivorStates;
 using AmogAI.World;
 using AmogAI.World.Entity;
 
-public class GlobalEmergencyState : IState<World> {
+public class GlobalTaskState : IState<World> {
     public void Enter(World world) {
         foreach (var entity in world.MovingEntities) {
             if (entity.GetType() == typeof(Survivor)) {
                 Survivor survivor = (Survivor)entity;
-                survivor.SurvivorStateMachine.ChangeStateMachine(new EmergencyStateMachine(survivor));
+                survivor.SurvivorStateMachine.ChangeStateMachine(new TaskStateMachine(survivor));
             }
         }
     }
 
     public void Execute(World world, float timeDelta) {
-        if (!world.EmergencyHappening) {
-            world.GlobalStateMachine.ChangeState(new GlobalTaskState());
+        if (world.EmergencyHappening) {
+            world.GlobalStateMachine.ChangeState(new GlobalEmergencyState());
+            // start an emergency, this should call a method inside World that starts a random emergency
         }
 
         //foreach (var entity in world.MovingEntities) {
         //    if (entity.GetType() == typeof(Survivor)) {
         //        Survivor survivor = (Survivor)entity;
         //        if (survivor.SurvivorStateMachine.StateMachine.CurrentState != null)
-        //            if (survivor.SurvivorStateMachine.StateMachine.GetType() == typeof(EmergencyStateMachine))
-        //                Console.WriteLine("in emergencystate");
+        //            if (survivor.SurvivorStateMachine.StateMachine.GetType() == typeof(TaskStateMachine))
+        //                Console.WriteLine("in taskstate");
         //    }
         //}
     }
 
     public void Exit(World world) {
-        Console.WriteLine("Emergency is over!");
+        Console.WriteLine("There's an emergency!");
     }
 }
