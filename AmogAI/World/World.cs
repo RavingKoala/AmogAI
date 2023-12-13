@@ -155,7 +155,7 @@ public class World : IRenderable {
         Wall LRwall4 = new Wall(new Vector(799, 701), new Vector(924, 701), true);
         Wall LRwall5 = new Wall(new Vector(1074, 701), new Vector(1199, 701), true);
         Wall LRwall6 = new Wall(new Vector(924, 701), new Vector(924, 626), true);
-        Wall LRwall7 = new Wall(new Vector(1074, 701), new Vector(1074, 626), true);
+        Wall LRwall7 = new Wall(new Vector(1074, 701), new Vector(1074, 626), false);
         Wall LRwall8 = new Wall(new Vector(924, 626), new Vector(1074, 626), true);
 
         Walls.Add(LRwall1); 
