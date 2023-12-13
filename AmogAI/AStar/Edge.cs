@@ -26,18 +26,18 @@ public class Edge : IRenderable {
         g.DrawLine(p, Node1.Position.X, Node1.Position.Y, Node2.Position.X, Node2.Position.Y);
     }
 
-    public static bool operator ==(Edge? e1, Edge? e2) {
-        if (e1 == null)
-            return e2 == null;
+    public static bool operator ==(Edge e1, Edge e2) {
+        if ((object)e1 is null)
+            return (object)e2 is null;
 
         return e1.Equals(e2);
     }
 
-    public static bool operator !=(Edge? e1, Edge? e2) {
-        if (e1 == null)
-            return e2 != null;
+    public static bool operator !=(Edge e1, Edge e2) {
+        if ((object)e1 is null)
+            return (object)e2 is not null;
         
-        return !e1.Equals(e2);
+        return !(e1 == e2);
     }
 
     public override bool Equals(object? obj) {

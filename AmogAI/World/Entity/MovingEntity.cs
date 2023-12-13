@@ -68,6 +68,7 @@ public abstract class MovingEntity : IRenderable {
             Side = Heading.Perp();
         }
 
+        //Console.WriteLine(ToString());
     }
 
     public override string ToString() {
