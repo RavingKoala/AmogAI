@@ -143,18 +143,18 @@ public class Vector {
         return new Vector(newX, newY);
     }
 
-    public static bool operator ==(Vector v1, Vector v2) {
-        if ((object)v1 == null)
-            return (object)v2 == null;
+    public static bool operator ==(Vector? v1, Vector? v2) {
+        if (v1 is null)
+            return v2 is null;
 
         return v1.Equals(v2);
     }
 
-    public static bool operator !=(Vector v1, Vector v2) {
-        if ((object)v1 == null)
-            return (object)v2 != null;
+    public static bool operator !=(Vector? v1, Vector? v2) {
+        if (v1 is null)
+            return v2 is not null;
 
-        return !(v1 == v2);
+        return !v1.Equals(v2);
     }
 
     public override bool Equals(Object? obj) {
@@ -165,5 +165,9 @@ public class Vector {
             Vector vec = (Vector)obj;
             return this.X == vec.X && this.Y == vec.Y;
         }
+    }
+
+    public override int GetHashCode() {
+        return (int)X ^ (int)Y;
     }
 }

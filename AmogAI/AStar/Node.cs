@@ -24,15 +24,18 @@ public class Node : IRenderable {
         g.FillEllipse(b, Position.X - 2, Position.Y - 2, 4, 4);
     }
 
-    public static bool operator ==(Node n1, Node n2) {
-        if ((object) n1 == null)
-            return (object) n2 == null;
+    public static bool operator ==(Node? n1, Node? n2) {
+        if (n1 is null)
+            return n2 is null;
 
         return n1.Equals(n2);
     }
 
-    public static bool operator !=(Node n1, Node n2) {
-        return !(n1 == n2);
+    public static bool operator !=(Node? n1, Node? n2) {
+        if (n1 is null)
+            return n2 is not null;
+
+        return !n1.Equals(n2);
     }
 
     public override bool Equals(object? obj) {
@@ -43,5 +46,9 @@ public class Node : IRenderable {
             Node node = (Node) obj;
             return Position == node.Position;
         }
+    }
+
+    public override int GetHashCode() {
+        return Position.GetHashCode();
     }
 }

@@ -26,18 +26,18 @@ public class Edge : IRenderable {
         g.DrawLine(p, Node1.Position.X, Node1.Position.Y, Node2.Position.X, Node2.Position.Y);
     }
 
-    public static bool operator ==(Edge e1, Edge e2) {
-        if ((object)e1 is null)
-            return (object)e2 is null;
+    public static bool operator ==(Edge? e1, Edge? e2) {
+        if (e1 is null)
+            return e2 is null;
 
         return e1.Equals(e2);
     }
 
-    public static bool operator !=(Edge e1, Edge e2) {
-        if ((object)e1 is null)
-            return (object)e2 is not null;
+    public static bool operator !=(Edge? e1, Edge? e2) {
+        if (e1 is null)
+            return e2 is not null;
         
-        return !(e1 == e2);
+        return !e1.Equals(e2);
     }
 
     public override bool Equals(object? obj) {
@@ -49,7 +49,11 @@ public class Edge : IRenderable {
             if (Bidirectional)
                 return Node1.Equals(edge.Node1) && Node2.Equals(edge.Node2) || Node1.Equals(edge.Node2) && Node2.Equals(edge.Node1);
 
-            return this.Node1.Equals(edge.Node1) && this.Node2.Equals(edge.Node2);
+            return Node1.Equals(edge.Node1) && Node2.Equals(edge.Node2);
         }
+    }
+
+    public override int GetHashCode() {
+        return Node1.GetHashCode() ^ Node2.GetHashCode() ^ (int) cost ^ (Bidirectional ? -1 : 0);
     }
 }

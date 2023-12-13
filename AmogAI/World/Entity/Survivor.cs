@@ -34,12 +34,14 @@ public class Survivor : MovingEntity {
     }
 
     public void StartCurrentTask() {
-        IsDoingTask = true;
-        CurrentObjective.StartTask(this);
+        if (CurrentObjective != null) {
+            IsDoingTask = true;
+            CurrentObjective.StartTask(this);
+        }
     }
 
     public override void Update(float timeDelta) {
-        if (IsDoingTask) {
+        if (IsDoingTask && CurrentObjective != null) {
             ObjectiveProgress += timeDelta;
             if (ObjectiveProgress >= CurrentObjective.Duration) {
                 CurrentObjective.EndTask();
@@ -56,7 +58,7 @@ public class Survivor : MovingEntity {
         if (decisionIntervalDelta > decisionInterval) {
             decisionIntervalDelta = 0;
 
-            float result = SurvivorTaskGoal.Process(this.World.Objectives);
+            float result = SurvivorTaskGoal.Process(World.Objectives);
             Console.WriteLine(result);
         }
     }
@@ -88,27 +90,23 @@ public class Survivor : MovingEntity {
             double circleY = circleCenter.Y - SteeringBehaviour.WanderRadius;
             double sizeRadius = SteeringBehaviour.WanderRadius * 2;
 
-            if (SteeringBehaviour.WanderTarget != null) {
                 g.DrawEllipse(p, new Rectangle((int)circleX, (int)circleY, (int)sizeRadius, (int)sizeRadius));
-
                 double targetX = Position.X + (SteeringBehaviour.WanderTarget.X - Scale);
                 double targetY = Position.Y + (SteeringBehaviour.WanderTarget.Y - Scale);
                 double sizeTarget = Scale * 2;
                 Pen p2 = new Pen(Color.Red, 1);
                 g.DrawEllipse(p2, new Rectangle((int)targetX, (int)targetY, (int)sizeTarget, (int)sizeTarget));
-            }
 
             // Draw the feelers
             Pen p3 = new Pen(Color.Green, 1);
-            if (SteeringBehaviour.Feelers != null) {
-                foreach (var feeler in SteeringBehaviour.Feelers) {
-                    g.DrawLine(p3,
-                        Position.X,
-                        Position.Y,
-                        feeler.X,
-                        feeler.Y);
-                }
+            foreach (var feeler in SteeringBehaviour.Feelers) {
+                g.DrawLine(p3,
+                    Position.X,
+                    Position.Y,
+                    feeler.X,
+                    feeler.Y);
             }
+            
         }
     }
 }

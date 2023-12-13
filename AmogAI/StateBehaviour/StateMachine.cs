@@ -15,7 +15,8 @@ public abstract class StateMachine<T> {
     }
 
     public void ChangeState(IState<T> newState) {
-        CurrentState.Exit(Owner);
+        if (CurrentState != null)
+            CurrentState.Exit(Owner);
         CurrentState = newState;
         CurrentState.Enter(Owner);
     }
