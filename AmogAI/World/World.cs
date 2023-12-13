@@ -9,6 +9,7 @@ using System.Diagnostics;
 public class World : IRenderable {
     public bool EmergencyHappening { get; set; }
     public Stopwatch Stopwatch { get; set; }
+    public Objective EmergencyObjective { get; set; }
     public List<MovingEntity> MovingEntities { get; set; }
     public List<Objective> Objectives { get; set; }
     public List<Wall> Walls { get; set; }
@@ -34,15 +35,18 @@ public class World : IRenderable {
     }
 
     private void MakeObjectives() {
-        //var gridDistance = 200;
-        //for (int x = 1; x < 5; x++) {
-        //    for (int y = 1; y < 4; y++) {
-        //        Objectives.Add(new Objective(new Vector(x * gridDistance, y * gridDistance)));
-        //    }
-        //}
-        Objective o1 = new Objective(new Vector(200, 225));
+        Objective upperLeft = new Objective(new Vector(200, 225));
+        Objective upperRight = new Objective(new Vector(950, 200));
+        Objective lowerLeft = new Objective(new Vector(200, 600));
+        Objective lowerRight = new Objective(new Vector(1000, 675));
 
-        Objectives.Add(o1);
+        Objectives.Add(upperLeft);
+        Objectives.Add(upperRight);
+        Objectives.Add(lowerLeft);
+        Objectives.Add(lowerRight);
+
+        EmergencyObjective = new Objective(new Vector(1000, 450));
+        Objectives.Add(EmergencyObjective);
     }
 
     private void Populate() {
@@ -164,7 +168,23 @@ public class World : IRenderable {
         Walls.Add(LRwall8);
 
         // Emergency structure
+        Wall EWall1 = new Wall(new Vector(874, 401), new Vector(924, 401), false);  
+        Wall EWall2 = new Wall(new Vector(874, 401), new Vector(874, 501), true);
+        Wall EWall3 = new Wall(new Vector(924, 401), new Vector(924, 501), false);
+        Wall EWall4 = new Wall(new Vector(874, 501), new Vector(924, 501), true);
+        Wall EWall5 = new Wall(new Vector(1074, 401), new Vector(1124, 401), false);
+        Wall EWall6 = new Wall(new Vector(1074, 401), new Vector(1074, 501), true);
+        Wall EWall7 = new Wall(new Vector(1124, 401), new Vector(1124, 501), false);
+        Wall EWall8 = new Wall(new Vector(1074, 501), new Vector(1124, 501), true);
 
+        Walls.Add(EWall1);
+        Walls.Add(EWall2);
+        Walls.Add(EWall3);
+        Walls.Add(EWall4);
+        Walls.Add(EWall5);
+        Walls.Add(EWall6);
+        Walls.Add(EWall7);
+        Walls.Add(EWall8);
     }
 
     public void Update(float timeDelta) {
