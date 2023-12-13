@@ -56,9 +56,9 @@ public class World : IRenderable {
         Survivor p4 = new Survivor(new Vector(50, 50), this);
 
         MovingEntities.Add(p1);
-        MovingEntities.Add(p2);
-        MovingEntities.Add(p3);
-        MovingEntities.Add(p4);
+        //MovingEntities.Add(p2);
+        //MovingEntities.Add(p3);
+        //MovingEntities.Add(p4);
     }
 
     private void DrawWalls() {

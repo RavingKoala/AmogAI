@@ -15,14 +15,15 @@ public class SeekTaskState : IState<Survivor> {
         _timer.Tick += (sender, e) => {
             _taskAssigned = true;
             _timer.Stop();
+            _timer.Dispose();
         };
         _timer.Start();
     }
 
     public void Execute(Survivor survivor, float timeDelta) {
         // wander for a while until desirability of a task is high enough to assign
+
         if (_taskAssigned) {
-            _timer.Dispose();
             survivor.SetObjective(1);
             Console.WriteLine("changing to walktowardstaskstate");
             survivor.SurvivorStateMachine.StateMachine.ChangeState(new WalkTowardsTaskState());

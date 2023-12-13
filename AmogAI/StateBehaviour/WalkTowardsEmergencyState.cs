@@ -4,16 +4,17 @@ using AmogAI.World.Entity;
 
 public class WalkTowardsEmergencyState : IState<Survivor> {
     public void Enter(Survivor survivor) {
-        // calculate shortest path to emergency
+        survivor.CurrentObjective = survivor.World.EmergencyObjective;
+        survivor.PathFollowBehaviour.SetDestination(survivor.CurrentObjective);
     }
 
     public void Execute(Survivor survivor, float timeDelta) {
-        // walk towards emergency then turn down velocity/mass to 0
-
-        // survivor.SurvivorStateMachine.StateMachine.ChangeState(new DoEmergencyState());
+        if (survivor.PathFollowBehaviour.Arrived)
+            survivor.SurvivorStateMachine.StateMachine.ChangeState(new DoEmergencyState());
     }
 
     public void Exit(Survivor survivor) {
+        survivor.PathFollowBehaviour.ClearPath();
         Console.WriteLine("Gonna start working on the emergency!");
     }
 }
