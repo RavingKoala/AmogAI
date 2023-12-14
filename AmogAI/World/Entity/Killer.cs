@@ -17,3 +17,4 @@ public class Killer : MovingEntity {
         base.Update(timeDelta);
         stateMachine.Update(timeDelta);
     }
+}
