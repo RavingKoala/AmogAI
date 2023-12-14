@@ -22,7 +22,7 @@ public class Survivor : MovingEntity {
         Velocity = new Vector(0, 0);
         Scale = 10;
         Health = 100;
-        SeekTimer = 2000;
+        SeekTimer = 3000;
         
         SurvivorTaskGoal = new SurvivorTaskGoal(this);
         SurvivorStateMachine = new SurvivorStateMachine(this);

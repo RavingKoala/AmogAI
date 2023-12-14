@@ -9,6 +9,7 @@ public class WanderState : IState<Killer> {
     }
 
     public void Execute(Killer killer, float timeDelta) {
+        
     }
 
     public void Exit(Killer killer) {

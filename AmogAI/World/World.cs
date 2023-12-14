@@ -54,9 +54,12 @@ public class World : IRenderable {
         Survivor p4 = new Survivor(new Vector(500, 400), this);
 
         MovingEntities.Add(p1);
-        //MovingEntities.Add(p2);
-        //MovingEntities.Add(p3);
-        //MovingEntities.Add(p4);
+        MovingEntities.Add(p2);
+        MovingEntities.Add(p3);
+        MovingEntities.Add(p4);
+
+        Killer k1 = new Killer(new Vector(800, 300), this);
+        MovingEntities.Add(k1);
     }
 
     private void DrawWalls() {
@@ -212,8 +215,6 @@ public class World : IRenderable {
         foreach (Objective objective in Objectives)
             objective.RenderOverlay(g);
         foreach (MovingEntity entity in MovingEntities)
-            if (entity.GetType() == typeof(Survivor)) {
-                entity.RenderOverlay(g);
-            }
+            entity.RenderOverlay(g);
     }
 }
