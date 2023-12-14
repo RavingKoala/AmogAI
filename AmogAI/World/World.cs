@@ -8,7 +8,7 @@ using AmogAI.StateBehaviour.WordStates;
 
 public class World : IRenderable {
     public bool EmergencyHappening { get; set; }
-    public Stopwatch Stopwatch { get; set; }
+    public Objective EmergencyObjective { get; set; }
     public List<MovingEntity> MovingEntities { get; set; }
     public List<Objective> Objectives { get; set; }
     public List<Wall> Walls { get; set; }
@@ -20,7 +20,6 @@ public class World : IRenderable {
         Walls = new List<Wall>();
         Objectives = new List<Objective>();
         MovingEntities = new List<MovingEntity>();
-        Stopwatch = new Stopwatch();
         GlobalStateMachine = new GlobalStateMachine(this);
 
         DrawWalls();
@@ -34,27 +33,30 @@ public class World : IRenderable {
     }
 
     private void MakeObjectives() {
-        //var gridDistance = 200;
-        //for (int x = 1; x < 5; x++) {
-        //    for (int y = 1; y < 4; y++) {
-        //        Objectives.Add(new Objective(new Vector(x * gridDistance, y * gridDistance)));
-        //    }
-        //}
-        Objective o1 = new Objective(new Vector(200, 225));
+        Objective upperLeft = new Objective(new Vector(200, 225));
+        Objective upperRight = new Objective(new Vector(950, 200));
+        Objective lowerLeft = new Objective(new Vector(200, 600));
+        Objective lowerRight = new Objective(new Vector(1000, 675));
 
-        Objectives.Add(o1);
+        Objectives.Add(upperLeft);
+        Objectives.Add(upperRight);
+        Objectives.Add(lowerLeft);
+        Objectives.Add(lowerRight);
+
+        EmergencyObjective = new Objective(new Vector(1000, 450));
+        Objectives.Add(EmergencyObjective);
     }
 
     private void Populate() {
-        Survivor p1 = new Survivor(new Vector(50, 50), this);
-        Survivor p2 = new Survivor(new Vector(50, 50), this);
-        Survivor p3 = new Survivor(new Vector(50, 50), this);
-        Survivor p4 = new Survivor(new Vector(50, 50), this);
+        Survivor p1 = new Survivor(new Vector(500, 400), this);
+        Survivor p2 = new Survivor(new Vector(500, 400), this);
+        Survivor p3 = new Survivor(new Vector(500, 400), this);
+        Survivor p4 = new Survivor(new Vector(500, 400), this);
 
         MovingEntities.Add(p1);
-        MovingEntities.Add(p2);
-        MovingEntities.Add(p3);
-        MovingEntities.Add(p4);
+        //MovingEntities.Add(p2);
+        //MovingEntities.Add(p3);
+        //MovingEntities.Add(p4);
     }
 
     private void DrawWalls() {
@@ -111,8 +113,76 @@ public class World : IRenderable {
         Walls.Add(URwall2);
         Walls.Add(URwall3);
         Walls.Add(URwall4);
-        Walls.Add(URwall5); 
+        Walls.Add(URwall5);
         Walls.Add(URwall6);
+
+        // Lower left structure
+        Wall LLwall1 = new Wall(new Vector(99, 451), new Vector(99, 701), true);
+        Wall LLwall2 = new Wall(new Vector(99, 451), new Vector(149, 451), false);
+        Wall LLwall3 = new Wall(new Vector(99, 701), new Vector(499, 701), true);
+        Wall LLwall4 = new Wall(new Vector(499, 701), new Vector(499, 651), true);
+        Wall LLwall5 = new Wall(new Vector(149, 651), new Vector(499, 651), false);
+        Wall LLwall6 = new Wall(new Vector(149, 451), new Vector(149, 651), false);
+
+        Walls.Add(LLwall1);
+        Walls.Add(LLwall2);
+        Walls.Add(LLwall3);
+        Walls.Add(LLwall4);
+        Walls.Add(LLwall5);
+        Walls.Add(LLwall6);
+
+        // Lower middle structure
+        Wall LMwall1 = new Wall(new Vector(249, 451), new Vector(699, 451), false);
+        Wall LMwall2 = new Wall(new Vector(699, 451), new Vector(699, 701), false);
+        Wall LMwall3 = new Wall(new Vector(649, 701), new Vector(699, 701), true);
+        Wall LMwall4 = new Wall(new Vector(649, 501), new Vector(649, 701), true);
+        Wall LMwall5 = new Wall(new Vector(249, 451), new Vector(249, 501), true);
+        Wall LMwall6 = new Wall(new Vector(249, 501), new Vector(649, 501), true);
+
+        Walls.Add(LMwall1);
+        Walls.Add(LMwall2);
+        Walls.Add(LMwall3);
+        Walls.Add(LMwall4);
+        Walls.Add(LMwall5);
+        Walls.Add(LMwall6);
+
+        // Lower right structure
+        Wall LRwall1 = new Wall(new Vector(799, 551), new Vector(799, 701), true);
+        Wall LRwall2 = new Wall(new Vector(799, 551), new Vector(1199, 551), false);
+        Wall LRwall3 = new Wall(new Vector(1199, 551), new Vector(1199, 701), false);
+        Wall LRwall4 = new Wall(new Vector(799, 701), new Vector(924, 701), true);
+        Wall LRwall5 = new Wall(new Vector(1074, 701), new Vector(1199, 701), true);
+        Wall LRwall6 = new Wall(new Vector(924, 701), new Vector(924, 626), true);
+        Wall LRwall7 = new Wall(new Vector(1074, 701), new Vector(1074, 626), false);
+        Wall LRwall8 = new Wall(new Vector(924, 626), new Vector(1074, 626), true);
+
+        Walls.Add(LRwall1); 
+        Walls.Add(LRwall2);
+        Walls.Add(LRwall3);
+        Walls.Add(LRwall4);
+        Walls.Add(LRwall5);
+        Walls.Add(LRwall6);
+        Walls.Add(LRwall7);
+        Walls.Add(LRwall8);
+
+        // Emergency structure
+        Wall EWall1 = new Wall(new Vector(874, 401), new Vector(924, 401), false);  
+        Wall EWall2 = new Wall(new Vector(874, 401), new Vector(874, 501), true);
+        Wall EWall3 = new Wall(new Vector(924, 401), new Vector(924, 501), false);
+        Wall EWall4 = new Wall(new Vector(874, 501), new Vector(924, 501), true);
+        Wall EWall5 = new Wall(new Vector(1074, 401), new Vector(1124, 401), false);
+        Wall EWall6 = new Wall(new Vector(1074, 401), new Vector(1074, 501), true);
+        Wall EWall7 = new Wall(new Vector(1124, 401), new Vector(1124, 501), false);
+        Wall EWall8 = new Wall(new Vector(1074, 501), new Vector(1124, 501), true);
+
+        Walls.Add(EWall1);
+        Walls.Add(EWall2);
+        Walls.Add(EWall3);
+        Walls.Add(EWall4);
+        Walls.Add(EWall5);
+        Walls.Add(EWall6);
+        Walls.Add(EWall7);
+        Walls.Add(EWall8);
     }
 
     public void Update(float timeDelta) {
@@ -143,9 +213,7 @@ public class World : IRenderable {
             objective.RenderOverlay(g);
         foreach (MovingEntity entity in MovingEntities)
             if (entity.GetType() == typeof(Survivor)) {
-                Survivor survivor = (Survivor)entity;
                 entity.RenderOverlay(g);
             }
     }
-
 }

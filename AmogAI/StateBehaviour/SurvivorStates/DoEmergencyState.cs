@@ -4,16 +4,22 @@ using AmogAI.World.Entity;
 
 public class DoEmergencyState : IState<Survivor> {
     public void Enter(Survivor survivor) {
-        // start doing emergency
+        Console.WriteLine("Entering DoEmergencyState");
+        survivor.StartCurrentTask();
     }
 
     public void Execute(Survivor survivor, float timeDelta) {
-        // wait at task location until emergency is done (its timer is up)
+        if (survivor.CurrentObjective == null) {
+            survivor.World.EmergencyHappening = false;
+            return;
+        }
 
-        // survivor.World.EmergencyHappening = false;
+        if (survivor.CurrentObjective.IsDone)
+            survivor.World.EmergencyHappening = false;
     }
 
     public void Exit(Survivor survivor) {
-        Console.WriteLine("Emergency is over, back to doing my task!");
+        survivor.ResetObjective();
+        Console.WriteLine("Emergency is over, back to searching for a task!");
     }
 }
