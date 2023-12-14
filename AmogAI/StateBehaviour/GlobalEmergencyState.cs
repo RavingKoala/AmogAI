@@ -25,15 +25,6 @@ public class GlobalEmergencyState : IState<World> {
         if (!world.EmergencyHappening) {
             world.GlobalStateMachine.ChangeState(new GlobalTaskState());
         }
-
-        //foreach (var entity in world.MovingEntities) {
-        //    if (entity.GetType() == typeof(Survivor)) {
-        //        Survivor survivor = (Survivor)entity;
-        //        if (survivor.SurvivorStateMachine.StateMachine.CurrentState != null)
-        //            if (survivor.SurvivorStateMachine.StateMachine.GetType() == typeof(EmergencyStateMachine))
-        //                Console.WriteLine("in emergencystate");
-        //    }
-        //}
     }
 
     public void Exit(World world) {

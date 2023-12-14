@@ -43,19 +43,14 @@ public class World : IRenderable {
         Objectives.Add(lowerRight);
 
         EmergencyObjective = new Objective(new Vector(1000, 450));
-        Objectives.Add(EmergencyObjective);
     }
 
     private void Populate() {
-        Survivor p1 = new Survivor(new Vector(500, 400), this);
-        Survivor p2 = new Survivor(new Vector(500, 400), this);
-        Survivor p3 = new Survivor(new Vector(500, 400), this);
-        Survivor p4 = new Survivor(new Vector(500, 400), this);
+        Survivor s1 = new Survivor(new Vector(500, 400), this);
+        Survivor s2 = new Survivor(new Vector(500, 400), this);
 
-        MovingEntities.Add(p1);
-        //MovingEntities.Add(p2);
-        //MovingEntities.Add(p3);
-        //MovingEntities.Add(p4);
+        MovingEntities.Add(s1);
+        //MovingEntities.Add(s2);
     }
 
     private void DrawWalls() {
@@ -199,6 +194,7 @@ public class World : IRenderable {
             objective.Render(g);
         foreach (MovingEntity entity in MovingEntities)
             entity.Render(g);
+        EmergencyObjective.Render(g);
     }
 
     public void RenderOverlay(Graphics g) {
@@ -214,5 +210,6 @@ public class World : IRenderable {
             if (entity.GetType() == typeof(Survivor)) {
                 entity.RenderOverlay(g);
             }
+        EmergencyObjective.RenderOverlay(g);
     }
 }

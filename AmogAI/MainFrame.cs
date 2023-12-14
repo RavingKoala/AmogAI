@@ -49,8 +49,10 @@ public partial class MainFrame : Form {
     private void MainFrame_KeyDown(object sender, KeyEventArgs e) {
         if (e.KeyCode == Keys.Tab)
             _showOverlay = !_showOverlay;
-        if (e.KeyCode == Keys.E)
-            World.EmergencyHappening = !World.EmergencyHappening;
+        if (e.KeyCode == Keys.E) {
+            World.EmergencyHappening = true;
+            World.EmergencyObjective.IsDone = false;    
+        }
         if (e.KeyCode == Keys.P)
             _paused = !_paused;
     }

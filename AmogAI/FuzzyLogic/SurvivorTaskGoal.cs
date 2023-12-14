@@ -1,4 +1,4 @@
-﻿namespace AmogAI.FuzzyLogic; 
+﻿namespace AmogAI.FuzzyLogic;
 
 using AmogAI.World.Entity;
 
@@ -12,10 +12,14 @@ public class SurvivorTaskGoal {
     private FzSet _taskDistanceFar;
 
     private FzSet _survivorHealthLow;
-    private FzSet _survivorHealthmedium;
+    private FzSet _survivorHealthMedium;
     private FzSet _survivorHealthHigh;
 
-    private FzSet _undisirable;
+    private FzSet _killerProximityToTaskClose;
+    private FzSet _killerProximityToTaskMedium;
+    private FzSet _killerProximityToTaskFar;
+
+    private FzSet _undesirable;
     private FzSet _desirable;
     private FzSet _veryDesirable;
 
@@ -25,13 +29,12 @@ public class SurvivorTaskGoal {
         InitFuzzy();
     }
 
-    public float Process(List<Objective> objectives) {
-        Objective currentObjective = objectives[0];
-
-        _fm.Fuzzify("TaskDistance", (_survivor.Position - currentObjective.Position).Length());
+    public float Process(Objective objective, float distance) {
+        _fm.Fuzzify("TaskDistance", (_survivor.Position - objective.Position).Length());
         _fm.Fuzzify("SurvivorHealth", _survivor.Health);
+        _fm.Fuzzify("KillerProximityToTask", distance);
 
-        return (float) _fm.DeFuzzify("Desirability", FuzzyModule.DefuzzifyMethod.max_av);
+        return (float)_fm.DeFuzzify("Desirability", FuzzyModule.DefuzzifyMethod.max_av);
     }
 
     public void Terminate() { }
@@ -50,25 +53,49 @@ public class SurvivorTaskGoal {
         FuzzyVariable survivorHealth = _fm.CreateFLV("SurvivorHealth");
 
         _survivorHealthLow = survivorHealth.AddLeftShoulderSet("SurvivorHealth_Low", 0, 35, 50);
-        _survivorHealthmedium = survivorHealth.AddTriangularSet("SurvivorHealth_Medium", 35, 50, 70);
+        _survivorHealthMedium = survivorHealth.AddTriangularSet("SurvivorHealth_Medium", 35, 50, 70);
         _survivorHealthHigh = survivorHealth.AddRightShoulderSet("SurvivorHealth_High", 50, 70, 100);
+
+        FuzzyVariable killerProximityToTask = _fm.CreateFLV("KillerProximityToTask");
+
+        _killerProximityToTaskClose = killerProximityToTask.AddLeftShoulderSet("KillerProximityToTask_Close", 0, 100, 200);
+        _killerProximityToTaskMedium = killerProximityToTask.AddTriangularSet("KillerProximityToTask_Medium", 100, 200, 300);
+        _killerProximityToTaskFar = killerProximityToTask.AddRightShoulderSet("KillerProximityToTask_Far", 200, 300, 10000);
 
         FuzzyVariable desirability = _fm.CreateFLV("Desirability");
 
-        _undisirable = desirability.AddLeftShoulderSet("Desirability_Low", 0, 20, 45);
+        _undesirable = desirability.AddLeftShoulderSet("Desirability_Low", 0, 20, 45);
         _desirable = desirability.AddTriangularSet("Desirability_Medium", 20, 45, 75);
         _veryDesirable = desirability.AddRightShoulderSet("Desirability_High", 45, 75, 100);
 
-        _fm.AddRule(new FzAND(_taskDistanceFar, _survivorHealthLow), _undisirable);
-        _fm.AddRule(new FzAND(_taskDistanceFar, _survivorHealthmedium), _undisirable);
-        _fm.AddRule(new FzAND(_taskDistanceFar, _survivorHealthHigh), _desirable);
+        _fm.AddRule(new FzAND(_taskDistanceFar, _survivorHealthLow, _killerProximityToTaskClose), _undesirable);
+        _fm.AddRule(new FzAND(_taskDistanceFar, _survivorHealthLow, _killerProximityToTaskMedium), _undesirable);
+        _fm.AddRule(new FzAND(_taskDistanceFar, _survivorHealthLow, _killerProximityToTaskFar), _undesirable);
+        _fm.AddRule(new FzAND(_taskDistanceFar, _survivorHealthMedium, _killerProximityToTaskClose), _undesirable);
+        _fm.AddRule(new FzAND(_taskDistanceFar, _survivorHealthMedium, _killerProximityToTaskMedium), _undesirable);
+        _fm.AddRule(new FzAND(_taskDistanceFar, _survivorHealthMedium, _killerProximityToTaskFar), _undesirable);
+        _fm.AddRule(new FzAND(_taskDistanceFar, _survivorHealthHigh, _killerProximityToTaskClose), _undesirable);
+        _fm.AddRule(new FzAND(_taskDistanceFar, _survivorHealthHigh, _killerProximityToTaskMedium), _desirable);
+        _fm.AddRule(new FzAND(_taskDistanceFar, _survivorHealthHigh, _killerProximityToTaskFar), _desirable);
 
-        _fm.AddRule(new FzAND(_taskDistanceMedium, _survivorHealthLow), _undisirable);
-        _fm.AddRule(new FzAND(_taskDistanceMedium, _survivorHealthmedium), _desirable);
-        _fm.AddRule(new FzAND(_taskDistanceMedium, _survivorHealthHigh), _veryDesirable);
+        _fm.AddRule(new FzAND(_taskDistanceMedium, _survivorHealthLow, _killerProximityToTaskClose), _undesirable);
+        _fm.AddRule(new FzAND(_taskDistanceMedium, _survivorHealthLow, _killerProximityToTaskMedium), _undesirable);
+        _fm.AddRule(new FzAND(_taskDistanceMedium, _survivorHealthLow, _killerProximityToTaskFar), _undesirable);
+        _fm.AddRule(new FzAND(_taskDistanceMedium, _survivorHealthMedium, _killerProximityToTaskClose), _undesirable);
+        _fm.AddRule(new FzAND(_taskDistanceMedium, _survivorHealthMedium, _killerProximityToTaskMedium), _undesirable);
+        _fm.AddRule(new FzAND(_taskDistanceMedium, _survivorHealthMedium, _killerProximityToTaskFar), _desirable);
+        _fm.AddRule(new FzAND(_taskDistanceMedium, _survivorHealthHigh, _killerProximityToTaskClose), _undesirable);
+        _fm.AddRule(new FzAND(_taskDistanceMedium, _survivorHealthHigh, _killerProximityToTaskMedium), _desirable);
+        _fm.AddRule(new FzAND(_taskDistanceMedium, _survivorHealthHigh, _killerProximityToTaskFar), _veryDesirable);
 
-        _fm.AddRule(new FzAND(_taskDistanceClose, _survivorHealthLow), _desirable);
-        _fm.AddRule(new FzAND(_taskDistanceClose, _survivorHealthmedium), _veryDesirable);
-        _fm.AddRule(new FzAND(_taskDistanceClose, _survivorHealthHigh), _veryDesirable);
+        _fm.AddRule(new FzAND(_taskDistanceClose, _survivorHealthLow, _killerProximityToTaskClose), _desirable);
+        _fm.AddRule(new FzAND(_taskDistanceClose, _survivorHealthLow, _killerProximityToTaskMedium), _desirable);
+        _fm.AddRule(new FzAND(_taskDistanceClose, _survivorHealthLow, _killerProximityToTaskFar), _desirable);
+        _fm.AddRule(new FzAND(_taskDistanceClose, _survivorHealthMedium, _killerProximityToTaskClose), _desirable);
+        _fm.AddRule(new FzAND(_taskDistanceClose, _survivorHealthMedium, _killerProximityToTaskMedium), _veryDesirable);
+        _fm.AddRule(new FzAND(_taskDistanceClose, _survivorHealthMedium, _killerProximityToTaskFar), _veryDesirable);
+        _fm.AddRule(new FzAND(_taskDistanceClose, _survivorHealthHigh, _killerProximityToTaskClose), _veryDesirable);
+        _fm.AddRule(new FzAND(_taskDistanceClose, _survivorHealthHigh, _killerProximityToTaskMedium), _veryDesirable);
+        _fm.AddRule(new FzAND(_taskDistanceClose, _survivorHealthHigh, _killerProximityToTaskFar), _veryDesirable);
     }
 }

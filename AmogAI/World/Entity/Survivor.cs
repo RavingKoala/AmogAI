@@ -9,20 +9,20 @@ using System.Drawing;
 public class Survivor : MovingEntity {
     public SurvivorTaskGoal SurvivorTaskGoal { get; set; }
     public SurvivorStateMachine SurvivorStateMachine { get; set; }
-    public const float decisionInterval = 1000; // ms
-    public float decisionIntervalDelta = 0;
     public float Health { get; set; }
     public Objective? CurrentObjective { get; set; }
     public float ObjectiveProgress { get; set; }
     public float SeekTimer { get; private set; }
     public float SeekingForObjectiveTime { get; set; }
     public bool IsDoingTask { get; set; }
+    public const float decisionInterval = 1000f;
+    public float decisionIntervalDelta = 0;
 
     public Survivor(Vector pos, World world) : base(pos, world) {
         Velocity = new Vector(0, 0);
         Scale = 10;
         Health = 100;
-        SeekTimer = 2000;
+        SeekTimer = 4000;
         
         SurvivorTaskGoal = new SurvivorTaskGoal(this);
         SurvivorStateMachine = new SurvivorStateMachine(this);
@@ -32,8 +32,8 @@ public class Survivor : MovingEntity {
         Target = target;
     }
 
-    public void SetObjective(int objectiveId) {
-        CurrentObjective = World.Objectives[objectiveId-1];
+    public void SetObjective(Objective objective) {
+        CurrentObjective = objective;
     }
 
     public void StartCurrentTask() {
@@ -56,16 +56,24 @@ public class Survivor : MovingEntity {
 
         base.Update(timeDelta);
         SurvivorStateMachine.Update(timeDelta);
-
-        decisionIntervalDelta += timeDelta;
-        if (decisionIntervalDelta > decisionInterval) {
-            decisionIntervalDelta = 0;
-
-            float result = SurvivorTaskGoal.Process(World.Objectives);
-            Console.WriteLine(result);
-        }
     }
 
+    public Objective CalculateNearestObjective() {
+        return World.Objectives
+            .OrderBy(objective => (Position - objective.Position).Length())
+            .Where(objective => !objective.IsDone)
+            .First();
+    }
+
+    //public float CalculateDistanceBetweenNearestKillerAndObjective() {
+    //    return World.MovingEntities
+    //        .Where(entity => entity is Killer)
+    //        .OrderBy(killer => (Position - killer.Position).Length())
+    //        .First()
+    //        .Position
+    //        .DistanceTo(CurrentObjective!.Position);
+    //}
+    
     public void ResetObjective() {
         CurrentObjective = null;
         ObjectiveProgress = 0f;
