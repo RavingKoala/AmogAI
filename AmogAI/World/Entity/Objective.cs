@@ -6,15 +6,15 @@ public class Objective {
     private const float SIZE = 20.0f;
     public Vector Position { get; set; }
     public int Duration { get; set; } // in ms
-    public bool IsInProgress { get; private set; }
-    public bool IsDone { get; private set; }
+    public bool IsInProgress { get; set; }
+    public bool IsDone { get; set; }
     public Objective(Vector position) : this(position, 5000) { }
     public Objective(Vector position, int duration) {
         Position = position;
         Duration = duration;
     }
     
-    public void StartTask(Survivor survivor) {
+    public void StartTask() {
         IsInProgress = true;
     }
 

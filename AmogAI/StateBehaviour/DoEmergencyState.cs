@@ -4,6 +4,7 @@ using AmogAI.World.Entity;
 
 public class DoEmergencyState : IState<Survivor> {
     public void Enter(Survivor survivor) {
+        Console.WriteLine("Entering DoEmergencyState");
         survivor.StartCurrentTask();
     }
 
@@ -18,7 +19,7 @@ public class DoEmergencyState : IState<Survivor> {
     }
 
     public void Exit(Survivor survivor) {
-        survivor.CurrentObjective = null;
+        survivor.ResetObjective();
         Console.WriteLine("Emergency is over, back to searching for a task!");
     }
 }

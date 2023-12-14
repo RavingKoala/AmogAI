@@ -8,6 +8,14 @@ public class GlobalTaskState : IState<World> {
         foreach (var entity in world.MovingEntities) {
             if (entity.GetType() == typeof(Survivor)) {
                 Survivor survivor = (Survivor)entity;
+
+                if (survivor.CurrentObjective != null) 
+                    survivor.CurrentObjective.IsInProgress = false;
+
+                survivor.ResetObjective();
+                survivor.ResetSeekingForObjectiveTime();
+                survivor.PathFollowBehaviour.ClearPath();
+
                 survivor.SurvivorStateMachine.ChangeStateMachine(new TaskStateMachine(survivor));
             }
         }
@@ -16,7 +24,6 @@ public class GlobalTaskState : IState<World> {
     public void Execute(World world, float timeDelta) {
         if (world.EmergencyHappening) {
             world.GlobalStateMachine.ChangeState(new GlobalEmergencyState());
-            // start an emergency, this should call a method inside World that starts a random emergency
         }
 
         //foreach (var entity in world.MovingEntities) {

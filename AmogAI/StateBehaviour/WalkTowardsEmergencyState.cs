@@ -4,6 +4,7 @@ using AmogAI.World.Entity;
 
 public class WalkTowardsEmergencyState : IState<Survivor> {
     public void Enter(Survivor survivor) {
+        Console.WriteLine("Entering WalkTowardsEmergencyState");
         survivor.CurrentObjective = survivor.World.EmergencyObjective;
         survivor.PathFollowBehaviour.SetDestination(survivor.CurrentObjective);
     }

@@ -4,11 +4,9 @@ using AmogAI.StateBehaviour;
 using AmogAI.AStar;
 using AmogAI.SteeringBehaviour;
 using AmogAI.World.Entity;
-using System.Diagnostics;
 
 public class World : IRenderable {
     public bool EmergencyHappening { get; set; }
-    public Stopwatch Stopwatch { get; set; }
     public Objective EmergencyObjective { get; set; }
     public List<MovingEntity> MovingEntities { get; set; }
     public List<Objective> Objectives { get; set; }
@@ -21,7 +19,6 @@ public class World : IRenderable {
         Walls = new List<Wall>();
         Objectives = new List<Objective>();
         MovingEntities = new List<MovingEntity>();
-        Stopwatch = new Stopwatch();
         GlobalStateMachine = new GlobalStateMachine(this);
 
         DrawWalls();
@@ -50,10 +47,10 @@ public class World : IRenderable {
     }
 
     private void Populate() {
-        Survivor p1 = new Survivor(new Vector(50, 50), this);
-        Survivor p2 = new Survivor(new Vector(50, 50), this);
-        Survivor p3 = new Survivor(new Vector(50, 50), this);
-        Survivor p4 = new Survivor(new Vector(50, 50), this);
+        Survivor p1 = new Survivor(new Vector(500, 400), this);
+        Survivor p2 = new Survivor(new Vector(500, 400), this);
+        Survivor p3 = new Survivor(new Vector(500, 400), this);
+        Survivor p4 = new Survivor(new Vector(500, 400), this);
 
         MovingEntities.Add(p1);
         //MovingEntities.Add(p2);
@@ -215,9 +212,7 @@ public class World : IRenderable {
             objective.RenderOverlay(g);
         foreach (MovingEntity entity in MovingEntities)
             if (entity.GetType() == typeof(Survivor)) {
-                Survivor survivor = (Survivor)entity;
                 entity.RenderOverlay(g);
             }
     }
-
 }

@@ -14,12 +14,15 @@ public class Survivor : MovingEntity {
     public float Health { get; set; }
     public Objective? CurrentObjective { get; set; }
     public float ObjectiveProgress { get; set; }
+    public float SeekTimer { get; private set; }
+    public float SeekingForObjectiveTime { get; set; }
     public bool IsDoingTask { get; set; }
 
     public Survivor(Vector pos, World world) : base(pos, world) {
         Velocity = new Vector(0, 0);
         Scale = 10;
         Health = 100;
+        SeekTimer = 2000;
         
         SurvivorTaskGoal = new SurvivorTaskGoal(this);
         SurvivorStateMachine = new SurvivorStateMachine(this);
@@ -36,7 +39,7 @@ public class Survivor : MovingEntity {
     public void StartCurrentTask() {
         if (CurrentObjective != null) {
             IsDoingTask = true;
-            CurrentObjective.StartTask(this);
+            CurrentObjective.StartTask();
         }
     }
 
@@ -62,6 +65,16 @@ public class Survivor : MovingEntity {
             Console.WriteLine(result);
         }
     }
+
+    public void ResetObjective() {
+        CurrentObjective = null;
+        ObjectiveProgress = 0f;
+        IsDoingTask = false;
+    }
+
+    public void ResetSeekingForObjectiveTime() {
+        SeekingForObjectiveTime = 0f;
+    }   
 
     public override void Render(Graphics g) {
         double entityX = Position.X - Scale;

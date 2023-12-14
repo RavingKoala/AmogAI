@@ -8,6 +8,14 @@ public class GlobalEmergencyState : IState<World> {
         foreach (var entity in world.MovingEntities) {
             if (entity.GetType() == typeof(Survivor)) {
                 Survivor survivor = (Survivor)entity;
+
+                if (survivor.CurrentObjective != null)
+                    survivor.CurrentObjective.IsInProgress = false;
+
+                survivor.ResetObjective();
+                survivor.ResetSeekingForObjectiveTime();
+                survivor.PathFollowBehaviour.ClearPath();
+
                 survivor.SurvivorStateMachine.ChangeStateMachine(new EmergencyStateMachine(survivor));
             }
         }

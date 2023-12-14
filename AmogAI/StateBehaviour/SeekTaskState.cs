@@ -4,28 +4,18 @@ using AmogAI.SteeringBehaviour;
 using AmogAI.World.Entity;
 
 public class SeekTaskState : IState<Survivor> {
-    private bool _taskAssigned = false;
-    private System.Windows.Forms.Timer _timer = new System.Windows.Forms.Timer();
-
     public void Enter(Survivor survivor) {
+        Console.WriteLine("Entering SeekTaskState");
         survivor.SteeringBehaviour.TurnOn(BehaviourType.Wander);
         survivor.SteeringBehaviour.TurnOn(BehaviourType.WallAvoidance);
-
-        _timer.Interval = 2000;
-        _timer.Tick += (sender, e) => {
-            _taskAssigned = true;
-            _timer.Stop();
-            _timer.Dispose();
-        };
-        _timer.Start();
     }
 
     public void Execute(Survivor survivor, float timeDelta) {
-        // wander for a while until desirability of a task is high enough to assign
+        survivor.SeekingForObjectiveTime += timeDelta;
 
-        if (_taskAssigned) {
+        if (survivor.SeekingForObjectiveTime >= survivor.SeekTimer) {
             survivor.SetObjective(1);
-            Console.WriteLine("changing to walktowardstaskstate");
+            survivor.ResetSeekingForObjectiveTime();
             survivor.SurvivorStateMachine.StateMachine.ChangeState(new WalkTowardsTaskState());
         }
     }
