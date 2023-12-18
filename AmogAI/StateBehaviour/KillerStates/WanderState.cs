@@ -10,7 +10,16 @@ public class WanderState : IState<Killer> {
     }
 
     public void Execute(Killer killer, float timeDelta) {
-        
+        foreach (MovingEntity entity in killer.World.Survivors) {
+            if (entity.GetType() != typeof(Survivor))
+                continue;
+            Survivor survivor = (Survivor)entity;
+
+            if (killer.Position.Distance(survivor.Position) < killer.DetectionRadius) {
+                killer.Target = survivor;
+                killer.StateMachine.ChangeState(new KillState());
+            }
+        }
     }
 
     public void Exit(Killer killer) {

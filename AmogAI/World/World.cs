@@ -9,7 +9,8 @@ using AmogAI.StateBehaviour.WordStates;
 public class World : IRenderable {
     public bool EmergencyHappening { get; set; }
     public Objective EmergencyObjective { get; set; }
-    public List<MovingEntity> MovingEntities { get; set; }
+    public List<Survivor> Survivors { get; set; }
+    public Killer Killer { get; set; }
     public List<Objective> Objectives { get; set; }
     public List<Wall> Walls { get; set; }
     public GlobalStateMachine GlobalStateMachine { get; set; }
@@ -19,7 +20,7 @@ public class World : IRenderable {
     public World() {
         Walls = new List<Wall>();
         Objectives = new List<Objective>();
-        MovingEntities = new List<MovingEntity>();
+        Survivors = new List<Survivor>();
         GlobalStateMachine = new GlobalStateMachine(this);
 
         DrawWalls();
@@ -48,18 +49,12 @@ public class World : IRenderable {
     }
 
     private void Populate() {
-        Survivor p1 = new Survivor(new Vector(500, 400), this);
-        Survivor p2 = new Survivor(new Vector(500, 400), this);
-        Survivor p3 = new Survivor(new Vector(500, 400), this);
-        Survivor p4 = new Survivor(new Vector(500, 400), this);
+        Survivors.Add(new Survivor(new Vector(500, 400), this));
+        Survivors.Add(new Survivor(new Vector(500, 400), this));
+        Survivors.Add(new Survivor(new Vector(500, 400), this));
+        Survivors.Add(new Survivor(new Vector(500, 400), this));
 
-        MovingEntities.Add(p1);
-        MovingEntities.Add(p2);
-        MovingEntities.Add(p3);
-        MovingEntities.Add(p4);
-
-        Killer k1 = new Killer(new Vector(500, 400), this);
-        MovingEntities.Add(k1);
+        Killer = new Killer(new Vector(700, 700), this);
     }
 
     private void DrawWalls() {
@@ -191,9 +186,9 @@ public class World : IRenderable {
     public void Update(float timeDelta) {
         GlobalStateMachine.Update(timeDelta);
 
-        foreach (var entity in MovingEntities) {
-            entity.Update(timeDelta);
-        }
+        foreach (Survivor survivor in Survivors)
+            survivor.Update(timeDelta);
+        Killer.Update(timeDelta);
     }
 
     public void Render(Graphics g) {
@@ -201,8 +196,9 @@ public class World : IRenderable {
             wall.Render(g);
         foreach (Objective objective in Objectives)
             objective.Render(g);
-        foreach (MovingEntity entity in MovingEntities)
-            entity.Render(g);
+        foreach (Survivor survivor in Survivors)
+            survivor.Render(g);
+        Killer.Render(g);
     }
 
     public void RenderOverlay(Graphics g) {
@@ -214,7 +210,8 @@ public class World : IRenderable {
             wall.RenderOverlay(g);
         foreach (Objective objective in Objectives)
             objective.RenderOverlay(g);
-        foreach (MovingEntity entity in MovingEntities)
-            entity.RenderOverlay(g);
+        foreach (Survivor survivor in Survivors)
+            survivor.RenderOverlay(g);
+        Killer.RenderOverlay(g);
     }
 }

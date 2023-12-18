@@ -44,6 +44,9 @@ public class Survivor : MovingEntity {
     }
 
     public override void Update(float timeDelta) {
+        if (Health <= 0)
+            return;
+
         if (IsDoingTask && CurrentObjective != null) {
             ObjectiveProgress += timeDelta;
             if (ObjectiveProgress >= CurrentObjective.Duration) {
@@ -77,13 +80,13 @@ public class Survivor : MovingEntity {
     }   
 
     public override void Render(Graphics g) {
-        double entityX = Position.X - Scale;
-        double entityY = Position.Y - Scale;
-        double size = Scale * 2;
+        float entityX = Position.X - Scale;
+        float entityY = Position.Y - Scale;
+        float size = Scale * 2;
 
         // Draw the entity
         Pen p = new Pen(Color.Blue, 1);
-        g.DrawEllipse(p, new Rectangle((int)entityX, (int)entityY, (int)size, (int)size));
+        g.DrawEllipse(p, entityX, entityY, size, size);
     }
 
     public override void RenderOverlay(Graphics g) {
@@ -99,16 +102,16 @@ public class Survivor : MovingEntity {
         if (PathFollowBehaviour == null) { // TODO: No pathfollow means
             // Draw the wander circle and target
             Vector circleCenter = Heading.Clone().Normalize() * SteeringBehaviour.WanderDistance + Position;
-            double circleX = circleCenter.X - SteeringBehaviour.WanderRadius;
-            double circleY = circleCenter.Y - SteeringBehaviour.WanderRadius;
-            double sizeRadius = SteeringBehaviour.WanderRadius * 2;
-            g.DrawEllipse(p, new Rectangle((int)circleX, (int)circleY, (int)sizeRadius, (int)sizeRadius));
+            float circleX = circleCenter.X - SteeringBehaviour.WanderRadius;
+            float circleY = circleCenter.Y - SteeringBehaviour.WanderRadius;
+            float sizeRadius = SteeringBehaviour.WanderRadius * 2;
+            g.DrawEllipse(p, circleX, circleY, sizeRadius, sizeRadius);
 
-            double targetX = Position.X + (SteeringBehaviour.WanderTarget.X - Scale);
-            double targetY = Position.Y + (SteeringBehaviour.WanderTarget.Y - Scale);
-            double sizeTarget = Scale * 2;
+            float targetX = Position.X + (SteeringBehaviour.WanderTarget.X - Scale);
+            float targetY = Position.Y + (SteeringBehaviour.WanderTarget.Y - Scale);
+            float sizeTarget = Scale * 2;
             Pen p2 = new Pen(Color.Red, 1);
-            g.DrawEllipse(p2, new Rectangle((int)targetX, (int)targetY, (int)sizeTarget, (int)sizeTarget));
+            g.DrawEllipse(p2, targetX, targetY, sizeTarget, sizeTarget);
 
             // Draw the feelers
             Pen p3 = new Pen(Color.Green, 1);
