@@ -33,10 +33,6 @@ public abstract class MovingEntity : IRenderable {
         PathFollowBehaviour = new PathFollowBehaviour(this, world.GridNodes, world.GridEdges);
     }
 
-    public virtual void Render(Graphics g) {
-        g.DrawEllipse(new Pen(Brushes.Black, 10), (int) MainFrame.WindowCenter.X - 55, (int) MainFrame.WindowCenter.Y - 55, 100, 100);
-    }
-
     public virtual void Update(float timeDelta) {
         TimeElapsed = timeDelta;
 
@@ -73,7 +69,9 @@ public abstract class MovingEntity : IRenderable {
         return string.Format("{0}", Velocity);
     }
 
+    public virtual void Render(Graphics g) {
+    }
+
     public virtual void RenderOverlay(Graphics g) {
-        throw new NotImplementedException();
     }
 }

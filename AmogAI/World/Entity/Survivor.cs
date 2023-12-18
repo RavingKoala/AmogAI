@@ -102,13 +102,13 @@ public class Survivor : MovingEntity {
             double circleX = circleCenter.X - SteeringBehaviour.WanderRadius;
             double circleY = circleCenter.Y - SteeringBehaviour.WanderRadius;
             double sizeRadius = SteeringBehaviour.WanderRadius * 2;
+            g.DrawEllipse(p, new Rectangle((int)circleX, (int)circleY, (int)sizeRadius, (int)sizeRadius));
 
-                g.DrawEllipse(p, new Rectangle((int)circleX, (int)circleY, (int)sizeRadius, (int)sizeRadius));
-                double targetX = Position.X + (SteeringBehaviour.WanderTarget.X - Scale);
-                double targetY = Position.Y + (SteeringBehaviour.WanderTarget.Y - Scale);
-                double sizeTarget = Scale * 2;
-                Pen p2 = new Pen(Color.Red, 1);
-                g.DrawEllipse(p2, new Rectangle((int)targetX, (int)targetY, (int)sizeTarget, (int)sizeTarget));
+            double targetX = Position.X + (SteeringBehaviour.WanderTarget.X - Scale);
+            double targetY = Position.Y + (SteeringBehaviour.WanderTarget.Y - Scale);
+            double sizeTarget = Scale * 2;
+            Pen p2 = new Pen(Color.Red, 1);
+            g.DrawEllipse(p2, new Rectangle((int)targetX, (int)targetY, (int)sizeTarget, (int)sizeTarget));
 
             // Draw the feelers
             Pen p3 = new Pen(Color.Green, 1);

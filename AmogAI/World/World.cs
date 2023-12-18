@@ -58,7 +58,7 @@ public class World : IRenderable {
         MovingEntities.Add(p3);
         MovingEntities.Add(p4);
 
-        Killer k1 = new Killer(new Vector(800, 300), this);
+        Killer k1 = new Killer(new Vector(500, 400), this);
         MovingEntities.Add(k1);
     }
 

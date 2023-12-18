@@ -30,7 +30,7 @@ public class KillState : IState<Killer> {
         killer.target = null;
         killer.MaxSpeed -= 0.02f;
 
-        killer.SteeringBehaviour.TurnOff(SteeringBehaviour.BehaviourType.Pursuit);
+        killer.SteeringBehaviour.TurnOff(SteeringBehaviour.BehaviourType.Wander);
         killer.SteeringBehaviour.TurnOff(SteeringBehaviour.BehaviourType.WallAvoidance);
     }
 }
