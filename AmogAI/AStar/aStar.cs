@@ -52,13 +52,14 @@ public class AStar {
             if (currentNode.Node == toNode)
                 return reconstructPath(currentNode);
 
-            foreach (Edge edge in edges) {
+            List<Edge> NeigborEdges = edges.FindAll(e => e.Node1 == currentNode.Node || e.Node2 == currentNode.Node);
+            foreach (Edge edge in NeigborEdges) {
                 Node connectedNode = edge.Node1 == currentNode.Node ? edge.Node2 : edge.Node1;
                 AStarNode? neighbor = visitedNodes.Find(n => n.Node == connectedNode);
 
                 if (neighbor != null) {
                     float neighbor_gScore = currentNode.GScore + edge.cost;
-                    if (neighbor.GScore < neighbor_gScore) {
+                    if (neighbor_gScore < neighbor.GScore) {
                         neighbor.LastNode = currentNode;
                         neighbor.GScore = neighbor_gScore;
                         neighbor.FScore = neighbor.GScore + AStarNode.calculateHeuristic(neighbor.Node, toNode);
