@@ -1,14 +1,13 @@
 ﻿namespace AmogAI.World.Entity;
 
 using AmogAI.StateBehaviour.KillerStates;
-using AmogAI.StateBehaviour.SurvivorStates;
 using AmogAI.SteeringBehaviour;
 
 public class Killer : MovingEntity {
     public KillerStateMachine StateMachine;
     public float DetectionRadius; //px
-    public float DetectionConeAngle; //
-    public float DetectionConeDistance; //0-360
+    public float DetectionConeAngle; //0-360 degrees in radians
+    public float DetectionConeDistance; // px
 	private float AttackPower; //hp
 	private float AttackDistance; //px
 	private float AttackCooldown; //px
@@ -19,8 +18,8 @@ public class Killer : MovingEntity {
         Velocity = new Vector(0, 0);
         Scale = 10;
         DetectionRadius = 30;
-        DetectionConeAngle = 40;
-        DetectionConeDistance = 80;
+        DetectionConeAngle = 30;
+        DetectionConeDistance = 250;
         AttackDistance = 20;
         AttackCooldown = 400;
         OnAttackCooldown = true;
@@ -57,6 +56,12 @@ public class Killer : MovingEntity {
             OnAttackCooldown = true;
             DeltaAttackCooldown = 0;
         }
+    }
+
+    public (Vector, Vector) CalculateDetectionCone() {
+        Vector point1 = Vector.RotateAroundOrigin(Velocity.Normalize() * DetectionConeDistance, -(DetectionConeAngle / 2));
+        Vector point2 = Vector.RotateAroundOrigin(Velocity.Normalize() * DetectionConeDistance, DetectionConeAngle / 2);
+        return (point1, point2);
     }
 
     public override void Render(Graphics g) {
@@ -97,6 +102,13 @@ public class Killer : MovingEntity {
         if (StateMachine.CurrentState?.GetType() == typeof(WanderState)) {
             Pen p2 = new Pen(Color.Yellow, 1);
 
+            // cone
+            (Vector point1, Vector point2) = CalculateDetectionCone();
+            g.DrawLine(p2, Position.X, Position.Y, Position.X + point1.X, Position.Y + point1.Y);
+            g.DrawLine(p2, Position.X + point1.X, Position.Y + point1.Y, Position.X + point2.X, Position.Y + point2.Y);
+            g.DrawLine(p2, Position.X + point2.X, Position.Y + point2.Y, Position.X, Position.Y);
+
+            // proximity circle
             float circleX = Position.X - DetectionRadius;
             float circleY = Position.Y - DetectionRadius;
             float detectDiameter = DetectionRadius * 2;

@@ -1,5 +1,6 @@
 ﻿namespace AmogAI.StateBehaviour.KillerStates;
 
+using AmogAI.SteeringBehaviour;
 using AmogAI.World.Entity;
 
 public class WanderState : IState<Killer> {
@@ -15,10 +16,17 @@ public class WanderState : IState<Killer> {
                 continue;
             Survivor survivor = (Survivor)entity;
 
+            // Close proximity detection logic
             if (killer.Position.Distance(survivor.Position) < killer.DetectionRadius) {
                 killer.Target = survivor;
                 killer.StateMachine.ChangeState(new KillState());
             }
+
+            // Cone detection logic
+            (Vector point1, Vector point2) = killer.CalculateDetectionCone();
+            // if any enemies in triangle (p1-p2-Position)
+                // if != a wall inbetween
+                    // set as target
         }
     }
 
