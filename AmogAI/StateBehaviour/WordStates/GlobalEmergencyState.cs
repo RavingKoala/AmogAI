@@ -1,11 +1,12 @@
-﻿namespace AmogAI.StateBehaviour;
+﻿namespace AmogAI.StateBehaviour.WordStates;
 
+using AmogAI.StateBehaviour.SurvivorStates;
 using AmogAI.World;
 using AmogAI.World.Entity;
 
 public class GlobalEmergencyState : IState<World> {
     public void Enter(World world) {
-        foreach (var entity in world.MovingEntities) {
+        foreach (var entity in world.Survivors) {
             if (entity.GetType() == typeof(Survivor)) {
                 Survivor survivor = (Survivor)entity;
 

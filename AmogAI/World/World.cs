@@ -1,14 +1,16 @@
 ﻿namespace AmogAI.World;
 
-using AmogAI.StateBehaviour;
 using AmogAI.AStar;
 using AmogAI.SteeringBehaviour;
 using AmogAI.World.Entity;
+using System.Diagnostics;
+using AmogAI.StateBehaviour.WordStates;
 
 public class World : IRenderable {
     public bool EmergencyHappening { get; set; }
     public Objective EmergencyObjective { get; set; }
-    public List<MovingEntity> MovingEntities { get; set; }
+    public List<Survivor> Survivors { get; set; }
+    public Killer Killer { get; set; }
     public List<Objective> Objectives { get; set; }
     public List<Wall> Walls { get; set; }
     public GlobalStateMachine GlobalStateMachine { get; set; }
@@ -18,7 +20,7 @@ public class World : IRenderable {
     public World() {
         Walls = new List<Wall>();
         Objectives = new List<Objective>();
-        MovingEntities = new List<MovingEntity>();
+        Survivors = new List<Survivor>();
         GlobalStateMachine = new GlobalStateMachine(this);
 
         DrawWalls();
@@ -51,6 +53,7 @@ public class World : IRenderable {
 
         MovingEntities.Add(s1);
         //MovingEntities.Add(s2);
+        Killer = new Killer(new Vector(700, 700), this);
     }
 
     private void DrawWalls() {
@@ -182,9 +185,9 @@ public class World : IRenderable {
     public void Update(float timeDelta) {
         GlobalStateMachine.Update(timeDelta);
 
-        foreach (var entity in MovingEntities) {
-            entity.Update(timeDelta);
-        }
+        foreach (Survivor survivor in Survivors)
+            survivor.Update(timeDelta);
+        Killer.Update(timeDelta);
     }
 
     public void Render(Graphics g) {
@@ -192,6 +195,9 @@ public class World : IRenderable {
             wall.Render(g);
         foreach (Objective objective in Objectives)
             objective.Render(g);
+        foreach (Survivor survivor in Survivors)
+            survivor.Render(g);
+        Killer.Render(g);
         foreach (MovingEntity entity in MovingEntities)
             entity.Render(g);
         EmergencyObjective.Render(g);
@@ -206,6 +212,9 @@ public class World : IRenderable {
             wall.RenderOverlay(g);
         foreach (Objective objective in Objectives)
             objective.RenderOverlay(g);
+        foreach (Survivor survivor in Survivors)
+            survivor.RenderOverlay(g);
+        Killer.RenderOverlay(g);
         foreach (MovingEntity entity in MovingEntities)
             if (entity.GetType() == typeof(Survivor)) {
                 entity.RenderOverlay(g);

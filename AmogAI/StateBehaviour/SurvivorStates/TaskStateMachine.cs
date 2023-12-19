@@ -1,4 +1,4 @@
-﻿namespace AmogAI.StateBehaviour;
+﻿namespace AmogAI.StateBehaviour.SurvivorStates;
 
 using AmogAI.World.Entity;
 
@@ -6,7 +6,7 @@ using AmogAI.World.Entity;
 // WalkTowardsTaskState
 // DoTaskState
 
-public class TaskStateMachine: StateMachine<Survivor> {
+public class TaskStateMachine : StateMachine<Survivor> {
 
     public TaskStateMachine(Survivor survivor) : base(survivor) {
         CurrentState = new SeekTaskState();
