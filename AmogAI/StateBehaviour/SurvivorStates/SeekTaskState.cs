@@ -20,7 +20,7 @@ public class SeekTaskState : IState<Survivor> {
                 survivor.decisionIntervalDelta = 0;
 
                 Objective objective = survivor.CalculateNearestObjective();
-                float distance = 100f;
+                float distance = survivor.CalculateDistanceBetweenNearestKillerAndPotentialObjective(objective);
 
                 float result = survivor.SurvivorTaskGoal.Process(objective, distance);
                 Console.WriteLine(result);

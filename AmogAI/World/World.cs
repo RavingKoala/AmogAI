@@ -3,14 +3,13 @@
 using AmogAI.AStar;
 using AmogAI.SteeringBehaviour;
 using AmogAI.World.Entity;
-using System.Diagnostics;
 using AmogAI.StateBehaviour.WordStates;
 
 public class World : IRenderable {
     public bool EmergencyHappening { get; set; }
     public Objective EmergencyObjective { get; set; }
     public List<Survivor> Survivors { get; set; }
-    public Killer Killer { get; set; }
+    public List<Killer> Killers { get; set; }
     public List<Objective> Objectives { get; set; }
     public List<Wall> Walls { get; set; }
     public GlobalStateMachine GlobalStateMachine { get; set; }
@@ -20,7 +19,9 @@ public class World : IRenderable {
     public World() {
         Walls = new List<Wall>();
         Objectives = new List<Objective>();
+        // could revert back to list of movingentities
         Survivors = new List<Survivor>();
+        Killers = new List<Killer>();
         GlobalStateMachine = new GlobalStateMachine(this);
 
         DrawWalls();
@@ -51,9 +52,11 @@ public class World : IRenderable {
         Survivor s1 = new Survivor(new Vector(500, 400), this);
         Survivor s2 = new Survivor(new Vector(500, 400), this);
 
-        MovingEntities.Add(s1);
-        //MovingEntities.Add(s2);
-        Killer = new Killer(new Vector(700, 700), this);
+        Survivors.Add(s1);
+        //Survivors.Add(s2);
+
+        Killer k1 = new Killer(new Vector(700, 700), this);
+        Killers.Add(k1);
     }
 
     private void DrawWalls() {
@@ -153,7 +156,7 @@ public class World : IRenderable {
         Wall LRwall7 = new Wall(new Vector(1074, 701), new Vector(1074, 626), false);
         Wall LRwall8 = new Wall(new Vector(924, 626), new Vector(1074, 626), true);
 
-        Walls.Add(LRwall1); 
+        Walls.Add(LRwall1);
         Walls.Add(LRwall2);
         Walls.Add(LRwall3);
         Walls.Add(LRwall4);
@@ -163,7 +166,7 @@ public class World : IRenderable {
         Walls.Add(LRwall8);
 
         // Emergency structure
-        Wall EWall1 = new Wall(new Vector(874, 401), new Vector(924, 401), false);  
+        Wall EWall1 = new Wall(new Vector(874, 401), new Vector(924, 401), false);
         Wall EWall2 = new Wall(new Vector(874, 401), new Vector(874, 501), true);
         Wall EWall3 = new Wall(new Vector(924, 401), new Vector(924, 501), false);
         Wall EWall4 = new Wall(new Vector(874, 501), new Vector(924, 501), true);
@@ -187,7 +190,8 @@ public class World : IRenderable {
 
         foreach (Survivor survivor in Survivors)
             survivor.Update(timeDelta);
-        Killer.Update(timeDelta);
+        foreach (Killer killer in Killers)
+            killer.Update(timeDelta);
     }
 
     public void Render(Graphics g) {
@@ -197,9 +201,8 @@ public class World : IRenderable {
             objective.Render(g);
         foreach (Survivor survivor in Survivors)
             survivor.Render(g);
-        Killer.Render(g);
-        foreach (MovingEntity entity in MovingEntities)
-            entity.Render(g);
+        foreach (Killer killer in Killers)
+            killer.Render(g);
         EmergencyObjective.Render(g);
     }
 
@@ -214,11 +217,8 @@ public class World : IRenderable {
             objective.RenderOverlay(g);
         foreach (Survivor survivor in Survivors)
             survivor.RenderOverlay(g);
-        Killer.RenderOverlay(g);
-        foreach (MovingEntity entity in MovingEntities)
-            if (entity.GetType() == typeof(Survivor)) {
-                entity.RenderOverlay(g);
-            }
+        foreach (Killer killer in Killers)
+            killer.RenderOverlay(g);
         EmergencyObjective.RenderOverlay(g);
     }
 }

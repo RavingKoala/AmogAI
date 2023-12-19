@@ -68,15 +68,15 @@ public class Survivor : MovingEntity {
             .First();
     }
 
-    //public float CalculateDistanceBetweenNearestKillerAndObjective() {
-    //    return World.MovingEntities
-    //        .Where(entity => entity is Killer)
-    //        .OrderBy(killer => (Position - killer.Position).Length())
-    //        .First()
-    //        .Position
-    //        .DistanceTo(CurrentObjective!.Position);
-    //}
-    
+    public float CalculateDistanceBetweenNearestKillerAndPotentialObjective(Objective objective) {
+        return World.Killers
+            //.Where(entity => entity is Killer)
+            .OrderBy(killer => (Position - killer.Position).Length())
+            .First()
+            .Position
+            .Distance(objective.Position);
+    }
+
     public void ResetObjective() {
         CurrentObjective = null;
         ObjectiveProgress = 0f;
