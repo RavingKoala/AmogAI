@@ -18,6 +18,7 @@ public class Killer : MovingEntity {
 	public Killer(Vector pos, World world) : base(pos, world) {
         Velocity = new Vector(0, 0);
         Scale = 10;
+        MaxSpeed = 0.25f;
         DetectionRadius = 100;
         DetectionConeAngle = 40;
         DetectionConeDistance = 80;

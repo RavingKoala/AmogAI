@@ -10,7 +10,7 @@ public class KillState : IState<Killer> {
         killer.SteeringBehaviour.TurnOn(SteeringBehaviour.BehaviourType.Pursuit);
         killer.SteeringBehaviour.TurnOn(SteeringBehaviour.BehaviourType.WallAvoidance);
 
-        killer.MaxSpeed += 0.04f;
+        killer.MaxSpeed += 0.02f;
     }
 
     public void Execute(Killer killer, float timeDelta) {
