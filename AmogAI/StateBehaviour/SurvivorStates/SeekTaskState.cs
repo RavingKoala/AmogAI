@@ -1,12 +1,10 @@
 ﻿namespace AmogAI.StateBehaviour.SurvivorStates;
 
-using AmogAI.FuzzyLogic;
 using AmogAI.SteeringBehaviour;
 using AmogAI.World.Entity;
 
 public class SeekTaskState : IState<Survivor> {
     public void Enter(Survivor survivor) {
-        Console.WriteLine("Entering SeekTaskState");
         survivor.SteeringBehaviour.TurnOn(BehaviourType.Wander);
         survivor.SteeringBehaviour.TurnOn(BehaviourType.WallAvoidance);
     }
@@ -21,15 +19,14 @@ public class SeekTaskState : IState<Survivor> {
 
                 if (survivor.World.Objectives.Count(o => !o.IsDone) > 0) {
                     Objective objective = survivor.CalculateNearestObjective();
-                    //float distanceKillerAndObjective = survivor.CalculateDistanceBetweenNearestKillerAndPotentialObjective(objective);
-                    float distanceKillerAndObjective = 10000f;
+                    float distanceKillerAndObjective = survivor.CalculateDistanceBetweenNearestKillerAndPotentialObjective(objective);
 
-                    float result = survivor.SurvivorTaskGoal.Process(objective, distanceKillerAndObjective);
-                    Console.WriteLine(result);
+                    survivor.Desirability = survivor.SurvivorTaskGoal.Process(objective, distanceKillerAndObjective);
 
-                    if (result >= 60) {
+                    if (survivor.Desirability >= Survivor.desirabilityThreshold && !objective.IsInProgress) {
                         survivor.SetObjective(objective);
                         survivor.ResetSeekingForObjectiveTime();
+                        survivor.Desirability = 0;
                         survivor.SurvivorStateMachine.StateMachine.ChangeState(new WalkTowardsTaskState());
                     }
                 }

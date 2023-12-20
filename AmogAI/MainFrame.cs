@@ -6,7 +6,6 @@ public partial class MainFrame : Form {
 
     public World.World World;
     public System.Timers.Timer GameTimer;
-    public static Vector WindowCenter = new Vector(0, 0);
     private bool _showOverlay;
     private bool _paused = false;
     private float _timeDelta = 1000 / Properties.Settings.Default.fps;
@@ -17,8 +16,6 @@ public partial class MainFrame : Form {
 
         World = new World.World();
         _showOverlay = false;
-
-        MainFrame.WindowCenter = new Vector(this.Size.Width / 2, this.Size.Height / 2);
 
         if (Properties.Settings.Default.isFullscreen)
             WindowState = FormWindowState.Maximized;
@@ -50,7 +47,7 @@ public partial class MainFrame : Form {
         if (e.KeyCode == Keys.Tab)
             _showOverlay = !_showOverlay;
         if (e.KeyCode == Keys.E) {
-            World.EmergencyHappening = true;
+            World.IsEmergencyHappening = true;
             World.EmergencyObjective.IsDone = false;    
         }
         if (e.KeyCode == Keys.P)

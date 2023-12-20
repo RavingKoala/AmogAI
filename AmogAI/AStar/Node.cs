@@ -12,7 +12,6 @@ public class Node : IRenderable {
         Position = pos;
     }
     public Node(float x, float y) : this(new Vector(x, y)) { }
-    public Node(int x, int y) : this(new Vector(x, y)) { }
 
     public void Render(Graphics g) {
         throw new NotImplementedException();
@@ -39,7 +38,7 @@ public class Node : IRenderable {
     }
 
     public override bool Equals(object? obj) {
-        //Check for null and compare run-time types.
+        // Check for null and compare run-time types.
         if (obj == null || !GetType().Equals(obj.GetType())) {
             return false;
         } else {

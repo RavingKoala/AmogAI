@@ -4,14 +4,9 @@ using AmogAI.AStar;
 using AmogAI.SteeringBehaviour;
 using AmogAI.World.Entity;
 using AmogAI.StateBehaviour.WordStates;
-/* 
-TODO: 
-1. add debug info for state machine
-2. add debug info for fuzzy logic
-3. add debug info for a* path
-*/
+
 public class World : IRenderable {
-    public bool EmergencyHappening { get; set; }
+    public bool IsEmergencyHappening { get; set; }
     public Objective EmergencyObjective { get; set; }
     public List<Survivor> Survivors { get; set; }
     public List<Killer> Killers { get; set; }
@@ -42,17 +37,17 @@ public class World : IRenderable {
     }
 
     private void MakeObjectives() {
-        Objective upperLeft = new Objective(new Vector(200, 225));
-        Objective upperRight = new Objective(new Vector(950, 200));
-        Objective lowerLeft = new Objective(new Vector(200, 600));
-        Objective lowerRight = new Objective(new Vector(1000, 675));
+        Objective upperLeft = new Objective(new Vector(200, 225), Color.Olive);
+        Objective upperRight = new Objective(new Vector(950, 200), Color.Olive);
+        Objective lowerLeft = new Objective(new Vector(200, 600), Color.Olive);
+        Objective lowerRight = new Objective(new Vector(1000, 675), Color.Olive);
 
         Objectives.Add(upperLeft);
         Objectives.Add(upperRight);
         Objectives.Add(lowerLeft);
         Objectives.Add(lowerRight);
 
-        EmergencyObjective = new Objective(new Vector(1000, 450));
+        EmergencyObjective = new Objective(new Vector(1000, 450), Color.OrangeRed);
     }
 
     private void Populate() {

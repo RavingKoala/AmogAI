@@ -19,7 +19,7 @@ public class Killer : MovingEntity {
         Velocity = new Vector(0, 0);
         Scale = 10;
         MaxSpeed = 0.25f;
-        DetectionRadius = 100;
+        DetectionRadius = 75;
         DetectionConeAngle = 40;
         DetectionConeDistance = 80;
         AttackDistance = 20;
@@ -52,6 +52,9 @@ public class Killer : MovingEntity {
         if (Position.Distance(target.Position) < AttackDistance) {
             target.Health -= AttackPower;
             if (target.Health <= 0) {
+                if (target.CurrentObjective != null)
+                    target.CurrentObjective!.IsInProgress = false;
+
                 World.Survivors.Remove(target);
                 Target = null;
             }
@@ -72,7 +75,10 @@ public class Killer : MovingEntity {
 
     public override void RenderOverlay(Graphics g) {
         Pen p = new Pen(Color.DarkRed, 1);
-        
+
+        // Show the current state
+        g.DrawString(StateMachine.CurrentState?.GetType().Name, new Font("Arial", 12), Brushes.DarkRed, Position.X - 50, Position.Y - 30);
+
         // Draw the velocity vector
         g.DrawLine(p,
             Position.X,

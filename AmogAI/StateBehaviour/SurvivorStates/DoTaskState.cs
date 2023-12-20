@@ -1,11 +1,9 @@
 ﻿namespace AmogAI.StateBehaviour.SurvivorStates;
 
 using AmogAI.World.Entity;
-using System.Diagnostics.Eventing.Reader;
 
 public class DoTaskState : IState<Survivor> {
     public void Enter(Survivor survivor) {
-        Console.WriteLine("Entering DoTaskState");
         survivor.StartCurrentTask();
     }
 

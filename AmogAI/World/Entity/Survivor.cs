@@ -15,6 +15,8 @@ public class Survivor : MovingEntity {
     public float SeekTimer { get; private set; }
     public float SeekingForObjectiveTime { get; set; }
     public bool IsDoingTask { get; set; }
+    public float Desirability { get; set; }
+    public const float desirabilityThreshold = 60f;
     public const float decisionInterval = 1000f;
     public float decisionIntervalDelta = 0;
 
@@ -23,13 +25,9 @@ public class Survivor : MovingEntity {
         Scale = 10;
         Health = 100;
         SeekTimer = 4000;
-        
+
         SurvivorTaskGoal = new SurvivorTaskGoal(this);
         SurvivorStateMachine = new SurvivorStateMachine(this);
-    }
-
-    public Survivor(Vector pos, MovingEntity target, World world) : this(pos, world) {
-        Target = target;
     }
 
     public void SetObjective(Objective objective) {
@@ -84,7 +82,7 @@ public class Survivor : MovingEntity {
 
     public void ResetSeekingForObjectiveTime() {
         SeekingForObjectiveTime = 0f;
-    }   
+    }
 
     public override void Render(Graphics g) {
         float entityX = Position.X - Scale;
@@ -98,15 +96,22 @@ public class Survivor : MovingEntity {
 
     public override void RenderOverlay(Graphics g) {
         Pen p = new Pen(Color.Blue, 1);
-        
-        // Draw the velocity vector
-        g.DrawLine(p,
-            Position.X,
-            Position.Y,
-            Position.X + Velocity.X * 80,
-            Position.Y + Velocity.Y * 80);
 
-        if (PathFollowBehaviour.Destination == null) { // TODO: No pathfollow means
+        // Show the current state
+        g.DrawString(SurvivorStateMachine.StateMachine.CurrentState?.GetType().Name, new Font("Arial", 12), Brushes.Blue, Position.X - 40, Position.Y - 30);
+
+        // Show the desirability
+        if (SurvivorStateMachine.StateMachine.CurrentState?.GetType() == typeof(SeekTaskState))
+            g.DrawString("Desirability: " + Desirability.ToString(), new Font("Arial", 12), Brushes.Blue, Position.X - 30, Position.Y - 50);
+
+        if (PathFollowBehaviour.Destination == null && !IsDoingTask) {
+            // Draw the velocity vector
+            g.DrawLine(p,
+                Position.X,
+                Position.Y,
+                Position.X + Velocity.X * 80,
+                Position.Y + Velocity.Y * 80);
+
             // Draw the wander circle and target
             Vector circleCenter = Heading.Clone().Normalize() * SteeringBehaviour.WanderDistance + Position;
             float circleX = circleCenter.X - SteeringBehaviour.WanderRadius;
@@ -129,7 +134,17 @@ public class Survivor : MovingEntity {
                     feeler.X,
                     feeler.Y);
             }
-            
+        }
+        else {
+            // Show the current path
+            if (PathFollowBehaviour.Path != null) {
+                var path = PathFollowBehaviour.Path.ToList();  
+
+                for (int i = 0; i < PathFollowBehaviour.Path.Count-1; i++) {
+                    g.FillEllipse(Brushes.Black, path[i].Position.X - 3, path[i].Position.Y - 3, 6, 6);
+                    g.DrawLine(new Pen(Brushes.Black, 3), path[i].Position.X, path[i].Position.Y, path[i+1].Position.X, path[i+1].Position.Y);
+                }
+            }
         }
     }
 }

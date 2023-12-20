@@ -2,16 +2,18 @@
 
 using SteeringBehaviour;
 
-public class Objective {
+public class Objective : IRenderable {
     private const float SIZE = 20.0f;
     public Vector Position { get; set; }
     public int Duration { get; set; } // in ms
     public bool IsInProgress { get; set; }
     public bool IsDone { get; set; }
-    public Objective(Vector position) : this(position, 5000) { }
-    public Objective(Vector position, int duration) {
+    public Color BrushColor { get; set; }    
+    public Objective(Vector position, Color brushColor) : this(position, 5000, brushColor) { }
+    public Objective(Vector position, int duration, Color brushColor) {
         Position = position;
         Duration = duration;
+        BrushColor = brushColor;
     }
     
     public void StartTask() {
@@ -21,11 +23,10 @@ public class Objective {
     public void EndTask() {
         IsInProgress = false;
         IsDone = true;
-        Console.WriteLine("Task is done");
     }
 
     public void Render(Graphics g) {
-        g.DrawRectangle(new Pen(Brushes.Olive, 5),
+        g.DrawRectangle(new Pen(BrushColor, 5),
             Position.X - SIZE / 2,
             Position.Y - SIZE / 2,
             SIZE,
@@ -34,13 +35,13 @@ public class Objective {
 
     public void RenderOverlay(Graphics g) {
         if (IsDone) {
-            g.DrawLine(new Pen(Brushes.Olive, 3),
+            g.DrawLine(new Pen(BrushColor, 3),
                 Position.X - SIZE / 2,
                 Position.Y - SIZE / 2,
                 Position.X + SIZE / 2,
                 Position.Y + SIZE / 2
             );
-            g.DrawLine(new Pen(Brushes.Olive, 3),
+            g.DrawLine(new Pen(BrushColor, 3),
                 Position.X - SIZE / 2,
                 Position.Y + SIZE / 2,
                 Position.X + SIZE / 2,

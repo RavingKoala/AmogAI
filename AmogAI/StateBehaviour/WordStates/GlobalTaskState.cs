@@ -19,12 +19,11 @@ public class GlobalTaskState : IState<World> {
     }
 
     public void Execute(World world, float timeDelta) {
-        if (world.EmergencyHappening) {
+        if (world.IsEmergencyHappening) {
             world.GlobalStateMachine.ChangeState(new GlobalEmergencyState());
         }
     }
 
     public void Exit(World world) {
-        Console.WriteLine("There's an emergency!");
     }
 }
