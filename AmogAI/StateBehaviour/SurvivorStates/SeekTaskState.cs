@@ -19,16 +19,19 @@ public class SeekTaskState : IState<Survivor> {
             if (survivor.decisionIntervalDelta >= Survivor.decisionInterval) {
                 survivor.decisionIntervalDelta = 0;
 
-                Objective objective = survivor.CalculateNearestObjective();
-                float distance = survivor.CalculateDistanceBetweenNearestKillerAndPotentialObjective(objective);
+                if (survivor.World.Objectives.Count(o => !o.IsDone) > 0) {
+                    Objective objective = survivor.CalculateNearestObjective();
+                    //float distanceKillerAndObjective = survivor.CalculateDistanceBetweenNearestKillerAndPotentialObjective(objective);
+                    float distanceKillerAndObjective = 10000f;
 
-                float result = survivor.SurvivorTaskGoal.Process(objective, distance);
-                Console.WriteLine(result);
+                    float result = survivor.SurvivorTaskGoal.Process(objective, distanceKillerAndObjective);
+                    Console.WriteLine(result);
 
-                if (result >= 60) {
-                    survivor.SetObjective(objective);
-                    survivor.ResetSeekingForObjectiveTime();
-                    survivor.SurvivorStateMachine.StateMachine.ChangeState(new WalkTowardsTaskState());
+                    if (result >= 60) {
+                        survivor.SetObjective(objective);
+                        survivor.ResetSeekingForObjectiveTime();
+                        survivor.SurvivorStateMachine.StateMachine.ChangeState(new WalkTowardsTaskState());
+                    }
                 }
             }
         }

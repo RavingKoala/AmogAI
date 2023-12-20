@@ -18,7 +18,7 @@ public class Killer : MovingEntity {
 	public Killer(Vector pos, World world) : base(pos, world) {
         Velocity = new Vector(0, 0);
         Scale = 10;
-        DetectionRadius = 30;
+        DetectionRadius = 100;
         DetectionConeAngle = 40;
         DetectionConeDistance = 80;
         AttackDistance = 20;
@@ -95,7 +95,7 @@ public class Killer : MovingEntity {
         }
 
         if (StateMachine.CurrentState?.GetType() == typeof(WanderState)) {
-            Pen p2 = new Pen(Color.Yellow, 1);
+            Pen p2 = new Pen(Color.BlueViolet, 1);
 
             float circleX = Position.X - DetectionRadius;
             float circleY = Position.Y - DetectionRadius;

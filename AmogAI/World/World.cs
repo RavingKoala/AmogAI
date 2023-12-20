@@ -4,7 +4,12 @@ using AmogAI.AStar;
 using AmogAI.SteeringBehaviour;
 using AmogAI.World.Entity;
 using AmogAI.StateBehaviour.WordStates;
-
+/* 
+TODO: 
+1. add debug info for state machine
+2. add debug info for fuzzy logic
+3. add debug info for a* path
+*/
 public class World : IRenderable {
     public bool EmergencyHappening { get; set; }
     public Objective EmergencyObjective { get; set; }
@@ -15,11 +20,13 @@ public class World : IRenderable {
     public GlobalStateMachine GlobalStateMachine { get; set; }
     public List<Edge> GridEdges { get; private set; }
     public List<Node> GridNodes { get; private set; }
+    private int _maxSurvivorCount;
+    public const float eventInterval = 10000f;
+    public float eventIntervalDelta = 0;
 
     public World() {
         Walls = new List<Wall>();
         Objectives = new List<Objective>();
-        // could revert back to list of movingentities
         Survivors = new List<Survivor>();
         Killers = new List<Killer>();
         GlobalStateMachine = new GlobalStateMachine(this);
@@ -53,7 +60,9 @@ public class World : IRenderable {
         Survivor s2 = new Survivor(new Vector(500, 400), this);
 
         Survivors.Add(s1);
-        //Survivors.Add(s2);
+        Survivors.Add(s2);
+
+        _maxSurvivorCount = Survivors.Count;
 
         Killer k1 = new Killer(new Vector(700, 700), this);
         Killers.Add(k1);
@@ -185,8 +194,30 @@ public class World : IRenderable {
         Walls.Add(EWall8);
     }
 
+    private void RespawnSurvivors() {
+        if (Survivors.Count >= _maxSurvivorCount)
+            return;
+
+        Survivor s = new Survivor(new Vector(500, 400), this);
+        Survivors.Add(s);
+    }
+
+    private void ResetRandomObjective() {
+        var notDoneObjectives = Objectives.Where(o => o.IsDone).ToList();
+        if (notDoneObjectives.Count == 0)
+            return;
+        int index = new Random().Next(0, notDoneObjectives.Count);
+        notDoneObjectives[index].IsDone = false;
+    }
+
     public void Update(float timeDelta) {
         GlobalStateMachine.Update(timeDelta);
+        eventIntervalDelta += timeDelta;
+        if (eventIntervalDelta >= eventInterval) {
+            eventIntervalDelta = 0f;
+            RespawnSurvivors();
+            ResetRandomObjective();
+        }
 
         foreach (Survivor survivor in Survivors)
             survivor.Update(timeDelta);

@@ -70,7 +70,6 @@ public class Survivor : MovingEntity {
 
     public float CalculateDistanceBetweenNearestKillerAndPotentialObjective(Objective objective) {
         return World.Killers
-            //.Where(entity => entity is Killer)
             .OrderBy(killer => (Position - killer.Position).Length())
             .First()
             .Position
@@ -107,7 +106,7 @@ public class Survivor : MovingEntity {
             Position.X + Velocity.X * 80,
             Position.Y + Velocity.Y * 80);
 
-        if (PathFollowBehaviour == null) { // TODO: No pathfollow means
+        if (PathFollowBehaviour.Destination == null) { // TODO: No pathfollow means
             // Draw the wander circle and target
             Vector circleCenter = Heading.Clone().Normalize() * SteeringBehaviour.WanderDistance + Position;
             float circleX = circleCenter.X - SteeringBehaviour.WanderRadius;
