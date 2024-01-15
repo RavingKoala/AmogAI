@@ -10,7 +10,6 @@ public class Killer : MovingEntity {
 	private float AttackPower; //hp
 	private float AttackDistance; //px
 	private float AttackCooldown; //px
-	private bool OnAttackCooldown; //ms
     private float DeltaAttackCooldown;
 
 	public Killer(Vector pos, World world) : base(pos, world) {
@@ -20,7 +19,6 @@ public class Killer : MovingEntity {
         DetectionRadius = 75;
         AttackDistance = 20;
         AttackCooldown = 400;
-        OnAttackCooldown = true;
         AttackPower = 20;
         AttackCooldown = 1000;
         DeltaAttackCooldown = 1000;
@@ -30,7 +28,7 @@ public class Killer : MovingEntity {
     }
 
     public override void Update(float timeDelta) {
-        if (OnAttackCooldown && DeltaAttackCooldown < AttackCooldown) {
+        if (DeltaAttackCooldown < AttackCooldown) {
             DeltaAttackCooldown += timeDelta;
             return;
         }
@@ -54,7 +52,6 @@ public class Killer : MovingEntity {
                 World.Survivors.Remove(target);
                 Target = null;
             }
-            OnAttackCooldown = true;
             DeltaAttackCooldown = 0;
         }
     }

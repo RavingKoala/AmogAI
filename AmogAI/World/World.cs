@@ -27,7 +27,7 @@ public class World : IRenderable {
         GlobalStateMachine = new GlobalStateMachine(this);
 
         DrawWalls();
-        DrawGrid();
+        DrawGrid(); // NOTE: spawn walls before the grid or the grid can go inside the walls and outside the field
         MakeObjectives();
         Populate();
     }

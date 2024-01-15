@@ -61,10 +61,6 @@ public abstract class MovingEntity : IRenderable {
         }
     }
 
-    public override string ToString() {
-        return string.Format("{0}", Velocity);
-    }
-
     public virtual void Render(Graphics g) {
     }
 
