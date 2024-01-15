@@ -9,7 +9,6 @@ public abstract class MovingEntity : IRenderable {
     public MovingEntity? Target { get; set; }
     public Vector Velocity { get; set; }
     public Vector Heading { get; set; }
-    public Vector Side { get; set; }
     public SteeringBehaviour SteeringBehaviour { get; set; }
     public PathFollowBehaviour PathFollowBehaviour { get; set; }
     public float Mass { get; set; }
@@ -28,7 +27,6 @@ public abstract class MovingEntity : IRenderable {
         World = world;
         Velocity = new Vector();
         Heading = new Vector();
-        Side = new Vector();
         SteeringBehaviour = new SteeringBehaviour(this);
         PathFollowBehaviour = new PathFollowBehaviour(this, world.GridNodes, world.GridEdges);
     }
@@ -60,8 +58,6 @@ public abstract class MovingEntity : IRenderable {
         // Update the vehicle's position using the new velocity
         if (Velocity.LengthSquared() > 0.00000001) {
             Heading = Velocity.Normalize();
-
-            Side = Heading.Perp();
         }
     }
 

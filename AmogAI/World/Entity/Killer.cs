@@ -7,8 +7,6 @@ using AmogAI.SteeringBehaviour;
 public class Killer : MovingEntity {
     public KillerStateMachine StateMachine;
     public float DetectionRadius; //px
-    public float DetectionConeAngle; //
-    public float DetectionConeDistance; //0-360
 	private float AttackPower; //hp
 	private float AttackDistance; //px
 	private float AttackCooldown; //px
@@ -20,8 +18,6 @@ public class Killer : MovingEntity {
         Scale = 10;
         MaxSpeed = 0.25f;
         DetectionRadius = 75;
-        DetectionConeAngle = 40;
-        DetectionConeDistance = 80;
         AttackDistance = 20;
         AttackCooldown = 400;
         OnAttackCooldown = true;
