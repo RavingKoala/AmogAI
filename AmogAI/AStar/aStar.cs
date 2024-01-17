@@ -17,19 +17,6 @@ public class AStarNode {
         FScore = float.MaxValue;
     }
 
-    //public AStarNode(Node node, AStarNode fromNode, float gScore, Node target) {
-    //    Node = node;
-    //    LastNode = fromNode;
-    //    GScore = gScore;
-    //    FScore = gScore + AStarNode.calculateHeuristic(node, target);
-    //}
-
-    //public void setNewBestPath(AStarNode fromNode, float gScore, Node target) {
-    //    LastNode = fromNode;
-    //    GScore = gScore;
-    //    FScore = gScore + AStarNode.calculateHeuristic(node, target);
-    //}
-
     public static float calculateHeuristic(Node from, Node to) {
         return Math.Abs(to.Position.X - from.Position.X) + Math.Abs(to.Position.X - from.Position.Y);
     }
