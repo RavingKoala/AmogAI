@@ -1,8 +1,8 @@
+namespace AmogAI.UnitTests;
+
 using System;
 using AmogAI.FuzzyLogic;
 using NUnit.Framework;
-
-namespace AmogAI.Tests;
 
 [TestFixture]
 public class FuzzyLogicTests {
