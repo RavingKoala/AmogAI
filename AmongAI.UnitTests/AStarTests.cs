@@ -7,8 +7,6 @@ using NUnit.Framework;
 
 [TestFixture]
 public class AStarTests {
-    //private World world;
-
     private List<Node> _nodes;
     private List<Edge> _edges;
     private const int nodeSpacing = 10;
@@ -16,8 +14,6 @@ public class AStarTests {
 
     [SetUp]
     public void Setup() {
-        //world = new World();
-
         _nodes = new List<Node>();
         _edges = new List<Edge>();
 
