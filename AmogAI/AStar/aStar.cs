@@ -18,7 +18,7 @@ public class AStarNode {
     }
 
     public static float calculateHeuristic(Node from, Node to) {
-        return Math.Abs(to.Position.X - from.Position.X) + Math.Abs(to.Position.X - from.Position.Y);
+        return from.Position.Distance(to.Position);
     }
 }
 
